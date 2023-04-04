@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  eshop.web.mvc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "2020:80"
+
+  eshop.basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "3030:80"
+
+  eshop.catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionString=Server=sqldata;Database=EShop_CatalogDb;User Id=sa;Password=Mravki123#
+    ports:
+      - "4040:80"
+      - "4041:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  sqldata:
+   environment:
+    - MSSQL_SA_PASSWORD=Mravki123#
+    - ACCEPT_EULA=Y
+   ports:
+    - 2001:1433
+   volumes:
+    - eshop-data:/var/opt/mssql
+
+volumes:
+  eshop-data:
+     external: false
