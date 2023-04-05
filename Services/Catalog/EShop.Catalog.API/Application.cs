@@ -1,4 +1,6 @@
-﻿namespace EShop.Catalog.API;
+﻿using Microsoft.OpenApi.Models;
+
+namespace EShop.Catalog.API;
 
 public sealed class Application
 {
@@ -10,5 +12,6 @@ public sealed class Application
         if (this.AppNamespace is not null)
             this.ApplicationName = this.AppNamespace.Substring(this.AppNamespace.LastIndexOf('.', this.AppNamespace.LastIndexOf('.') - 1) + 1);
     }
+
     public static Application GetApplication() => new Application();
 }

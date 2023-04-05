@@ -8,7 +8,8 @@ using System.Net;
 
 namespace EShop.Catalog.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 [ApiController]
 public class CatalogController : ControllerBase
 {

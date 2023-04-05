@@ -1,15 +1,13 @@
 using EShop.Catalog.API;
-using EShop.Catalog.API.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using Serilog;
-using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
         .ReadFrom.Configuration(ctx.Configuration));
@@ -19,39 +17,22 @@ var services = builder.Services;
 
 IConfiguration configuration = builder.Configuration;
 
-services.AddDbContext<CatalogDbContext>(opt =>
-{
-    if (configuration != null)
-    {
-        string dbConnectionString = configuration["ConnectionString"] ?? throw new ArgumentNullException();
-        opt.UseSqlServer(dbConnectionString,
-        sqlServerOptionsAction: sqlOption =>
-        {
-            sqlOption.MigrationsAssembly(
-                    Assembly.GetExecutingAssembly().GetName().Name
-                );
-            sqlOption.EnableRetryOnFailure(maxRetryCount: 5,
-                                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                                            errorNumbersToAdd: null);
-        });
-    }
-});
+//***** Custom Extension Methods - Application Configurations *****\\\
+services.SwaggerConfigurations()
+        .DatabaseConfiguration(config: configuration)
+        .CorsConfiguration()
+        .ApiVersioning();
 
 services.AddDatabaseDeveloperPageExceptionFilter();
 
-services.AddControllers();
+services.AddControllers()
+            .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+            .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
-services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "eShopOnContainers - Catalog HTTP API",
-        Version = "v1",
-        Description = "The Catalog Microservice HTTP API. This is a DataDriven/CRUD microservice sample"
-    });
-});
 
 try
 {
@@ -72,11 +53,13 @@ try
 
     app.UseSerilogRequestLogging();
 
+    app.UseCors("Catalog Cors");
+
     app.UseAuthorization();
 
     app.MapControllers();
 
-    //***** Custom Extension Methods *****\\\
+    //***** Custom Extension Methods - WEB APPLICATIONS *****\\\
     app.MigrateDbContext();
 
     app.Run();

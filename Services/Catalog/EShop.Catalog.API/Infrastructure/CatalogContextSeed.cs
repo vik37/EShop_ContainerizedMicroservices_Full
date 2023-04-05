@@ -8,7 +8,7 @@ namespace EShop.Catalog.API.Infrastructure;
 
 public class CatalogContextSeed
 {
-    public void SeedAsync(CatalogDbContext dbContext, ILogger<CatalogDbContext> logger)
+    public void Seed(CatalogDbContext dbContext, ILogger<CatalogDbContext> logger)
     {
         logger.LogInformation("{ContextType} Migration Seed Start", nameof(CatalogDbContext));
         var policy = CreatePolicy(logger);

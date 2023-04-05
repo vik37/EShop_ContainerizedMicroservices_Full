@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   eshop.web.mvc:
-    image: ${DOCKER_REGISTRY-}eshopwebmvc
+    image: eshopwebmvc:eshopweb-1.0
     build:
       context: .
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
@@ -11,13 +11,13 @@ services:
       - eshop.catalog.api
 
   eshop.basket.api:
-    image: ${DOCKER_REGISTRY-}eshopbasketapi
+    image: eshopbasketapi:eshopbasket-1.0
     build:
       context: .
       dockerfile: Services/Basket/EShop.Basket.API/Dockerfile
 
   eshop.catalog.api:
-    image: ${DOCKER_REGISTRY-}eshopcatalogapi
+    image: eshopcatalogapi:eshopcatalog-1.0
     build:
       context: .
       dockerfile: Services/Catalog/EShop.Catalog.API/Dockerfile
