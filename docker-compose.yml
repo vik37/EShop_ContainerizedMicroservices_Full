@@ -2,22 +2,19 @@ version: '3.4'
 
 services:
   eshop.web.mvc:
-    image: eshopwebmvc:eshopweb-1.0
+    image: eshopwebmvc:1.0
     build:
       context: .
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
-    depends_on:
-      - eshop.basket.api
-      - eshop.catalog.api
 
   eshop.basket.api:
-    image: eshopbasketapi:eshopbasket-1.0
+    image: eshopbasketapi:1.0
     build:
       context: .
       dockerfile: Services/Basket/EShop.Basket.API/Dockerfile
 
   eshop.catalog.api:
-    image: eshopcatalogapi:eshopcatalog-1.0
+    image: eshopcatalogapi:1.0
     build:
       context: .
       dockerfile: Services/Catalog/EShop.Catalog.API/Dockerfile
