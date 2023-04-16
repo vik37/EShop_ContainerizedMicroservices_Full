@@ -1,23 +1,18 @@
-﻿using EShop.Catalog.API.Entities;
-using EShop.Catalog.API.Infrastructure;
-using EShop.Catalog.API.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-
-namespace EShop.Catalog.API.Controllers;
+﻿namespace EShop.Catalog.API.Controllers;
 
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
 public class CatalogController : ControllerBase
 {
+    private const string _catalogUrl = $"http://localhost:4040/api/v1.0/catalog/items/"; 
     private readonly CatalogDbContext _dbCatalogContext;
+
     public CatalogController(CatalogDbContext dbCatalogContext)
     {
         _dbCatalogContext = dbCatalogContext ?? throw new ArgumentNullException(nameof(dbCatalogContext));
     }
+
     /// <summary>
     ///     Fetch number of Catalog Items
     /// </summary>
@@ -32,24 +27,18 @@ public class CatalogController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> ItemsAsync(
         [FromQuery] int pageSize = 10,
-        [FromQuery] int pageIndex = 0,
-        string? ids = null)
+        [FromQuery] int pageIndex = 0)
     {
-        if (!string.IsNullOrEmpty(ids))
-        {
-            var items = await GetItemsByIds(ids);
-            if (!items.Any())
-            {
-                return BadRequest("ids value invalid. Must be comma-separated list oof numbers");
-            }
-            return Ok(items);
-        }
         var totalItems = await _dbCatalogContext.CatalogItems.LongCountAsync();
-        var itemsOnPage = await _dbCatalogContext.CatalogItems.OrderBy(x => x.Name).Skip(pageSize * pageIndex).Take(pageSize).ToListAsync();
-
-        var model = new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsOnPage);
+        var itemsOnPage = await _dbCatalogContext.CatalogItems.OrderBy(x => x.Name)
+                                                                .Skip(pageSize * pageIndex)
+                                                                .Take(pageSize)
+                                                                .ToListAsync();
+        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
+        var model = new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
         return Ok(model);
     }
+
     /// <summary>
     ///     Fetch Catalog Item by id
     /// </summary>
@@ -69,8 +58,35 @@ public class CatalogController : ControllerBase
         if (item != null)
             return Ok(item);
         return NotFound();
-
     }
+
+    /// <summary>
+    ///     Get a catalog item 
+    ///     that matches the catalog type id
+    /// </summary>
+    /// <param name="catalogTypeId"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns>Catalog Items by Catalog Type Id</returns>
+    [HttpGet]
+    [Route("items/type/{catalogTypeId}/brand/{catalogBrandId}")]
+    [ProducesResponseType(typeof(PaginatedItemsVM<CatalogItem>), (int)HttpStatusCode.OK)]
+    public async Task<PaginatedItemsVM<CatalogItem>> GetCatalogItemsByType(int catalogTypeId, int catalogBrandId,
+                                                                            [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
+    {
+        var catalogItems = (IQueryable<CatalogItem>)_dbCatalogContext.CatalogItems.Where(ci => ci.CatalogTypeId == catalogTypeId);
+        if(catalogBrandId > 0)
+            catalogItems = (IQueryable<CatalogItem>)_dbCatalogContext.CatalogItems.Where(ci => ci.CatalogBrandId == catalogBrandId);
+
+        var totalItems = await catalogItems.LongCountAsync();
+        var itemsOnPage = await catalogItems.OrderBy(x => x)
+                                                .Skip(pageSize * pageIndex)
+                                                .Take(pageSize)
+                                                .ToListAsync();
+        var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
+        return new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
+    }
+
     /// <summary>
     ///     Add new Catalog Item (Product)
     /// </summary>
@@ -94,6 +110,7 @@ public class CatalogController : ControllerBase
         await _dbCatalogContext.SaveChangesAsync();
         return CreatedAtAction(nameof(ItemByIdAsync), new { Id = item.Id }, item);
     }
+
     /// <summary>
     ///     Change the Catalog Item (Product) values
     /// </summary>
@@ -114,6 +131,7 @@ public class CatalogController : ControllerBase
         await _dbCatalogContext.SaveChangesAsync();
         return CreatedAtAction(nameof(ItemByIdAsync), new { Id = catalogItem.Id }, null);
     }
+
     /// <summary>
     ///     Delete the Catalog Item (Product)
     /// </summary>
@@ -138,6 +156,7 @@ public class CatalogController : ControllerBase
 
         return NoContent();
     }
+
     /// <summary>
     ///     Fetch Catalog Types
     /// </summary>
@@ -149,6 +168,7 @@ public class CatalogController : ControllerBase
     {
         return await _dbCatalogContext.CatalogTypes.ToListAsync();
     }
+
     /// <summary>
     ///     Fetch Catalog Brends
     /// </summary>

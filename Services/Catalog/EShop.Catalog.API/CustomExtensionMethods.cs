@@ -1,10 +1,4 @@
-﻿using EShop.Catalog.API.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-
-namespace EShop.Catalog.API;
+﻿namespace EShop.Catalog.API;
 
 public static class CustomExtensionMethods
 {
@@ -26,8 +20,7 @@ public static class CustomExtensionMethods
         {
             if (config != null)
             {
-                string dbConnectionString = config["ConnectionString"] ?? throw new ArgumentNullException();
-                opt.UseSqlServer(dbConnectionString,
+                opt.UseSqlServer(Application.GetApplication().DockerMSQLConnectionString(config),
                 sqlServerOptionsAction: sqlOption =>
                 {
                     sqlOption.MigrationsAssembly(
@@ -59,7 +52,6 @@ public static class CustomExtensionMethods
             options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
             options.ReportApiVersions = true;
             options.ApiVersionReader = ApiVersionReader.Combine(
-                    new QueryStringApiVersionReader("api-version"),
                     new HeaderApiVersionReader("X-Version"),
                     new MediaTypeApiVersionReader("ver")
                 );

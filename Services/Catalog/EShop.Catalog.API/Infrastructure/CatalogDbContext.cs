@@ -1,10 +1,4 @@
-﻿using EShop.Catalog.API.Entities;
-using EShop.Catalog.API.Infrastructure.EntityConfigurations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using System.Reflection;
-
-namespace EShop.Catalog.API.Infrastructure;
+﻿namespace EShop.Catalog.API.Infrastructure;
 
 public class CatalogDbContext : DbContext
 {
@@ -28,9 +22,15 @@ public class CatalogContext : IDesignTimeDbContextFactory<CatalogDbContext>
 {
     public CatalogDbContext CreateDbContext(string[] args)
     {
+        var builder = WebApplication.CreateBuilder(args);
+        var configuration = builder.Configuration;
+        configuration.SetBasePath(Directory.GetCurrentDirectory());
+        configuration.AddJsonFile("appsettings.json");
+
+        var connectionString = builder.Configuration["LocalDbConnectionString"];
         var optionsBuilder = new DbContextOptionsBuilder<CatalogDbContext>()
-            .UseSqlServer("Data Source=DESKTOP-1IQ2NGF\\SQLEXPRESS;Initial Catalog=CatalogDb;Integrated Security=true",
-                b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name));
+            .UseSqlServer(connectionString,
+                db => db.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name));
         return new CatalogDbContext(optionsBuilder.Options);
     }
 }

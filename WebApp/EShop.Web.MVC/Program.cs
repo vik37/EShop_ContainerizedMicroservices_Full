@@ -2,6 +2,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var services = builder.Services;
+IConfiguration configuration = builder.Configuration;
+
+// Custom Extension Methods
+services.HttpClientConfig(configuration);
+
+services.AddTransient<ICatalogService, CatalogService>();
+
+
 
 var app = builder.Build();
 

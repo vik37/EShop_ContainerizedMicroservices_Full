@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace EShop.Catalog.API.Migrations
+namespace EShop.Catalog.API.Infrastructure.Migrations
 {
-    public partial class CatalogDb_Init : Migration
+    public partial class EShopCatalogToDb_Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

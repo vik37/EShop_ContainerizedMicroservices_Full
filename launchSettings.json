@@ -5,7 +5,6 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "eshop.web.mvc": "StartDebugging",
-        "eshop.basket.api": "StartDebugging",
         "eshop.catalog.api": "StartDebugging"
       }
     }

@@ -1,6 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-
-namespace EShop.Catalog.API;
+﻿namespace EShop.Catalog.API;
 
 public sealed class Application
 {
@@ -14,4 +12,8 @@ public sealed class Application
     }
 
     public static Application GetApplication() => new Application();
+
+    public string LocalMSQLConnectionString(IConfiguration configuration) => configuration["LocalDbConnectionString"];
+
+    public string DockerMSQLConnectionString(IConfiguration configuration) => configuration["DockerConnectionString"];
 }

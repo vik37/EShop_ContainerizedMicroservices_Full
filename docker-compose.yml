@@ -2,26 +2,21 @@ version: '3.4'
 
 services:
   eshop.web.mvc:
-    image: eshopwebmvc:1.0
+    image: ${DOCKER_REGISTRY-}eshopwebmvc:${TAG:-latest}
     build:
       context: .
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
-
-  eshop.basket.api:
-    image: eshopbasketapi:1.0
-    build:
-      context: .
-      dockerfile: Services/Basket/EShop.Basket.API/Dockerfile
+    depends_on:
+        - eshop.catalog.api
 
   eshop.catalog.api:
-    image: eshopcatalogapi:1.0
+    image: ${DOCKER_REGISTRY-}eshopcatalogapi:${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Catalog/EShop.Catalog.API/Dockerfile
-    depends_on: 
-      - sqldata
+    depends_on:
+        - sqldata
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2022-latest
-
 
