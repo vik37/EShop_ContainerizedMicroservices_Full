@@ -12,13 +12,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DockerConnectionString=Server=sqldata;Database=EShop_CatalogDb;User Id=sa;Password=Mravki123#
+      - DockerConnectionString=${ESHOP_CATALOG_MSQL_CONNECTION_STRING}
     ports:
       - "4040:80"
 
   sqldata:
     environment:
-      - MSSQL_SA_PASSWORD=Mravki123#
+      - MSSQL_SA_PASSWORD=${ESHOP_MSQL_PASS}
       - ACCEPT_EULA=Y
     ports:
       - 2001:1433
