@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>85aca679-e2a8-4e81-aa82-720b165879a1</ProjectGuid>
+    <ProjectGuid>d0832482-c1a0-4b2e-8a07-6d831a154320</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>eshop.web.mvc</DockerServiceName>

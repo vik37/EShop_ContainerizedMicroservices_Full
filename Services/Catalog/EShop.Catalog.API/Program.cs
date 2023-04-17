@@ -1,12 +1,13 @@
-using EShop.Catalog.API;
-using Newtonsoft.Json.Serialization;
-using Serilog;
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = Directory.GetCurrentDirectory(),
+    WebRootPath = "Files/Images"
+});
 
 builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
@@ -58,6 +59,16 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+    app.UseFileServer(new FileServerOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Files/Images")),
+        RequestPath = "/Files/Images"
+    });
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Files/Images")),
+        RequestPath = "/Files/Images"
+    });
 
     //***** Custom Extension Methods - WEB APPLICATIONS *****\\\
     app.MigrateDbContext();

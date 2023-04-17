@@ -1,0 +1,17 @@
+﻿@model CatalogItem
+
+<div class="col-md-3">
+    <div class="card" style="width: 18rem;">
+        <img src="@Model.PictureUri" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@(Model.Description).</p>
+        </div>
+        <div class="card-body">
+            <h6>Price: @Model.Price</h6>
+            <a href="#" class="card-link">
+                <i class="fas fa-cart-arrow-down fa-lg"></i>
+            </a>
+        </div>
+    </div>
+</div>
