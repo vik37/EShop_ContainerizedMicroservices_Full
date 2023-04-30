@@ -61,7 +61,8 @@ public static IServiceCollection DatabaseConfiguration(this IServiceCollection s
             }
         });
 ```
-- Retry 5 times with the Microsoft SQL database on docker image mcr.microsoft.com/mssql/server:2022-latest .
+- Retry 5 times with the Microsoft SQL database on docker image mcr.microsoft.com/mssql/server:2022-latest while the connection is established.
+For retry, there is a package "Polly".
 
 ## Tech Stack
 
