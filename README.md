@@ -102,7 +102,20 @@ run the app
 ```bash
   dotnet run
 ```
+- To work locally just change the connection in the database configuration, the method:
 
+**From:**
+```
+opt.UseSqlServer(Application.GetApplication().DockerMSQLConnectionString(config)
+```
+**To:**
+```
+opt.UseSqlServer(Application.GetApplication().LocalMSQLConnectionString(config)
+```
+```diff
++ ( ## This code is in the )
+@@    EShop.Catalog.API     @@
+```
 
 ## Other Common Github Profile Sections
 👩‍💻 I'm currently working on this project.
