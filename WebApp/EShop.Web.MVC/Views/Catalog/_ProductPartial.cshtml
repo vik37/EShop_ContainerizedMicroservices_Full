@@ -9,9 +9,15 @@
         </div>
         <div class="card-body">
             <h6>Price: @Model.Price</h6>
-            <a href="#" class="card-link">
-                <i class="fas fa-cart-arrow-down fa-lg"></i>
-            </a>
+            <form asp-action="AddToCart" asp-controller="Cart" asp-route-page="@Model">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="Name" value="@Model.Name" />
+                <input type="hidden" name="Price" value="@Model.Price" />
+                <input type="hidden" name="PictureUri" value="@Model.PictureUri" />
+                <button type="submit" class="btn btn-outline-info" value="@Model">
+                    <i class="fas fa-cart-arrow-down fa-lg"></i>
+                </button>
+            </form>
         </div>
     </div>
 </div>

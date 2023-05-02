@@ -1,0 +1,61 @@
+﻿@model Basket;
+
+<div class="Container">
+    @if (!string.IsNullOrEmpty(Model.BuyerId))
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="section">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Old Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@product.PictureUrl" alt="@product.ProductName picture" />
+                                    </td>
+                                    <td>@product.ProductName</td>
+                                    <td>@(product.UnitPrice.ToString("N2"))$</td>
+                                    <td>@(product.OldUnitPrice.ToString("N2"))$</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <form asp-action="SetQuantities" asp-controller="Cart" asp-route-page="@product.ProductId" method="get">
+                                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                                    <button type="submit" class="btn btn-outline-dark quantity" name="calcBtn" value="-">-</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-2 offset-md-1">
+                                                <b>@product.Quantity</b>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form asp-action="SetQuantities" asp-controller="Cart" asp-route-page="@product.ProductId" method="get">
+                                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                                    <button type="submit" class="btn btn-outline-dark quantity" name="calcBtn" value="+">+</button>
+                                                </form>
+                                            </div>
+                                        </div>                                                                         
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="aside">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<link href="~/css/basket.css" rel="stylesheet" />

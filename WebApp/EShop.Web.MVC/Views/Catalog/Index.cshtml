@@ -25,7 +25,16 @@
 </div>
 
 <div class="container">
-   <div class="row">
+    @if (ViewBag.CartErrorMsg != null)
+    {
+        <br />
+        <div class="alert alert-warning">
+            <p class="text-danger">@ViewBag.CartErrorMsg</p>
+        </div>
+        <br />
+        <hr />
+    }
+    <div class="row">
         @if (Model.CatalogItems is not null)
         {
             @foreach (var item in Model.CatalogItems)

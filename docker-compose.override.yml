@@ -5,6 +5,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CatalogAPIDocker=http://eshop.catalog.api/api/v1.0/catalog/
+      - BasketAPIDocker=http://eshop.basket.api/api/basket/
     ports:
       - "2020:80"
 
@@ -16,6 +17,13 @@ services:
     ports:
       - "4040:80"
 
+  eshop.basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RedisConnectionString=basketdata 
+    ports:
+      - "3001:80"
+
   sqldata:
     environment:
       - MSSQL_SA_PASSWORD=${ESHOP_MSQL_PASS}
@@ -24,6 +32,12 @@ services:
       - 2001:1433
     volumes:
       - eshop-data:/var/opt/mssql
+
+  basketdata:
+    expose:
+      - "6379"
+
+  
 
 volumes:
   eshop-data:
