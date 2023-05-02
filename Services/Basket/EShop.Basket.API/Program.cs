@@ -1,18 +1,33 @@
+
+using EShop.Basket.API;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console()
+        .ReadFrom.Configuration(ctx.Configuration));
+
 IConfiguration configuration = builder.Configuration;
 var services = builder.Services;
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+            .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = configuration.GetConnectionString("Redis");
-    options.InstanceName = "RedisBasket_";
-});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+services.AddEndpointsApiExplorer();
+services.SwaggerConfigurations()
+        .CorsConfiguration()
+        .RedisConnectionMultyplexer(configuration);
+
+services.AddTransient<IBasketRepository, BasketRepository>();
 
 var app = builder.Build();
 
@@ -20,8 +35,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+    });
 }
+
+app.UseSerilogRequestLogging();
+
+app.UseCors("Basket Cors");
 
 app.UseAuthorization();
 

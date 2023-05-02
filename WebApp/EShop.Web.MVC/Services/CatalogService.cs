@@ -1,12 +1,9 @@
 ﻿namespace EShop.Web.MVC.Services;
 
-public class CatalogService : ICatalogService
+public class CatalogService : BaseService, ICatalogService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    public CatalogService(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
+    public CatalogService(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+    { }
 
     public async Task<Catalog> GetCatalogItems(int pageSize, int pageIndex, int? BrandFilterIndex, int? TypeFilterIndex)
     {

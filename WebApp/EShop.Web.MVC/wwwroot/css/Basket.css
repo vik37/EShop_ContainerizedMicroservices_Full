@@ -1,0 +1,18 @@
+﻿.container{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+img {
+    width:50px;
+    height: 40px;
+    border-radius: 10px;
+}
+.quantity {
+    font-weight: bolder;
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    padding: 0 0 0 0;
+    border-radius: 6px;
+    border-top: rgba(128, 128, 128,0);
+    border-right: rgba(128, 128, 128,0);
+}

@@ -9,7 +9,7 @@ IConfiguration configuration = builder.Configuration;
 services.HttpClientConfig(configuration);
 
 services.AddTransient<ICatalogService, CatalogService>();
-
+services.AddTransient<IBasketService, BasketService>();
 
 
 var app = builder.Build();
