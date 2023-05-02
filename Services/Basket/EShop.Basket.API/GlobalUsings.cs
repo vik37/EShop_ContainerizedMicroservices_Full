@@ -1,6 +1,7 @@
 ﻿global using System.Net;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
+global using EShop.Basket.API;
 global using EShop.Basket.API.Model;
 global using EShop.Basket.API.Repository;
 global using StackExchange.Redis;

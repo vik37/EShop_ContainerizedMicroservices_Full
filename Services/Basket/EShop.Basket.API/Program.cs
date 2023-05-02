@@ -1,6 +1,4 @@
 
-using EShop.Basket.API;
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
