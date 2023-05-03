@@ -1,15 +1,20 @@
-﻿namespace EShop.Web.MVC.Services;
+﻿using EShop.Web.MVC.Infrastructure;
+
+namespace EShop.Web.MVC.Services;
 
 public class CatalogService : BaseService, ICatalogService
 {
-    public CatalogService(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+    public CatalogService(IHttpClientFactory httpClientFactory, Retry  retry) 
+        : base(httpClientFactory, retry)
     { }
 
     public async Task<Catalog> GetCatalogItems(int pageSize, int pageIndex, int? BrandFilterIndex, int? TypeFilterIndex)
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         string uriPath = CatalogAPI.GetCatalogItemURIPath(pageSize, pageIndex, BrandFilterIndex ?? 0, TypeFilterIndex ?? 0);
-        HttpResponseMessage httpResponseMessage = await http.GetAsync(uriPath);
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
+        if(!httpResponseMessage.IsSuccessStatusCode)
+            return null;
 
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
@@ -22,7 +27,7 @@ public class CatalogService : BaseService, ICatalogService
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         string uriPath = CatalogAPI.GetTypeURIPath();
-        HttpResponseMessage httpResponseMessage = await http.GetAsync(uriPath);
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
         httpResponseMessage.EnsureSuccessStatusCode();
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
@@ -47,7 +52,7 @@ public class CatalogService : BaseService, ICatalogService
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         string uriPath = CatalogAPI.GetBrandURIPath();
-        HttpResponseMessage httpResponseMessage = await http.GetAsync(uriPath);
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
         httpResponseMessage.EnsureSuccessStatusCode();
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 

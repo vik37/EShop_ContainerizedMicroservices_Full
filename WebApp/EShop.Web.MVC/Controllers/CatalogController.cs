@@ -12,6 +12,8 @@ public class CatalogController : Controller
         int itemsPage = page??0;
         int pageSize = 4;
         var catalog = await _catalogService.GetCatalogItems(pageSize, itemsPage, BrandFilterIndex, TypeFilterIndex);
+        if (catalog is null)
+            return RedirectToAction("Index", "Home");
         var vm = new CatalogIndexVM
         {
             CatalogItems = catalog.Data,

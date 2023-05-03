@@ -4,6 +4,10 @@ html {
 .disabled{
     display: none;
 }
+.card-cart-btn {
+    font-size: 0.6rem;
+    padding: 4px 6px;
+}
 
 @media (min-width: 768px) {
     html {
