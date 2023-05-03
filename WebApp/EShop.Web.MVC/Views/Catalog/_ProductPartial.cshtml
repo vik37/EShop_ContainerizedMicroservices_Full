@@ -8,16 +8,22 @@
             <p class="card-text">@(Model.Description).</p>
         </div>
         <div class="card-body">
-            <h6>Price: @Model.Price</h6>
-            <form asp-action="AddToCart" asp-controller="Cart" asp-route-page="@Model">
-                <input type="hidden" name="Id" value="@Model.Id" />
-                <input type="hidden" name="Name" value="@Model.Name" />
-                <input type="hidden" name="Price" value="@Model.Price" />
-                <input type="hidden" name="PictureUri" value="@Model.PictureUri" />
-                <button type="submit" class="btn btn-outline-info" value="@Model">
-                    <i class="fas fa-cart-arrow-down fa-lg"></i>
-                </button>
-            </form>
+            <div class="row">
+                <div class="col-md-7">
+                    <h6>Price: @Model.Price.ToString("N2")</h6>
+                </div>
+                <div class="col-md-2 offset-md-3">
+                    <form asp-action="AddToCart" asp-controller="Cart" asp-route-page="@Model">
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="Name" value="@Model.Name" />
+                        <input type="hidden" name="Price" value="@Model.Price" />
+                        <input type="hidden" name="PictureUri" value="@Model.PictureUri" />
+                        <button type="submit" class="btn btn-outline-info card-cart-btn" value="@Model">
+                            <i class="fas fa-cart-arrow-down fa-lg"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>           
         </div>
     </div>
 </div>

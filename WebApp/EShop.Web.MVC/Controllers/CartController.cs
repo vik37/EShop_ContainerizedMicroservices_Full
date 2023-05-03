@@ -3,10 +3,12 @@
 public class CartController : Controller
 {
     private readonly IBasketService _basketService;
+
     public CartController(IBasketService basketService)
     {
         _basketService = basketService;
     }
+
     public async Task<IActionResult> Index()
     {
         try
@@ -63,6 +65,7 @@ public class CartController : Controller
         }
         return RedirectToAction("Index","Catalog",new {errorMsg = ViewBag.CartErrorMsg });
     }
+
     public async Task<IActionResult> SetQuantities(int productId, string calcBtn)
     {
         var cartByUser = await _basketService.GetBasket();
@@ -71,6 +74,10 @@ public class CartController : Controller
 
         return RedirectToAction("Index","Cart");
     }
+
+    /****************************/
+    // Private helper methods
+    /****************************/
 
     private void HandleException(Exception ex)
     {

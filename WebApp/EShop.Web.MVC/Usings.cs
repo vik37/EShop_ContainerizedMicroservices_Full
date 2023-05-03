@@ -11,3 +11,5 @@ global using EShop.Web.MVC.Models;
 global using EShop.Web.MVC.Models.PaginationInfo;
 global using EShop.Web.MVC.Models.ViewModels;
 global using Newtonsoft.Json;
+global using Polly;
+global using Polly.Retry;

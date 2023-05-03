@@ -1,16 +1,18 @@
-﻿namespace EShop.Web.MVC.Services;
+﻿using EShop.Web.MVC.Infrastructure;
+
+namespace EShop.Web.MVC.Services;
 
 public class BasketService : BaseService, IBasketService
 {
-    public BasketService(IHttpClientFactory httpClientFactory) 
-        : base(httpClientFactory)
+    public BasketService(IHttpClientFactory httpClientFactory, Retry retry) 
+        : base(httpClientFactory, retry)
     { }
 
     public async Task<Basket> GetBasket()
     {
         var http = _httpClientFactory.CreateClient("BasketAPI");
-        string path = BasketAPI.GetBasketByUserIdURIPath();
-        HttpResponseMessage httpResponseMessage = await http.GetAsync(path);
+        string uriPath = BasketAPI.GetBasketByUserIdURIPath();
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
         var basket = JsonConvert.DeserializeObject<Basket>(content) ?? new Basket();
         http.DefaultRequestHeaders.Clear();

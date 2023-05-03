@@ -72,7 +72,8 @@ public class CatalogController : ControllerBase
     [Route("items/type/{catalogTypeId}/brand/{catalogBrandId}")]
     [ProducesResponseType(typeof(PaginatedItemsVM<CatalogItem>), (int)HttpStatusCode.OK)]
     public async Task<PaginatedItemsVM<CatalogItem>> GetCatalogItemsByType(int catalogTypeId, int catalogBrandId,
-                                                                            [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
+                                                                            [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0,
+                                                                            CancellationToken token = default)
     {
         var catalogItems = (IQueryable<CatalogItem>)_dbCatalogContext.CatalogItems.Where(ci => ci.CatalogTypeId == catalogTypeId);
         if(catalogBrandId > 0)
@@ -82,7 +83,7 @@ public class CatalogController : ControllerBase
         var itemsOnPage = await catalogItems.OrderBy(x => x)
                                                 .Skip(pageSize * pageIndex)
                                                 .Take(pageSize)
-                                                .ToListAsync();
+                                                .ToListAsync(token);
         var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
         return new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
     }
@@ -95,7 +96,7 @@ public class CatalogController : ControllerBase
     [HttpPost]
     [Route("items")]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItem product)
+    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItem product, CancellationToken token = default)
     {
         var item = new CatalogItem
         {
@@ -107,7 +108,7 @@ public class CatalogController : ControllerBase
             Price = product.Price
         };
         _dbCatalogContext.CatalogItems.Add(item);
-        await _dbCatalogContext.SaveChangesAsync();
+        await _dbCatalogContext.SaveChangesAsync(token);
         return CreatedAtAction(nameof(ItemByIdAsync), new { Id = item.Id }, item);
     }
 
@@ -120,7 +121,7 @@ public class CatalogController : ControllerBase
     [Route("items")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItem product)
+    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItem product, CancellationToken token = default)
     {
         var catalogItem = await _dbCatalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == product.Id);
         if (catalogItem == null)
@@ -128,7 +129,7 @@ public class CatalogController : ControllerBase
 
         catalogItem = product;
         _dbCatalogContext.CatalogItems.Update(catalogItem);
-        await _dbCatalogContext.SaveChangesAsync();
+        await _dbCatalogContext.SaveChangesAsync(token);
         return CreatedAtAction(nameof(ItemByIdAsync), new { Id = catalogItem.Id }, null);
     }
 
@@ -141,7 +142,7 @@ public class CatalogController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> DeleteProductAsync(int id)
+    public async Task<ActionResult> DeleteProductAsync(int id, CancellationToken token = default)
     {
         var product = _dbCatalogContext.CatalogItems.SingleOrDefault(x => x.Id == id);
 
@@ -152,7 +153,7 @@ public class CatalogController : ControllerBase
 
         _dbCatalogContext.CatalogItems.Remove(product);
 
-        await _dbCatalogContext.SaveChangesAsync();
+        await _dbCatalogContext.SaveChangesAsync(token);
 
         return NoContent();
     }
@@ -164,9 +165,9 @@ public class CatalogController : ControllerBase
     [HttpGet]
     [Route("catalogtypes")]
     [ProducesResponseType(typeof(List<CatalogType>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<List<CatalogType>>> CatalogTypesAsync()
+    public async Task<ActionResult<List<CatalogType>>> CatalogTypesAsync(CancellationToken token = default)
     {
-        return await _dbCatalogContext.CatalogTypes.ToListAsync();
+        return await _dbCatalogContext.CatalogTypes.ToListAsync(token);
     }
 
     /// <summary>
@@ -176,9 +177,9 @@ public class CatalogController : ControllerBase
     [HttpGet]
     [Route("catalogbrands")]
     [ProducesResponseType(typeof(List<CatalogBrand>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<List<CatalogBrand>>> CatalogBrandsAsync()
+    public async Task<ActionResult<List<CatalogBrand>>> CatalogBrandsAsync(CancellationToken token = default)
     {
-        return await _dbCatalogContext.CatalogBrands.ToListAsync();
+        return await _dbCatalogContext.CatalogBrands.ToListAsync(token);
     }
 
     /****************************/
