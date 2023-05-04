@@ -1,7 +1,4 @@
-﻿using EShop.Web.MVC.Infrastructure;
-using Polly.Retry;
-
-namespace EShop.Web.MVC.Services;
+﻿namespace EShop.Web.MVC.Services;
 
 public class BaseService
 {

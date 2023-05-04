@@ -6,6 +6,7 @@ global using System.Diagnostics;
 global using EShop.Web.MVC;
 global using EShop.Web.MVC.Services;
 global using EShop.Web.MVC.Services.Interfaces;
+global using EShop.Web.MVC.Infrastructure;
 global using EShop.Web.MVC.Infrastructure.ApiCalls;
 global using EShop.Web.MVC.Models;
 global using EShop.Web.MVC.Models.PaginationInfo;
