@@ -3,6 +3,8 @@ global using Microsoft.AspNetCore.Mvc.Rendering;
 global using System.Text.Json;
 global using System.Text;
 global using System.Diagnostics;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel;
 global using EShop.Web.MVC;
 global using EShop.Web.MVC.Services;
 global using EShop.Web.MVC.Services.Interfaces;

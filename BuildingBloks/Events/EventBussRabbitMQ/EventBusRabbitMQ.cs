@@ -200,8 +200,6 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
         
         channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-
-
         return channel;
     }
 

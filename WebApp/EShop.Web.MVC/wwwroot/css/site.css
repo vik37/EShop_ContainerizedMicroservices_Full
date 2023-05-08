@@ -8,6 +8,10 @@ html {
     font-size: 0.6rem;
     padding: 4px 6px;
 }
+.text-danger{
+    font-size: 0.64rem;
+    font-weight: bolder;
+}
 
 @media (min-width: 768px) {
     html {

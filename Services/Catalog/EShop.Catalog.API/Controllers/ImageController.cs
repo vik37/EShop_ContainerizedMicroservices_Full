@@ -16,33 +16,94 @@ public class ImageController : Controller
     [Route("api/v{version:apiVersion}/catalog/items/{catalogItemId:int}/image")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> GetImageAsync(int catalogItemId)
+    public async Task<ActionResult> GetImageAsync(int catalogItemId, [FromQuery] string? filename)
     {
-        if (catalogItemId <= 0)
+        try
         {
-            return BadRequest();
+            if (catalogItemId <= 0)
+            {
+                return BadRequest();
+            }
+
+            var item = await _dbCatalogContext.CatalogItems
+                .SingleOrDefaultAsync(ci => ci.Id == catalogItemId);            
+
+            if (item != null || !string.IsNullOrEmpty(filename))
+            {
+                string webRoot = _webHostEnvironment.WebRootPath;
+                var path = Path.Combine(webRoot, item?.PictureFileName ?? $"{filename}");
+
+                string imageFileExtension = Path.GetExtension(item?.PictureFileName ?? $"{filename}");
+                string mimetype = GetImageMimeTypeFromImageFileExtension(imageFileExtension);
+
+                var buffer = await System.IO.File.ReadAllBytesAsync(path);
+
+                return File(buffer, mimetype);
+            }
         }
-
-        var item = await _dbCatalogContext.CatalogItems
-            .SingleOrDefaultAsync(ci => ci.Id == catalogItemId);
-
-        if (item != null)
+        catch(IOException ex)
         {
-            string webRoot = _webHostEnvironment.WebRootPath;
-            var path = Path.Combine(webRoot, item.PictureFileName??"");
-
-            string imageFileExtension = Path.GetExtension(item.PictureFileName ?? "");
-            string mimetype = GetImageMimeTypeFromImageFileExtension(imageFileExtension);
-
-            var buffer = await System.IO.File.ReadAllBytesAsync(path);
-
-            return File(buffer, mimetype);
+            Log.Error("File Exception: {Message}", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Something Wrong with Get Image, Message: {Message}", ex.Message);
         }
 
         return NotFound();
     }
 
+    [HttpPost, DisableRequestSizeLimit]
+    [Route("api/v{version:apiVersion}/catalog/image")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult> UploadImage([FromForm] IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest();
+        var maxLength = 10 * 1024 * 1024;
+        if (file.Length > maxLength)
+            return BadRequest("File size is too large");
+        
+        string ext = Path.GetExtension(file.FileName);
+        string mimeType = GetImageMimeTypeFromImageFileExtension(ext);
+        if (mimeType == "application/octet-stream")
+            return BadRequest();
+        int lastImageNameToNumber = int.Parse(_dbCatalogContext.CatalogItems.OrderBy(x => x.Id).Last().PictureFileName!.Split(".")[0]);
+        int fileTempId = lastImageNameToNumber + 1; ;
+        string fileName = string.Concat(fileTempId, ext);
+        string webRoot = _webHostEnvironment.WebRootPath;
+        string fullPath = Path.Combine(webRoot, fileName);
 
+        if (System.IO.File.Exists(fullPath))
+            return BadRequest("File allready exist");
+
+        using (var stream = new FileStream(fullPath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+        ProductImageDto vm = new()
+        {
+            TempPictureId = fileTempId,
+            FileName = fileName,
+        };
+        
+        return Ok(vm);
+    }
+
+    [HttpDelete]
+    [Route("api/v{version:apiVersion}/catalog/items/image/{filename}")]
+    public async Task<IActionResult> RemoveFile(string filename)
+    {
+        string webRoot = _webHostEnvironment.WebRootPath;
+        string fullPath = Path.Combine(webRoot, filename);
+
+        if (!System.IO.File.Exists(fullPath))
+            return BadRequest("File does not exist");
+
+        await Task.Delay(1000);
+        System.IO.File.Delete(fullPath);
+        return NoContent();
+    }
     private string GetImageMimeTypeFromImageFileExtension(string extension)
     {
         string mimetype = extension switch

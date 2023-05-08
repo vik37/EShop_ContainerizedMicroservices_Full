@@ -8,14 +8,13 @@ public static class CustomExtensionMethods
     {   
         services.AddHttpClient<ICatalogService, CatalogService>("CatalogAPI", httpConfig =>
         {
-            httpConfig.BaseAddress = new Uri(configuration["CatalogAPIDocker"]);
+            httpConfig.BaseAddress = new Uri(Application.GetApplication().CatalogDockerURL(configuration));
             httpConfig.Timeout = ts;
-            httpConfig.DefaultRequestHeaders.Add("Accept", "application/json; ver=1.0");
         });
 
         services.AddHttpClient<IBasketService, BasketService>("BasketAPI", httpConfig =>
         {
-            httpConfig.BaseAddress = new Uri(configuration["BasketAPIDocker"]);
+            httpConfig.BaseAddress = new Uri(Application.GetApplication().BasketDockerURL(configuration));
             httpConfig.Timeout = ts;
             httpConfig.DefaultRequestHeaders.Add("Accept", "application/json");
         });

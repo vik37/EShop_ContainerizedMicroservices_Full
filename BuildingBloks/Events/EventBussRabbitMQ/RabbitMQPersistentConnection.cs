@@ -91,25 +91,39 @@ public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
 
     private void _connection_ConnectionShutdown(object? sender, ShutdownEventArgs e)
     {
-        throw new NotImplementedException();
+        if (Disposed)
+            return;
+
+        _logger.LogWarning("A RabbitMQ connection is on shutdown. Trying to re-connect...");
+
+        TryConnected();
     }
 
     private void OnConnectionBlocked(object? sender, ConnectionBlockedEventArgs e)
     {
         if (Disposed)
             return;
+
+        _logger.LogWarning("A RabbitMQ connection is on shutdown. Trying to re-connect...");
+
         TryConnected();
     }
     private void OnCallbackException(object? sender, CallbackExceptionEventArgs e)
     {
         if(Disposed) 
             return;
+
+        _logger.LogWarning("A RabbitMQ connection is on shutdown. Trying to re-connect...");
+
         TryConnected();
     }
     private void OnConnectionShutDown(object? sender, ShutdownEventArgs e)
     {
         if(Disposed) 
             return;
+
+        _logger.LogWarning("A RabbitMQ connection is on shutdown. Trying to re-connect...");
+
         TryConnected();
     }
 }

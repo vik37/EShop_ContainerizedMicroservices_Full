@@ -4,7 +4,7 @@ services:
   eshop.web.mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CatalogAPIDocker=http://eshop.catalog.api/api/v1.0/catalog/
+      - CatalogAPIDocker=http://eshop.catalog.api/api/v1.0/
       - BasketAPIDocker=http://eshop.basket.api/api/basket/
     ports:
       - "2020:80"

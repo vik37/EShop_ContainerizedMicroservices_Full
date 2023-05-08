@@ -1,6 +1,4 @@
-﻿using EShop.Web.MVC.Infrastructure;
-
-namespace EShop.Web.MVC.Services;
+﻿namespace EShop.Web.MVC.Services;
 
 public class BasketService : BaseService, IBasketService
 {
