@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Features;
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
@@ -23,6 +25,13 @@ services.SwaggerConfigurations()
         .DatabaseConfiguration(config: configuration)
         .CorsConfiguration()
         .ApiVersioning();
+
+services.Configure<FormOptions>(options =>
+{
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBoundaryLengthLimit = int.MaxValue;
+    options.MemoryBufferThreshold = int.MaxValue;
+});
 
 services.AddDatabaseDeveloperPageExceptionFilter();
 

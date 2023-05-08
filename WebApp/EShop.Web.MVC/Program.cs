@@ -1,5 +1,3 @@
-using EShop.Web.MVC.Infrastructure;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +10,7 @@ services.HttpClientConfig(configuration);
 
 services.AddTransient<ICatalogService, CatalogService>();
 services.AddTransient<IBasketService, BasketService>();
+services.AddSingleton(new ProductImageUrl(configuration));
 services.AddSingleton<Retry>();
 
 

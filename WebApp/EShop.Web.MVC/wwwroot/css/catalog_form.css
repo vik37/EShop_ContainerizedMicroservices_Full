@@ -1,0 +1,39 @@
+﻿.catalog-form-heading-block {
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: rgba(0,0,0,1);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding:10px 0;
+    font-family:'Global Serif';
+    letter-spacing: 0.2rem;
+    text-shadow: 3px 1px 1px rgb(210, 89, 255);
+}
+label{
+    font-size:0.9rem;
+    font-family:'Times New Roman', Times, serif;
+    letter-spacing: 0.08rem;
+    color: rgb(107, 10, 98);
+}
+.form-block {
+    background-color: rgba(128, 128, 128,0.6);
+    padding: 2px 15px;
+    border: 2px double rgb(0, 0, 0);
+}
+.upladed-image{
+    width: 100px;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 2px;
+    border-radius: 5px;
+}
+.submit-item-btn-block > .btn, .cancel-item-btn-block > .btn {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    padding: 2px 7px;
+    font-weight: bolder;
+    box-shadow: 0 0 7px 4px rgba(0, 0, 0,0.6);
+    filter: saturate(12);
+    border-radius: 0;
+    border-top-right-radius: 24px;
+    border-bottom-left-radius: 10px;
+}

@@ -1,0 +1,35 @@
+﻿.uploaded-image-file-temp {
+    width: 150px;
+    height: 170px;
+    outline: 1px solid rgba(0,0,0,0.7);
+    outline-offset: 4px;
+    box-shadow: 0 0 17px 7px rgb(116, 115, 115);
+    border-radius: 7px;
+}
+.image-block{
+    margin-top: 10px;
+    border: 10px double rgba(255, 255, 255,0.2);
+}
+.image-block > img{
+    width: 140px;
+    height: 150px;
+}
+.input-file-block {
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+.input-group-text, [type="file"] {
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    border-radius: 100px;
+}
+.btn-image-upload {
+    font-size: 0.8rem;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    letter-spacing: 0.12rem;
+    font-weight: bolder;
+    padding: 2px 8px;
+    box-shadow: 0 0 12px 4px rgb(122, 59, 3) inset;
+    color: rgb(59, 15, 102);
+    margin-bottom: 5px;
+}

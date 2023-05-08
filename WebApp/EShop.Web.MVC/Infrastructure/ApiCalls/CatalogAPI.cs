@@ -5,12 +5,22 @@ public static class CatalogAPI
     public static string GetCatalogItemURIPath(int pageSize, int pageIndex, int BrandFilterIndex, int TypeFilterIndex)
     {
         if(BrandFilterIndex > 0 || TypeFilterIndex > 0)
-            return $"items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}";
+            return $"catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}";
 
-        return $"items?pageSize={pageSize}&pageIndex={pageIndex}";
+        return $"catalog/items?pageSize={pageSize}&pageIndex={pageIndex}";
     }
 
-    public static string GetBrandURIPath() => "catalogbrands";
+    public static string GetCatalogByIdURIPath(int id) => $"catalog/items/{id}";
 
-    public static string GetTypeURIPath() => "catalogtypes";
+    public static string GetBrandURIPath() => "catalog/catalogbrands";
+
+    public static string GetTypeURIPath() => "catalog/catalogtypes";
+
+    public static string AddOrUpdateCatalogURIPath() => "catalog/items";
+
+    public static string RemoveCatalogURIPath(int id) => $"catalog/{id}";
+
+    public static string UploadImage() => "catalog/image";
+
+    public static string RemoveImage(string filename) => $"catalog/items/image/{filename}";
 }

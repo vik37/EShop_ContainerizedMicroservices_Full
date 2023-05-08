@@ -5,7 +5,7 @@ global using EShop.Catalog.API;
 global using EShop.Catalog.API.Infrastructure;
 global using EShop.Catalog.API.Entities;
 global using EShop.Catalog.API.Infrastructure.EntityConfigurations;
-global using EShop.Catalog.API.ViewModels;
+global using EShop.Catalog.API.Dtos;
 global using Serilog;
 global using Newtonsoft.Json.Serialization;
 global using Microsoft.AspNetCore.Mvc.Versioning;

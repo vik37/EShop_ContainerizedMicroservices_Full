@@ -22,7 +22,7 @@ public class CatalogController : ControllerBase
     /// <returns>List of Products</returns>
     [HttpGet]
     [Route("items")]
-    [ProducesResponseType(typeof(PaginatedItemsVM<CatalogItem>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PaginatedItemsDto<CatalogItem>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<CatalogItem>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> ItemsAsync(
@@ -35,7 +35,7 @@ public class CatalogController : ControllerBase
                                                                 .Take(pageSize)
                                                                 .ToListAsync();
         var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
-        var model = new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
+        var model = new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
         return Ok(model);
     }
 
@@ -70,8 +70,8 @@ public class CatalogController : ControllerBase
     /// <returns>Catalog Items by Catalog Type Id</returns>
     [HttpGet]
     [Route("items/type/{catalogTypeId}/brand/{catalogBrandId}")]
-    [ProducesResponseType(typeof(PaginatedItemsVM<CatalogItem>), (int)HttpStatusCode.OK)]
-    public async Task<PaginatedItemsVM<CatalogItem>> GetCatalogItemsByType(int catalogTypeId, int catalogBrandId,
+    [ProducesResponseType(typeof(PaginatedItemsDto<CatalogItem>), (int)HttpStatusCode.OK)]
+    public async Task<PaginatedItemsDto<CatalogItem>> GetCatalogItemsByType(int catalogTypeId, int catalogBrandId,
                                                                             [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0,
                                                                             CancellationToken token = default)
     {
@@ -85,7 +85,7 @@ public class CatalogController : ControllerBase
                                                 .Take(pageSize)
                                                 .ToListAsync(token);
         var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
-        return new PaginatedItemsVM<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
+        return new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class CatalogController : ControllerBase
     [HttpPost]
     [Route("items")]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItem product, CancellationToken token = default)
+    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItemDto product, CancellationToken token = default)
     {
         var item = new CatalogItem
         {
@@ -105,11 +105,20 @@ public class CatalogController : ControllerBase
             Description = product.Description,
             Name = product.Name,
             PictureFileName = product.PictureFileName,
-            Price = product.Price
+            Price = product.Price,
+            AvailableStock = 100
         };
-        _dbCatalogContext.CatalogItems.Add(item);
-        await _dbCatalogContext.SaveChangesAsync(token);
-        return CreatedAtAction(nameof(ItemByIdAsync), new { Id = item.Id }, item);
+        try
+        {
+            _dbCatalogContext.CatalogItems.Add(item);
+            await _dbCatalogContext.SaveChangesAsync(token);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Database Exception {InnerException}", ex.InnerException?.Message??ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
     /// <summary>

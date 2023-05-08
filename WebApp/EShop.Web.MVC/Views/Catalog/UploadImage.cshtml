@@ -1,0 +1,38 @@
+﻿@model ImageVM
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 offset-md-3">
+            <div class="catalog-form-heading-block">
+                <h2>Upload Image</h2>
+            </div>
+            <form class="form-block" asp-action="UploadImage" asp-controller="Catalog" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-3 offset-md-4 image-block">
+                        <img class="uploaded-image-file-temp" src="~/image/empty.jpg" alt="upload product image" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-3 input-file-block">
+                            <label asp-for="@Model.Image" class="input-group-text image-file-label">Product Image</label>
+                            <input asp-for="@Model.Image" type="file" class="form-control image-file-input" aria-describedby="inputGroup-sizing-sm"
+                                   accept="image/png, image/jpeg"
+                                   onchange="document.querySelector('.uploaded-image-file-temp').src=window.URL.createObjectURL(this.files[0])">
+                            
+                        </div>
+                        <span asp-validation-for="@Model.Image" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 offset-md-5">
+                        <button type="submit" class="btn btn-outline-dark btn-image-upload">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link href="~/css/catalog_form.css" rel="stylesheet" />
+<link href="~/css/upload.css" rel="stylesheet" />
