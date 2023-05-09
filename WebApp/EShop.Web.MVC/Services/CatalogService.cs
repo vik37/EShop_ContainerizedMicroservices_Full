@@ -15,11 +15,11 @@ public class CatalogService : BaseService, ICatalogService
             return null;
 
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
-
         var catalog = JsonConvert.DeserializeObject<Catalog>(content) ?? new Catalog();
         http.DefaultRequestHeaders.Clear();
         return catalog;
     }
+
     public async Task<CatalogItem> GetCatalogItemById(int id)
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
@@ -27,12 +27,13 @@ public class CatalogService : BaseService, ICatalogService
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(()=> http.GetAsync(uriPath));
         if(!httpResponseMessage.IsSuccessStatusCode)
             return null;
-        string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
+        string content = await httpResponseMessage.Content.ReadAsStringAsync();
         var catalog = JsonConvert.DeserializeObject<CatalogItem>(content);
         http.DefaultRequestHeaders.Clear();
         return catalog;
     }
+
     public async Task<IEnumerable<SelectListItem>> GetCatalogType()
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
@@ -63,7 +64,6 @@ public class CatalogService : BaseService, ICatalogService
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         string uriPath = CatalogAPI.GetBrandURIPath();
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
-        httpResponseMessage.EnsureSuccessStatusCode();
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
         var items = new List<SelectListItem>();
@@ -82,21 +82,18 @@ public class CatalogService : BaseService, ICatalogService
         return items;
     }
 
-    public async Task AddOrUpdateCatalog(AddCatalogVM catalog, int? id = null, bool isNewModel = true)
+    public async Task AddOrUpdateCatalog(AddUpdateCatalogVM catalog, int? id = null, bool isNewModel = true)
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         var catalogContent = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
         string uriPath = CatalogAPI.AddOrUpdateCatalogURIPath();
         HttpResponseMessage response = null;
-        if(isNewModel)
-            response = await http.PostAsync(uriPath, catalogContent);
+        if (isNewModel)
+            response = await _policy.ExecuteAsync(()=> http.PostAsync(uriPath, catalogContent));
         else
-            response = await http.PutAsync(string.Concat(uriPath, $"/{id}"), catalogContent);
-
-        string content = await response.Content.ReadAsStringAsync();
+            response = await _policy.ExecuteAsync(() => http.PutAsync(string.Concat(uriPath, $"/{id}"), catalogContent));
         
-        http.DefaultRequestHeaders.Clear();
-        
+        http.DefaultRequestHeaders.Clear();       
     }
 
     public async Task<string> RemoveCatalog(int id)
@@ -105,8 +102,8 @@ public class CatalogService : BaseService, ICatalogService
         string uriPath = CatalogAPI.RemoveCatalogURIPath(id);
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.DeleteAsync(uriPath));
         httpResponseMessage.EnsureSuccessStatusCode();
-        string content = await httpResponseMessage.Content.ReadAsStringAsync();
-        return content;
+        http.DefaultRequestHeaders.Clear();
+        return await httpResponseMessage.Content.ReadAsStringAsync();
     }
 
     public async Task<ProductImageVM> UploadImage(IFormFile file, int? catalogId)
@@ -120,11 +117,10 @@ public class CatalogService : BaseService, ICatalogService
             fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
 
             content.Add(fileContent, "file",file.FileName);
-            response = await http.PostAsync(uriPath, content);
+            response = await _policy.ExecuteAsync(() => http.PostAsync(uriPath, content));
         }
         if (response.IsSuccessStatusCode)
         {
-            response.EnsureSuccessStatusCode();
             var context = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<ProductImageVM>(context);
@@ -136,7 +132,7 @@ public class CatalogService : BaseService, ICatalogService
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         string uriPath = CatalogAPI.RemoveImage(filename);
-        HttpResponseMessage response = await http.DeleteAsync(uriPath);
+        HttpResponseMessage response = await _policy.ExecuteAsync(() => http.DeleteAsync(uriPath));
         response.EnsureSuccessStatusCode();
         http.DefaultRequestHeaders.Clear();
     }

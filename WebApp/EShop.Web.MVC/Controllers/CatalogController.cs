@@ -4,11 +4,13 @@ public class CatalogController : Controller
 {
     private readonly ICatalogService _catalogService;
     private readonly ProductImageUrl _productImageUrl;
+
     public CatalogController(ICatalogService catalogService, ProductImageUrl productImageUrl)
     {
         _catalogService = catalogService;
         _productImageUrl = productImageUrl;
     }
+
     public async Task<IActionResult> Index(int? page, int? BrandFilterIndex, int? TypeFilterIndex)   
     {
         int itemsPage = page??0;
@@ -44,12 +46,12 @@ public class CatalogController : Controller
 
     public async Task<IActionResult> AddNewCatalogItem(ProductImageVM model)    
     {
-        if(model != null)
+        if(model is not null)
         {
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
             ViewBag.Url = _productImageUrl.Url + $"{model.TempPictureId}/image?filename={model.FileName}";
-            AddCatalogVM vm = new AddCatalogVM();
+            AddUpdateCatalogVM vm = new AddUpdateCatalogVM();
             vm.PictureFileName = model.FileName;            
 
             return View(vm);
@@ -58,10 +60,10 @@ public class CatalogController : Controller
     }        
 
     [HttpPost]
-    public async Task<IActionResult> AddNewCatalogItem(AddCatalogVM model)
+    public async Task<IActionResult> AddNewCatalogItem(AddUpdateCatalogVM model)
     {
-        var clicked = Request.Form["cancel"];
-        if(clicked.Count > 0)
+        var cancelled = Request.Form["cancel"];
+        if(cancelled.Count > 0)
         {
             await _catalogService.DeleteImage(model.PictureFileName);
             return RedirectToAction(nameof(Index),controllerName: "Catalog");
@@ -84,7 +86,8 @@ public class CatalogController : Controller
         var catalog = await _catalogService.GetCatalogItemById(id);
         if(catalog == null)
             return RedirectToAction(nameof(Index));
-        AddCatalogVM vm = new AddCatalogVM
+
+        AddUpdateCatalogVM vm = new AddUpdateCatalogVM
         {
             Id = catalog.Id,
             Name = catalog.Name,
@@ -101,7 +104,7 @@ public class CatalogController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateCatalogItem(AddCatalogVM model)
+    public async Task<IActionResult> UpdateCatalogItem(AddUpdateCatalogVM model)
     {
         var clicked = Request.Form["cancel"];
         if (clicked.Count > 0)
@@ -120,7 +123,7 @@ public class CatalogController : Controller
             await _catalogService.UploadImage(model.ImageFile.Image, model.Id);
         }        
         
-        AddCatalogVM oldCatalogVm = new AddCatalogVM
+        AddUpdateCatalogVM oldCatalogVM = new AddUpdateCatalogVM
         {
             Name = catalog.Name,
             Description = catalog.Description,
@@ -128,7 +131,8 @@ public class CatalogController : Controller
             CatalogBrandId = catalog.CatalogBrandId,
             CatalogTypeId = catalog.CatalogTypeId
         };
-        if(model != oldCatalogVm)
+
+        if(model != oldCatalogVM)
         {
             model.PictureFileName = "";
             await _catalogService.AddOrUpdateCatalog(model,id: model.Id ,isNewModel: false);

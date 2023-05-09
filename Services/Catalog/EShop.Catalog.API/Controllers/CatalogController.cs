@@ -130,11 +130,13 @@ public class CatalogController : ControllerBase
     ///     Change the Catalog Item (Product) values
     /// </summary>
     /// <param name="product"></param>
-    /// <returns>Product with new values</returns>
+    /// <param name="id"></param>
+    /// <param name="token"></param>
+    /// <returns>Ok</returns>
     [HttpPut]
     [Route("items/{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.Created)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItemDto product, [FromRoute] int id, CancellationToken token = default)
     {
         var catalogItem = await _dbCatalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == id);
@@ -151,12 +153,13 @@ public class CatalogController : ControllerBase
 
     /// <summary>
     ///     Delete the Catalog Item (Product)
+    ///     and returns name of the product image for continiouse action
     /// </summary>
     /// <param name="id"></param>
-    /// <returns>No Content</returns>
+    /// <returns>Status Code 200 - OK</returns>
     [HttpDelete]
     [Route("{id}")]
-    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult> DeleteProductAsync(int id, CancellationToken token = default)
     {
