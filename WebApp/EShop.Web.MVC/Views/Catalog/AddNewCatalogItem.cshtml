@@ -1,5 +1,9 @@
 ﻿@model AddCatalogVM
 
+@{
+    ViewBag.DisplayImage = "display-image";
+    ViewBag.AddUpdateCatalogAction = "AddNewCatalogItem";
+}
 <div class="container">
     <div class="catalog-form-heading-block">
         <h2>Add New Item</h2>
@@ -10,59 +14,8 @@
                 <img class="upladed-image" src="@ViewBag.Url" alt="uploaded temporary image" />
             </div>
         </div>
-        <form asp-action="AddNewCatalogItem" asp-controller="Catalog" method="post">
-            <input type="hidden" asp-for="@Model.PictureFileName" value="@Model.PictureFileName" />
-            <div class="row">
-                <div class="col-md-6">
-                    <label asp-for="@Model.Name" class="form-label"></label>
-                    <input type="text" class="form-control" asp-for="@Model.Name" placeholder="Product Name">
-                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="@Model.Description" class="form-label"></label>
-                    <input type="text" class="form-control" asp-for="@Model.Description" placeholder="Description">
-                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <label asp-for="@Model.Price" class="form-label"></label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input type="number" class="form-control" asp-for="@Model.Price" placeholder="Product Price- $" min="0" step="0.01">
-                    </div>
-                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-4 offset-md-1">
-                    <label for="inputState" class="form-label">Product Brands</label>
-                    <select id="inputState" class="form-select" asp-for="@Model.CatalogBrandId" asp-items="@ViewBag.Brands">
-                    </select>
-                    <span asp-validation-for="@Model.CatalogBrandId" class="text-danger"></span>
-                </div>
-                <div class="col-md-4 offset-md-2">
-                    <label for="inputState" class="form-label">Product Types</label>
-                    <select id="inputState" class="form-select" asp-for="@Model.CatalogTypeId" asp-items="@ViewBag.Types">
-                    </select>
-                    <span asp-validation-for="@Model.CatalogTypeId" class="text-danger"></span>
-                </div>
-            </div>
-            <br />
-            <hr />
-            <div class="row">
-                <div class="col-md-9 submit-item-btn-block">
-                    <button type="submit" class="btn btn-outline-light">Submit</button>
-                </div>
-                <div class="col-md-2 offset-md-1 cancel-item-btn-block">
-                    <button type="submit" class="btn btn-danger" name="cancel" value="cancel">Cancel</button>
-                </div>
-            </div>
-        </form>
+
+        <partial name="_AddUpdateCatalogItemsPartial" model="@Model" data="@ViewBag.DisplayImage"></partial>
     </div>
 </div>
 

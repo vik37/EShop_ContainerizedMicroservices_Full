@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Reflection;
-
-namespace EShop.Web.MVC.Services;
+﻿namespace EShop.Web.MVC.Services;
 
 public class CatalogService : BaseService, ICatalogService
 {
@@ -32,7 +29,7 @@ public class CatalogService : BaseService, ICatalogService
             return null;
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-        var catalog = JsonConvert.DeserializeObject<CatalogItem>(content) ?? new CatalogItem();
+        var catalog = JsonConvert.DeserializeObject<CatalogItem>(content);
         http.DefaultRequestHeaders.Clear();
         return catalog;
     }
@@ -85,7 +82,7 @@ public class CatalogService : BaseService, ICatalogService
         return items;
     }
 
-    public async Task AddOrUpdateCatalog(AddCatalogVM catalog, bool isNewModel = true)
+    public async Task AddOrUpdateCatalog(AddCatalogVM catalog, int? id = null, bool isNewModel = true)
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
         var catalogContent = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
@@ -94,17 +91,28 @@ public class CatalogService : BaseService, ICatalogService
         if(isNewModel)
             response = await http.PostAsync(uriPath, catalogContent);
         else
-            response = await http.PutAsync(uriPath, catalogContent);
+            response = await http.PutAsync(string.Concat(uriPath, $"/{id}"), catalogContent);
 
-        response.EnsureSuccessStatusCode();
+        string content = await response.Content.ReadAsStringAsync();
+        
         http.DefaultRequestHeaders.Clear();
         
     }
 
-    public async Task<ProductImageVM> UploadImage(IFormFile file)
+    public async Task<string> RemoveCatalog(int id)
     {
         var http = _httpClientFactory.CreateClient("CatalogAPI");
-        string uriPath = CatalogAPI.UploadImage();
+        string uriPath = CatalogAPI.RemoveCatalogURIPath(id);
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.DeleteAsync(uriPath));
+        httpResponseMessage.EnsureSuccessStatusCode();
+        string content = await httpResponseMessage.Content.ReadAsStringAsync();
+        return content;
+    }
+
+    public async Task<ProductImageVM> UploadImage(IFormFile file, int? catalogId)
+    {
+        var http = _httpClientFactory.CreateClient("CatalogAPI");
+        string uriPath = CatalogAPI.UploadImage(catalogId);
         HttpResponseMessage response = null;
         using (var content = new MultipartFormDataContent())
         {           
@@ -132,4 +140,6 @@ public class CatalogService : BaseService, ICatalogService
         response.EnsureSuccessStatusCode();
         http.DefaultRequestHeaders.Clear();
     }
+
+    
 }

@@ -55,8 +55,13 @@ public class CatalogController : ControllerBase
             return BadRequest();
 
         var item = await _dbCatalogContext.CatalogItems.FirstOrDefaultAsync(ca => ca.Id == id);
+        
         if (item != null)
+        {
+            item.PictureUri = $"{_catalogUrl}{item.Id}/image";
             return Ok(item);
+        }
+            
         return NotFound();
     }
 
@@ -127,19 +132,21 @@ public class CatalogController : ControllerBase
     /// <param name="product"></param>
     /// <returns>Product with new values</returns>
     [HttpPut]
-    [Route("items")]
+    [Route("items/{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItem product, CancellationToken token = default)
+    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItemDto product, [FromRoute] int id, CancellationToken token = default)
     {
-        var catalogItem = await _dbCatalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == product.Id);
+        var catalogItem = await _dbCatalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == id);
         if (catalogItem == null)
-            return NotFound(new { Message = $"Catalog with id {product.Id} not found motherfucker. " });
+            return NotFound();
 
-        catalogItem = product;
-        _dbCatalogContext.CatalogItems.Update(catalogItem);
+        catalogItem.Price = product.Price;
+        catalogItem.Name = product.Name;
+        catalogItem.Description = product.Description;
+
         await _dbCatalogContext.SaveChangesAsync(token);
-        return CreatedAtAction(nameof(ItemByIdAsync), new { Id = catalogItem.Id }, null);
+        return Ok();
     }
 
     /// <summary>
@@ -154,17 +161,17 @@ public class CatalogController : ControllerBase
     public async Task<ActionResult> DeleteProductAsync(int id, CancellationToken token = default)
     {
         var product = _dbCatalogContext.CatalogItems.SingleOrDefault(x => x.Id == id);
-
+        
         if (product == null)
-        {
             return NotFound();
-        }
+
+        string pictureFileName = product.PictureFileName!;
 
         _dbCatalogContext.CatalogItems.Remove(product);
 
         await _dbCatalogContext.SaveChangesAsync(token);
 
-        return NoContent();
+        return Ok(pictureFileName);
     }
 
     /// <summary>

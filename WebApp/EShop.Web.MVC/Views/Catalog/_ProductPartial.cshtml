@@ -9,21 +9,33 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-6">
                     <h6>Price: @Model.Price.ToString("N2")</h6>
                 </div>
-                <div class="col-md-2 offset-md-3">
+                <div class="col-md-2">
                     <form asp-action="AddToCart" asp-controller="Cart" asp-route-page="@Model">
                         <input type="hidden" name="Id" value="@Model.Id" />
                         <input type="hidden" name="Name" value="@Model.Name" />
                         <input type="hidden" name="Price" value="@Model.Price" />
                         <input type="hidden" name="PictureUri" value="@Model.PictureUri" />
-                        <button type="submit" class="btn btn-outline-info card-cart-btn" value="@Model">
+                        <button type="submit" class="btn btn-outline-info card-btn" value="@Model">
                             <i class="fas fa-cart-arrow-down fa-lg"></i>
                         </button>
                     </form>
                 </div>
-            </div>           
+                <div class="col-md-2">
+                    <a class="btn btn-info card-btn" asp-action="UpdateCatalogItem" asp-controller="Catalog" asp-route-id="@Model.Id">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <form asp-action="DeleteCatalog" asp-controller="Catalog" asp-route-id="@Model.Id" method="get">
+                        <button class="btn btn-danger card-btn">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
