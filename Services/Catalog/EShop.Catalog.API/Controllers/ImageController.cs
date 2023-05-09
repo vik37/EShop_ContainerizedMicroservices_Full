@@ -6,12 +6,14 @@ public class ImageController : Controller
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly CatalogDbContext _dbCatalogContext;
+
     public ImageController(IWebHostEnvironment webHostEnvironment, CatalogDbContext dbCatalogContext)
     {
         _webHostEnvironment = webHostEnvironment;
         _dbCatalogContext = dbCatalogContext;
 
     }
+
     [HttpGet]
     [Route("api/v{version:apiVersion}/catalog/items/{catalogItemId:int}/image")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -21,9 +23,7 @@ public class ImageController : Controller
         try
         {
             if (catalogItemId <= 0)
-            {
                 return BadRequest();
-            }
 
             var item = await _dbCatalogContext.CatalogItems
                 .SingleOrDefaultAsync(ci => ci.Id == catalogItemId);            
@@ -72,6 +72,9 @@ public class ImageController : Controller
         string fullPath = "";
         string filename = "";
 
+        #region
+        //**************** IF IMAGE FILE CHANGE *******************\\
+
         if (catalogId is not null)
         {
             filename = _dbCatalogContext.CatalogItems.First(x => x.Id == catalogId).PictureFileName!;
@@ -85,6 +88,10 @@ public class ImageController : Controller
             }
             return Ok();
         }
+        #endregion
+
+        #region
+        //**************** CREATING NEW IMAGE FILE *******************\\
 
         int lastImageNameToNumber = int.Parse(_dbCatalogContext.CatalogItems.OrderBy(x => x.Id).Last().PictureFileName!.Split(".")[0]);
         int fileTempId = lastImageNameToNumber + 1;
@@ -107,6 +114,7 @@ public class ImageController : Controller
         };
         
         return Ok(vm);
+        #endregion
     }
 
     [HttpDelete]
