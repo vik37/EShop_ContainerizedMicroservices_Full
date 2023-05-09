@@ -16,3 +16,10 @@
     padding: 2px 4px;
     letter-spacing: 0.08rem;
 }
+.card{
+    margin-bottom: 10px;
+}
+.card-btn {
+    font-size: 0.6rem;
+    padding: 4px 6px;
+}

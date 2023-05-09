@@ -56,7 +56,7 @@ public class ImageController : Controller
     [HttpPost, DisableRequestSizeLimit]
     [Route("api/v{version:apiVersion}/catalog/image")]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> UploadImage([FromForm] IFormFile file)
+    public async Task<ActionResult> UploadImage([FromForm] IFormFile file, int? catalogId)
     {
         if (file == null || file.Length == 0)
             return BadRequest();
@@ -68,11 +68,29 @@ public class ImageController : Controller
         string mimeType = GetImageMimeTypeFromImageFileExtension(ext);
         if (mimeType == "application/octet-stream")
             return BadRequest();
-        int lastImageNameToNumber = int.Parse(_dbCatalogContext.CatalogItems.OrderBy(x => x.Id).Last().PictureFileName!.Split(".")[0]);
-        int fileTempId = lastImageNameToNumber + 1; ;
-        string fileName = string.Concat(fileTempId, ext);
         string webRoot = _webHostEnvironment.WebRootPath;
-        string fullPath = Path.Combine(webRoot, fileName);
+        string fullPath = "";
+        string filename = "";
+
+        if (catalogId is not null)
+        {
+            filename = _dbCatalogContext.CatalogItems.First(x => x.Id == catalogId).PictureFileName!;
+            fullPath = Path.Combine(webRoot, filename);
+
+            System.IO.File.Delete(fullPath);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return Ok();
+        }
+
+        int lastImageNameToNumber = int.Parse(_dbCatalogContext.CatalogItems.OrderBy(x => x.Id).Last().PictureFileName!.Split(".")[0]);
+        int fileTempId = lastImageNameToNumber + 1;
+        filename = string.Concat(fileTempId, ext);
+        
+        fullPath = Path.Combine(webRoot, filename);
 
         if (System.IO.File.Exists(fullPath))
             return BadRequest("File allready exist");
@@ -81,10 +99,11 @@ public class ImageController : Controller
         {
             await file.CopyToAsync(stream);
         }
+
         ProductImageDto vm = new()
         {
             TempPictureId = fileTempId,
-            FileName = fileName,
+            FileName = filename,
         };
         
         return Ok(vm);

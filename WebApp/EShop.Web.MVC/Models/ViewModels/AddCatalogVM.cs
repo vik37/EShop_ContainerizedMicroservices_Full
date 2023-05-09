@@ -2,6 +2,7 @@
 
 public class AddCatalogVM
 {
+    public int? Id { get; set; }
     [Required(ErrorMessage = "Product Name is Required")]
     [MinLength(5, ErrorMessage = "Product Name can not be less than 5 charachters")]
     [DisplayName("Product Name")]
@@ -23,4 +24,29 @@ public class AddCatalogVM
     public int CatalogTypeId { get; set; }
 
     public string PictureFileName { get; set; }
+
+    public ImageVM ImageFile { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        if(!(obj is AddCatalogVM))
+            return false;
+
+        var other = obj as AddCatalogVM;
+        if(Name != other.Name) return false;
+        if(Description != other.Description) return false;
+        if(Price != other.Price) return false;
+        if(CatalogBrandId != other.CatalogBrandId) return false;
+        if(CatalogTypeId != other.CatalogTypeId) return false;
+        else return true;
+    }
+
+    public static bool operator ==(AddCatalogVM lhs, AddCatalogVM rhs) { return lhs.Equals(rhs); }
+
+    public static bool operator !=(AddCatalogVM lhs, AddCatalogVM rhs) { return !(lhs == rhs); }
+
+    public override int GetHashCode()
+    {
+        throw new NotImplementedException();
+    }
 }

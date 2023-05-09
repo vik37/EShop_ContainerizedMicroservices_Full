@@ -1,0 +1,20 @@
+﻿@model AddCatalogVM
+
+@{
+    ViewBag.DisplayImage = "";
+    ViewBag.AddUpdateCatalogAction = "UpdateCatalogItem";
+}
+
+
+<div class="container">
+    <div class="catalog-form-heading-block">
+        <h2>Change Catalog</h2>
+    </div>
+    <div class="form-block">
+        
+        <partial name="_AddUpdateCatalogItemsPartial" model="@Model" data="@ViewBag.DisplayImage"></partial>
+    </div>
+</div>
+
+<link href="~/css/catalog_form.css" rel="stylesheet" />
+<link href="~/css/update_image.css" rel="stylesheet" />
