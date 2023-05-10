@@ -118,9 +118,8 @@ opt.UseSqlServer(Application.GetApplication().LocalMSQLConnectionString(config)
 ```
 
 ## Other Common Github Profile Sections
-👩‍💻 I'm currently working on this project.
+👩‍💻 It is currently being worked on.
 
-🧠 I'm currently learning and also reading this book.
-
+🧠
 
 
