@@ -55,9 +55,14 @@
                     {
                         @if(item.UnitPrice != item.OldUnitPrice)
                         {
-                            <p class="changed-product">The price of the @item.ProductName product has changed. @(item.OldUnitPrice.ToString("N2"))$
+                            <p class="changed-product">
+                                <i>The price of the</i> <b>@item.ProductName</b> <i>product has changed.</i> 
+                                <b>
+                                    @(item.OldUnitPrice.ToString("N2"))$
                                 <i class="fa fa-exchange" aria-hidden="true"></i>
-                                @(item.UnitPrice.ToString("N2"))$</p>
+                                    @(item.UnitPrice.ToString("N2"))$
+                                </b>
+                            </p>
                         }
                     }
                 </div>

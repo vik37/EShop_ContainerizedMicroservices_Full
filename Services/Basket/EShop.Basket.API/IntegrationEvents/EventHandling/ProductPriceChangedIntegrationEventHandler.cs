@@ -38,11 +38,11 @@ public class ProductPriceChangedIntegrationEventHandler : IIntegrationEventHandl
 
             foreach(var item in itemsToUpdate)
             {
-                if(item.UnitPrice != oldPrice)
+                if(item.UnitPrice != newPrice)
                 {
-                    var tempPrice = item.UnitPrice;
+                    item.Id = productId;
                     item.UnitPrice = newPrice;
-                    item.OldUnitPrice = tempPrice;
+                    item.OldUnitPrice = oldPrice;
                 }
             }
             await _basketRepository.UpdateBasket(basket);
