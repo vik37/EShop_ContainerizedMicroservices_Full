@@ -7,10 +7,16 @@ public class CatalogController : ControllerBase
 {
     private const string _catalogUrl = $"http://localhost:4040/api/v1.0/catalog/items/"; 
     private readonly CatalogDbContext _dbCatalogContext;
+    private readonly IEventBus _eventBus;
+    private readonly ICatalogIntegrationEventService _catalogIntegrationEventService;
 
-    public CatalogController(CatalogDbContext dbCatalogContext)
+    public CatalogController(CatalogDbContext dbCatalogContext, IEventBus eventBus,
+            ICatalogIntegrationEventService catalogIntegrationEventService
+        )
     {
         _dbCatalogContext = dbCatalogContext ?? throw new ArgumentNullException(nameof(dbCatalogContext));
+        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        _catalogIntegrationEventService = catalogIntegrationEventService ?? throw new ArgumentNullException(nameof(catalogIntegrationEventService));
     }
 
     /// <summary>
@@ -143,11 +149,23 @@ public class CatalogController : ControllerBase
         if (catalogItem == null)
             return NotFound();
 
+        var oldPrice = catalogItem.Price;
+        bool riseProductPriceChangedEvent = product.Price != oldPrice;
+
         catalogItem.Price = product.Price;
         catalogItem.Name = product.Name;
         catalogItem.Description = product.Description;
 
-        await _dbCatalogContext.SaveChangesAsync(token);
+        if(!riseProductPriceChangedEvent)
+            await _dbCatalogContext.SaveChangesAsync(token);
+        else
+        {
+           var priceChangedEvent = new ProductPriceChangedIntegrationEvent(catalogItem.Id, product.Price,oldPrice);
+
+            await _catalogIntegrationEventService.SaveEventAndCatalogContextChangesAsync(priceChangedEvent);
+
+            await _catalogIntegrationEventService.PublishThroughtEventBusAsync(priceChangedEvent);
+        }
         return Ok();
     }
 

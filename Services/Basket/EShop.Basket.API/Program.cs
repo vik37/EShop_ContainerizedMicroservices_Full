@@ -24,28 +24,52 @@ services.AddControllers()
 services.AddEndpointsApiExplorer();
 services.SwaggerConfigurations()
         .CorsConfiguration()
-        .RedisConnectionMultyplexer(configuration);
+        .RedisConnectionMultyplexer(configuration)
+        .RegisterEventBusRabbitMQ(configuration)
+        .ConfigurationEventBus(configuration);
 
 services.AddTransient<IBasketRepository, BasketRepository>();
 
-var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(x =>
+    var app = builder.Build();
+    Log.Information("Application {ApplicationName} Starting", Application.GetApplication().ApplicationName);
+    if (app.Environment.IsDevelopment())
     {
-        x.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
-    });
+        app.UseSwagger();
+        app.UseSwaggerUI(x =>
+        {
+            x.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+        });
+    }
+
+    app.UseSerilogRequestLogging();
+
+    app.UseCors("Basket Cors");
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    ConfigurationEvents(app);
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application {Application} Failes", Application.GetApplication().AppNamespace);
+}
+finally
+{
+    Log.CloseAndFlush();
 }
 
-app.UseSerilogRequestLogging();
-
-app.UseCors("Basket Cors");
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+void ConfigurationEvents(IApplicationBuilder app)
+{
+    var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+    eventBus.Subscribe<ProductPriceChangedIntegrationEvent, ProductPriceChangedIntegrationEventHandler>();
+    eventBus.Subscribe<OrderStartedIntegrationEvent, OrderStartedIntegrationEventHandler>();
+}

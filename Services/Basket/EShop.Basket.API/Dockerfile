@@ -6,6 +6,8 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Services/Basket/EShop.Basket.API/EShop.Basket.API.csproj", "Services/Basket/EShop.Basket.API/"]
+COPY ["BuildingBloks/Events/EventBus.csproj","BuildingBloks/Events/EventBus/"]
+COPY ["BuildingBloks/Events/EventBussRabbitMQ.csproj","BuildingBloks/Events/EventBussRabbitMQ/"]
 RUN dotnet restore "Services/Basket/EShop.Basket.API/EShop.Basket.API.csproj"
 COPY . .
 WORKDIR "/src/Services/Basket/EShop.Basket.API"

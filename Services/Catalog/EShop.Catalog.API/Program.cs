@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.Features;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -24,7 +23,10 @@ IConfiguration configuration = builder.Configuration;
 services.SwaggerConfigurations()
         .DatabaseConfiguration(config: configuration)
         .CorsConfiguration()
-        .ApiVersioning();
+        .ApiVersioning()
+        .RegisterEventBusRabbitMQ(configuration)
+        .ConfigurationEventBus(configuration);
+        
 
 services.Configure<FormOptions>(options =>
 {

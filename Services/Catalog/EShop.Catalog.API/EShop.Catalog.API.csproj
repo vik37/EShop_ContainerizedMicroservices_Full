@@ -47,4 +47,10 @@
     <Folder Include="logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBloks\Events\EventBussRabbitMQ\EventBussRabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBloks\Events\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBloks\Events\IntegrationEventLogEntityFramework\IntegrationEventLogEntityFramework.csproj" />
+  </ItemGroup>
+
 </Project>
