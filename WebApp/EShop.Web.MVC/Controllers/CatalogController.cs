@@ -72,8 +72,8 @@ public class CatalogController : Controller
         {
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
-            int pictureId = int.Parse(model.PictureFileName.Split(".")[0]);
-            ViewBag.Url = _productImageUrl.Url + $"{pictureId}/image?filename={model.PictureFileName}";
+            int pictureProductId = int.Parse(model.PictureFileName.Split(".")[0]);
+            ViewBag.Url = _productImageUrl.Url + $"{pictureProductId}/image?filename={model.PictureFileName}";
             return View("AddNewCatalogItem",model);
         }
         
@@ -111,7 +111,7 @@ public class CatalogController : Controller
             return RedirectToAction(nameof(Index), controllerName: "Catalog");
 
         if (!ModelState.IsValid)
-            return RedirectToAction(nameof(UploadImage),model.Id);
+            return View(model);
 
         var catalog = await _catalogService.GetCatalogItemById((int)model.Id);
         ViewBag.PictureUrl = catalog.PictureUri;

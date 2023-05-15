@@ -50,6 +50,17 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="section">
+                    @foreach (var item in Model.Items)
+                    {
+                        @if(item.UnitPrice != item.OldUnitPrice)
+                        {
+                            <p class="changed-product">The price of the @item.ProductName product has changed. @(item.OldUnitPrice.ToString("N2"))$
+                                <i class="fa fa-exchange" aria-hidden="true"></i>
+                                @(item.UnitPrice.ToString("N2"))$</p>
+                        }
+                    }
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="aside">
