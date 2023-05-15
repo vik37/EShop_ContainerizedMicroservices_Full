@@ -17,6 +17,7 @@ services:
       dockerfile: Services/Catalog/EShop.Catalog.API/Dockerfile
     depends_on:
         - sqldata
+        - rabbitmq
   
   eshop.basket.api:
     image: ${DOCKER_REGISTRY-}eshopbasketapi
@@ -25,12 +26,16 @@ services:
       dockerfile: Services/Basket/EShop.Basket.API/Dockerfile
     depends_on:
       - basketdata
+      - rabbitmq
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2022-latest
 
   basketdata:
      image: redis
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
 
 
   

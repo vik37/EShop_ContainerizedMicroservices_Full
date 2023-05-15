@@ -1,20 +1,17 @@
-﻿using EShop.Basket.API.IntegrationEvents.Events;
-using EventBus.Abstractions;
-using Serilog.Context;
+﻿namespace EShop.Basket.API.IntegrationEvents.EventHandling;
 
-namespace EShop.Basket.API.IntegrationEvents.EventHandling;
-
-public class ProductPriceChangedIntegrationEventHandling : IIntegrationEventHandler<ProductPriceChangedIntegrationEvent>
+public class ProductPriceChangedIntegrationEventHandler : IIntegrationEventHandler<ProductPriceChangedIntegrationEvent>
 {
-    private readonly ILogger<ProductPriceChangedIntegrationEventHandling> _logger;
-    private readonly BasketRepository _basketRepository;
+    private readonly ILogger<ProductPriceChangedIntegrationEventHandler> _logger;
+    private readonly IBasketRepository _basketRepository;
 
-    public ProductPriceChangedIntegrationEventHandling(ILogger<ProductPriceChangedIntegrationEventHandling> logger,
-                                                        BasketRepository basketRepository)
+    public ProductPriceChangedIntegrationEventHandler(ILogger<ProductPriceChangedIntegrationEventHandler> logger,
+                                                        IBasketRepository basketRepository)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
     }
+
     public async Task Handle(ProductPriceChangedIntegrationEvent @event)
     {
         using (LogContext.PushProperty("Integration Event Context", $"{@event.Id}-{Application.GetApplication().ApplicationName}"))
@@ -41,7 +38,7 @@ public class ProductPriceChangedIntegrationEventHandling : IIntegrationEventHand
 
             foreach(var item in itemsToUpdate)
             {
-                if(item.UnitPrice == oldPrice)
+                if(item.UnitPrice != oldPrice)
                 {
                     var tempPrice = item.UnitPrice;
                     item.UnitPrice = newPrice;

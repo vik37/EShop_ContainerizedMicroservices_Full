@@ -30,6 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBloks\Events\EventBussRabbitMQ\EventBussRabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\BuildingBloks\Events\EventBus\EventBus.csproj" />
   </ItemGroup>
 

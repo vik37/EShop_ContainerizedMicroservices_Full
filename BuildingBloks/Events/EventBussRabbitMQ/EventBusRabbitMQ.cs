@@ -1,17 +1,4 @@
-﻿using EventBus;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.Retry;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
-using System.Net.Sockets;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-
-namespace EventBussRabbitMQ;
+﻿namespace EventBussRabbitMQ;
 
 public class EventBusRabbitMQ : IEventBus, IDisposable
 {
@@ -39,8 +26,8 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
         _serviceProvider = serviceProvider;
         _retryCount = retryCount;
         _eventBusSubscriptionManager = eventBusSubscriptionManager ?? new InMemoryEventBusSubscriptionsManager();
-        _model = CreateConsumer();
         _queueName = queueName;
+        _model = CreateConsumer();        
         _eventBusSubscriptionManager.OnEventRemoved += SubsManagerOnEventRemoved;
     }
 
@@ -189,7 +176,7 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
     }
     private IModel CreateConsumer()
     {
-        if (_persistentConnection.IsConnected)
+        if (!_persistentConnection.IsConnected)
             _persistentConnection.TryConnected();
 
         _logger.LogTrace("Create Rabbit consumer channel");
@@ -199,6 +186,15 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
         channel.ExchangeDeclare(exchange: BROKER_NAME, type: "direct");
         
         channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+        channel.CallbackException += (sender, ea) =>
+        {
+            _logger.LogWarning(ea.Exception, "Recreating RabbitMQ consumer channel");
+
+            _model!.Dispose();
+            _model = CreateConsumer();
+            StartBasicConsume();
+        };
 
         return channel;
     }

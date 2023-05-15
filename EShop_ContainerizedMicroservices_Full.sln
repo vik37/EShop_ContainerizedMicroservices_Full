@@ -27,9 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBloks", "BuildingBl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "BuildingBloks\Events\EventBus\EventBus.csproj", "{B4098CD8-95A2-43E3-865E-0B95E85BEC0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "BuildingBloks\Events\EventBus\EventBus.csproj", "{B4098CD8-95A2-43E3-865E-0B95E85BEC0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBussRabbitMQ", "BuildingBloks\Events\EventBussRabbitMQ\EventBussRabbitMQ.csproj", "{FB30EAD6-6385-426B-B8F4-837042A4A1E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBussRabbitMQ", "BuildingBloks\Events\EventBussRabbitMQ\EventBussRabbitMQ.csproj", "{FB30EAD6-6385-426B-B8F4-837042A4A1E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLogEntityFramework", "BuildingBloks\Events\IntegrationEventLogEntityFramework\IntegrationEventLogEntityFramework.csproj", "{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{FB30EAD6-6385-426B-B8F4-837042A4A1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB30EAD6-6385-426B-B8F4-837042A4A1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB30EAD6-6385-426B-B8F4-837042A4A1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE} = {B426B489-8F6D-4C53-94E1-01F7AA8EF3A7}
 		{B4098CD8-95A2-43E3-865E-0B95E85BEC0B} = {9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE}
 		{FB30EAD6-6385-426B-B8F4-837042A4A1E1} = {9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE}
+		{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6} = {9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB720210-4DB5-465E-AC18-2081629282DC}

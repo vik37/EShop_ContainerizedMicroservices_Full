@@ -1,5 +1,4 @@
-﻿
-namespace EventBus;
+﻿namespace EventBus;
 
 public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionManager
 {
