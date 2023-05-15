@@ -47,7 +47,7 @@
                     <span class="input-group-text">$</span>
                 </div>
                 <input type="number" class="form-control" asp-for="@Model.Price" value="@Model.Price.ToString("N2")" 
-                    placeholder="Product Price- $" min="0" step="0.01">
+                    placeholder="Product Price- $" min="0.1" step="0.01">
             </div>
             <span asp-validation-for="@Model.Price" class="text-danger"></span>
         </div>

@@ -16,3 +16,16 @@ img {
     border-top: rgba(128, 128, 128,0);
     border-right: rgba(128, 128, 128,0);
 }
+.changed-product{
+    font-size: 0.75rem;
+    letter-spacing: 0.9px;
+    text-align: center;
+    font-weight: bolder;
+    padding: 5px 2px;
+    border: 1px solid rgb(0,0,0);
+    background-color: rgba(128, 128, 128,0.4);
+    color: rgb(14, 122, 10);
+    text-shadow: 0 0 1px rgb(81, 171, 30);
+    width: 400px;
+    height: 50px;
+}
