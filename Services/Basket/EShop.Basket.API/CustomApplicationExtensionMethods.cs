@@ -79,13 +79,4 @@ public static class CustomApplicationExtensionMethods
 
         return services;
     }
-
-    //************** APPLICATION BUILDER ******************\\
-    //public static IApplicationBuilder ConfigurationEvents(this IApplicationBuilder app)
-    //{
-    //    var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-    //    eventBus.Subscribe<ProductPriceChangedIntegrationEvent,ProductPriceChangedIntegrationEventHandler>();
-    //    eventBus.Subscribe<OrderStartedIntegrationEvent,OrderStartedIntegrationEventHandler>();
-    //    return app;
-    //}
 }
