@@ -5,17 +5,15 @@
 [ApiController]
 public class CatalogController : ControllerBase
 {
-    private const string _catalogUrl = $"http://localhost:4040/api/v1.0/catalog/items/"; 
+    private const string _catalogUrl = "http://localhost:4040/api/v1.0/catalog/items/"; 
     private readonly CatalogDbContext _dbCatalogContext;
-    private readonly IEventBus _eventBus;
     private readonly ICatalogIntegrationEventService _catalogIntegrationEventService;
 
-    public CatalogController(CatalogDbContext dbCatalogContext, IEventBus eventBus,
+    public CatalogController(CatalogDbContext dbCatalogContext,
             ICatalogIntegrationEventService catalogIntegrationEventService
         )
     {
         _dbCatalogContext = dbCatalogContext ?? throw new ArgumentNullException(nameof(dbCatalogContext));
-        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         _catalogIntegrationEventService = catalogIntegrationEventService ?? throw new ArgumentNullException(nameof(catalogIntegrationEventService));
     }
 
@@ -40,7 +38,7 @@ public class CatalogController : ControllerBase
                                                                 .Skip(pageSize * pageIndex)
                                                                 .Take(pageSize)
                                                                 .ToListAsync();
-        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
+        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.PictureFileName!.Split(".")[0]}/image"; return c; });
         var model = new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
         return Ok(model);
     }
@@ -55,7 +53,7 @@ public class CatalogController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(CatalogItem), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<CatalogItem>> ItemByIdAsync(int id)
+    public async Task<IActionResult> ItemByIdAsync(int id)
     {
         if (id <= 0)
             return BadRequest();
@@ -64,7 +62,7 @@ public class CatalogController : ControllerBase
         
         if (item != null)
         {
-            item.PictureUri = $"{_catalogUrl}{item.Id}/image";
+            item.PictureUri = $"{_catalogUrl}{item.PictureFileName!.Split(".")[0]}/image";
             return Ok(item);
         }
             
@@ -82,7 +80,7 @@ public class CatalogController : ControllerBase
     [HttpGet]
     [Route("items/type/{catalogTypeId}/brand/{catalogBrandId}")]
     [ProducesResponseType(typeof(PaginatedItemsDto<CatalogItem>), (int)HttpStatusCode.OK)]
-    public async Task<PaginatedItemsDto<CatalogItem>> GetCatalogItemsByType(int catalogTypeId, int catalogBrandId,
+    public async Task<ActionResult<PaginatedItemsDto<CatalogItem>>> GetCatalogItemsByBrandAndType(int catalogTypeId, int catalogBrandId,
                                                                             [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0,
                                                                             CancellationToken token = default)
     {
