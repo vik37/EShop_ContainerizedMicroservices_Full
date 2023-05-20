@@ -16,14 +16,14 @@ public class BasketController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
+    public async Task<ActionResult<CustomerBasket>> GetBasketByCustomerId(string id)
     {
        return Ok( await _basketRepository.GetBasketByCustomerId(id) ?? new CustomerBasket(id));
     }
 
     [HttpPost]
     [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<CustomerBasket>> AddBasketById([FromBody] CustomerBasket customerBasket)
+    public async Task<ActionResult<CustomerBasket>> AddToBasketByCustomerId([FromBody] CustomerBasket customerBasket)
     {
         return Ok(await _basketRepository.UpdateBasket(customerBasket));
     }
