@@ -25,10 +25,10 @@ jobs:
     - name: Setup NuGet.exe for use with actions
       uses: NuGet/setup-nuget@v1.2.0
     - name: restore nuget package
-      run: nuget restore EShop_ContainerizedMicroservices_Full.sln
+      run: nuget restore EShop.Web.MVC.csproj
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build EShop_ContainerizedMicroservices_Full.sln --no-restore
+      run: msbuild EShop.Web.MVC.csproj /p:Configuration=release
     - name: Test
       run: dotnet test --no-build --verbosity normal
