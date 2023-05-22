@@ -26,8 +26,6 @@ jobs:
       uses: NuGet/setup-nuget@v1.2.0
     - name: restore nuget package
       run: nuget restore EShop.Web.MVC.csproj
-    - name: Restore dependencies
-      run: dotnet restore
     - name: Build
       run: msbuild EShop.Web.MVC.csproj /p:Configuration=release
     - name: Test
