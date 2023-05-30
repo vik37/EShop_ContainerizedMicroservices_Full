@@ -15,5 +15,7 @@ public sealed class Application
 
     public string LocalMSQLConnectionString(IConfiguration configuration) => configuration["LocalDbConnectionString"];
 
-    public string DockerMSQLConnectionString(IConfiguration configuration) => configuration["DockerConnectionString"];
+    public string DockerMSQLConnectionString(IConfiguration configuration) => configuration["DockerDbConnectionString"];
+
+    public int RabbitMQRetry(IConfiguration configuration) => int.Parse(configuration["EventBusRetry"]);
 }
