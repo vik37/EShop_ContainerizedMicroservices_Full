@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Basket.IntegrationTest": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51040;http://localhost:51041"
+    }
+  }
+}
