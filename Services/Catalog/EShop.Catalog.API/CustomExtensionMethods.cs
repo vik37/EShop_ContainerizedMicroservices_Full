@@ -15,13 +15,13 @@ public static class CustomExtensionMethods
             });
         });
 
-    public static IServiceCollection DatabaseConfiguration(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection DatabaseConfiguration(this IServiceCollection services,string connectionString)
     {
         services.AddDbContext<CatalogDbContext>(opt =>
         {
-            if (config != null)
+            if (!string.IsNullOrEmpty(connectionString))
             {
-                opt.UseSqlServer(Application.GetApplication().DockerMSQLConnectionString(config),
+                opt.UseSqlServer(connectionString,
                 sqlServerOptionsAction: sqlOption =>
                 {
                     sqlOption.MigrationsAssembly(
@@ -36,9 +36,9 @@ public static class CustomExtensionMethods
 
         services.AddDbContext<IntegrationEventLogDbContext>(opt =>
         {
-            if(config != null)
+            if(!string.IsNullOrEmpty(connectionString))
             {
-                opt.UseSqlServer(Application.GetApplication().DockerMSQLConnectionString(config),
+                opt.UseSqlServer(connectionString,
                         sqlServerOptionsAction: sqlOption =>
                         {
                             sqlOption.MigrationsAssembly(
@@ -53,8 +53,7 @@ public static class CustomExtensionMethods
         });
 
         return services;
-    }
-        
+    }        
 
     public static IServiceCollection CorsConfiguration(this IServiceCollection services) =>
         services.AddCors(options =>
@@ -89,7 +88,8 @@ public static class CustomExtensionMethods
         return services;
     }
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration? config = null, 
+        int retryConnection = 5, string connectionUri = "")
     {
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             sp => (DbConnection c) => new IntegrationEventLogService(c));
@@ -97,23 +97,31 @@ public static class CustomExtensionMethods
 
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
+            ConnectionFactory? factory = null;
             var logger = rpc.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
-            var factory = new ConnectionFactory
+            if (config is not null)
             {
-                HostName = configuration["RabbitMQConnection"],
-                DispatchConsumersAsync = true
+                factory = new ConnectionFactory
+                {
+                    HostName = config["RabbitMQConnection"],
+                    VirtualHost = "/",
+                    DispatchConsumersAsync = true
+                };
+
+                if (!string.IsNullOrEmpty(config["EventBusRabbitMQUsername"]))
+                    factory.UserName = config["EventBusRabbitMQUsername"];
+
+                if (!string.IsNullOrEmpty(config["EventBusRabbitMQPassword"]))
+                    factory.Password = config["EventBusRabbitMQPassword"];
+            }
+            else
+            {
+                factory = new ConnectionFactory
+                {
+                    Uri = new Uri(connectionUri)
+                };
             };
-
-            if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQUsername"]))
-                factory.UserName = configuration["EventBusRabbitMQUsername"];
-
-            if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQPassword"]))
-                factory.Password = configuration["EventBusRabbitMQPassword"];
-
-            int retryConnection = 5;
-            if (!string.IsNullOrEmpty(configuration["EventBusRetry"]))
-                retryConnection = int.Parse(configuration["EventBusRetry"]);
-
+        
             return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
 
         });
@@ -121,18 +129,14 @@ public static class CustomExtensionMethods
     }
         
 
-    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, string subscriptionClientName,
+                                                                    int retryCount = 5)
     {
         services.AddSingleton<IEventBus, EventBusRabbitMQ>(reb =>
         {
-            var subscriptionClientName = configuration["SubscriptionClientName"];
             var rabbitMQPersistentConnetion = reb.GetRequiredService<IRabbitMQPersistentConnection>();
             var logger = reb.GetRequiredService<ILogger<EventBusRabbitMQ>>();
             var rabbitMQEventBusSubscriptionManager = reb.GetRequiredService<IEventBusSubscriptionManager>();
-
-            int retryCount = 5;
-            if (!string.IsNullOrEmpty(configuration["EventBusRetry"]))
-                retryCount = int.Parse(configuration["EventBusRetry"]);
 
             return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: subscriptionClientName,
                     eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryCount);

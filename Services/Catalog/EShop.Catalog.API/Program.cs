@@ -1,7 +1,7 @@
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -17,15 +17,18 @@ builder.Host.UseSerilog((ctx, lc) => lc
 // Add services to the container.
 var services = builder.Services;
 
+var application = Application.GetApplication();
+
 IConfiguration configuration = builder.Configuration;
 
 //***** Custom Extension Methods - Application Configurations *****\\\
+
 services.SwaggerConfigurations()
-        .DatabaseConfiguration(config: configuration)
+        .DatabaseConfiguration(application.DockerMSQLConnectionString(configuration))
         .CorsConfiguration()
         .ApiVersioning()
-        .RegisterEventBusRabbitMQ(configuration)
-        .ConfigurationEventBus(configuration);
+        .ConfigurationEventBus(configuration, retryConnection: application.RabbitMQRetry(configuration))
+        .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration));
         
 
 services.Configure<FormOptions>(options =>
@@ -50,7 +53,7 @@ try
 {
     var app = builder.Build();
 
-    Log.Information("Application {ApplicationName} Starting", Application.GetApplication().ApplicationName);
+    Log.Information("Application {ApplicationName} Starting", application.ApplicationName);
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -88,9 +91,11 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application {Application} Failes", Application.GetApplication().AppNamespace);
+    Log.Fatal(ex, "Application {Application} Failes", application.AppNamespace);
 }
 finally
 {
     Log.CloseAndFlush();
 }
+
+public partial class Program { }
