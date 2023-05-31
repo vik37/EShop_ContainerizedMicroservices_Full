@@ -18,12 +18,12 @@ public class BasketWebApi_Test
         string fakeBuyerId = "1";
         var fakeCustomerBasket = GetCustomerBasketFake(fakeBuyerId);
 
-        _mockBasketRepo.Setup(x => x.GetBasketByCustomerId(It.IsAny<string>()))
+        _mockBasketRepo.Setup(x => x.GetProductFromBasketByUserId(It.IsAny<string>()))
             .ReturnsAsync(fakeCustomerBasket);
 
         // action
         var basketController = new BasketController(_mockBasketRepo.Object,_loggerMock.Object);
-        var actionResult = await basketController.GetBasketByCustomerId(fakeBuyerId);
+        var actionResult = await basketController.GetProductFromBasketByUserId(fakeBuyerId);
 
         // assertion
 
@@ -44,13 +44,13 @@ public class BasketWebApi_Test
         // arrange
         var fakeBasketWithCustomerId1 = FakeBasketData.GetFakeBasketItems().SingleOrDefault(x => x!.BuyerId == buyerId);
         
-        _mockBasketRepo.Setup(x => x.GetBasketByCustomerId(It.IsAny<string>()))
+        _mockBasketRepo.Setup(x => x.GetProductFromBasketByUserId(It.IsAny<string>()))
             .ReturnsAsync(fakeBasketWithCustomerId1);
 
         // action
         
         var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object);
-        var actionResult = await basketController.GetBasketByCustomerId(buyerId);
+        var actionResult = await basketController.GetProductFromBasketByUserId(buyerId);
 
         // assertion
         actionResult.Result.As<ObjectResult>().StatusCode.Should().Be((int)System.Net.HttpStatusCode.OK);
@@ -70,7 +70,7 @@ public class BasketWebApi_Test
 
         // action
         var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object);
-        var actionResult = await basketController.AddToBasketByCustomerId(fakeCustomerBasket);
+        var actionResult = await basketController.AddNewProductToBasket(fakeCustomerBasket);
 
         // assertion
         actionResult.Result.As<ObjectResult>().StatusCode.Should().Be((int)System.Net.HttpStatusCode.OK);

@@ -25,53 +25,57 @@ public static class CustomApplicationExtensionMethods
            });
        });
 
-    public static IServiceCollection RedisConnectionMultyplexer(this IServiceCollection services, IConfiguration configuration) =>
+    public static IServiceCollection RedisConnectionMultyplexer(this IServiceCollection services, string redisConnectionString) =>
         services.AddSingleton<IConnectionMultiplexer>(OptionsBuilderConfigurationExtensions =>
-            ConnectionMultiplexer.Connect(configuration: configuration["RedisConnectionString"])
+            ConnectionMultiplexer.Connect(configuration: redisConnectionString)
         );
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration configuration = null,
+                                        int retryConnection = 5, string connectionUri = null)
     {
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
             var logger = rpc.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
-            var factory = new ConnectionFactory
+
+            ConnectionFactory factory = null;
+            if(configuration is not null)
             {
-                HostName = configuration["RabbitMQConnection"],
-                DispatchConsumersAsync = true
-            };
+                factory = new ConnectionFactory
+                {
+                    HostName = configuration["RabbitMQConnection"],
+                    DispatchConsumersAsync = true
+                };
 
-            if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQUsername"]))
-                factory.UserName = configuration["EventBusRabbitMQUsername"];
+                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQUsername"]))
+                    factory.UserName = configuration["EventBusRabbitMQUsername"];
 
-            if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQPassword"]))
-                factory.Password = configuration["EventBusRabbitMQPassword"];
-
-            int retryConnection = 5;
-            if (!string.IsNullOrEmpty(configuration["EventBusRetry"]))
-                retryConnection = int.Parse(configuration["EventBusRetry"]);
-
+                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQPassword"]))
+                    factory.Password = configuration["EventBusRabbitMQPassword"];
+            }
+            else
+            {
+                factory = new()
+                {
+                    Uri = new Uri(connectionUri)
+                };
+            }
             return new RabbitMQPersistentConnection(connectionFactory: factory,logger: logger,retryCount: retryConnection);
-
         });
         return services;
     }
 
-    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, 
+                                            string subscriptionClientName, int retryConnection = 5)
     {
         services.AddSingleton<IEventBus, EventBusRabbitMQ>(reb =>
         {
-            var subscriptionClientName = configuration["SubscriptionClientName"];
+            
             var rabbitMQPersistentConnetion = reb.GetRequiredService<IRabbitMQPersistentConnection>();
             var logger = reb.GetRequiredService<ILogger<EventBusRabbitMQ>>();
             var rabbitMQEventBusSubscriptionManager = reb.GetRequiredService<IEventBusSubscriptionManager>();
 
-            int retryCount = 5;
-            if (!string.IsNullOrEmpty(configuration["EventBusRetry"]))
-                retryCount = int.Parse(configuration["EventBusRetry"]);
-
             return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion,logger: logger, queueName: subscriptionClientName,
-                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryCount);
+                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryConnection);
         });
         services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionsManager>();
         services.AddTransient<ProductPriceChangedIntegrationEventHandler>();

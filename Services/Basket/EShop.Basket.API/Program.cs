@@ -1,7 +1,7 @@
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,7 @@ IConfiguration configuration = builder.Configuration;
 var services = builder.Services;
 // Add services to the container.
 
+var application = Application.GetApplication();
 
 services.AddControllers()
     .AddNewtonsoftJson(opt =>
@@ -24,9 +25,9 @@ services.AddControllers()
 services.AddEndpointsApiExplorer();
 services.SwaggerConfigurations()
         .CorsConfiguration()
-        .RedisConnectionMultyplexer(configuration)
-        .RegisterEventBusRabbitMQ(configuration)
-        .ConfigurationEventBus(configuration);
+        .RedisConnectionMultyplexer(configuration["RedisConnectionString"])
+        .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration))
+        .ConfigurationEventBus(configuration,retryConnection: application.RabbitMQRetry(configuration));
 
 services.AddTransient<IBasketRepository, BasketRepository>();
 
@@ -36,7 +37,7 @@ services.AddTransient<IBasketRepository, BasketRepository>();
 try
 {
     var app = builder.Build();
-    Log.Information("Application {ApplicationName} Starting", Application.GetApplication().ApplicationName);
+    Log.Information("Application {ApplicationName} Starting", application.ApplicationName);
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
@@ -60,7 +61,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application {Application} Failes", Application.GetApplication().AppNamespace);
+    Log.Fatal(ex, "Application {Application} Failes", application.AppNamespace);
 }
 finally
 {
@@ -73,3 +74,5 @@ void ConfigurationEvents(IApplicationBuilder app)
     eventBus.Subscribe<ProductPriceChangedIntegrationEvent, ProductPriceChangedIntegrationEventHandler>();
     eventBus.Subscribe<OrderStartedIntegrationEvent, OrderStartedIntegrationEventHandler>();
 }
+
+public partial class Program { }

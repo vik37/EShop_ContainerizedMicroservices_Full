@@ -1,13 +1,13 @@
 ﻿namespace Catalog.IntegrationTest;
 
-public class BasicTest : IClassFixture<DockerWebApplicationFactory>
+public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactory>
 {
     private readonly HttpClient _httpClient;
-    private readonly DockerWebApplicationFactory _applicationFactory;
+    private readonly CatalogWebApplicationFactory _applicationFactory;
 
     private CatalogItem Item;
 
-    public BasicTest(DockerWebApplicationFactory applicationFactory)
+    public TestCatalogHttpResponse(CatalogWebApplicationFactory applicationFactory)
     {
         _applicationFactory = applicationFactory;
         _httpClient = applicationFactory.CreateClient();

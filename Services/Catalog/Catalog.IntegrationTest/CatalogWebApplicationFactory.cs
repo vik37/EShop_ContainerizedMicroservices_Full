@@ -1,20 +1,23 @@
 ﻿namespace Catalog.IntegrationTest;
 
-public class DockerWebApplicationFactory : WebApplicationFactory<Program>, 
+public class CatalogWebApplicationFactory : WebApplicationFactory<Program>, 
     IAsyncLifetime
 {
     private MsSqlContainer _mssqlContainer;
     private static RabbitMqContainer _rabbitMqContainer;
+
     private string _hostName = "testrabbit";
     private string _username = "guest";
     private string _password = "guest";
     private string _queueName = "TestCatalog";
+
     private int port;
-    public DockerWebApplicationFactory()
+
+    public CatalogWebApplicationFactory()
     {
         port = Random.Shared.Next(10000, 50000);
         _mssqlContainer = new MsSqlBuilder().WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-            .WithPassword("Sarma123#")
+            .WithPassword("TestMSQL123#")
             .Build();
         
         _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName)
@@ -48,8 +51,8 @@ public class DockerWebApplicationFactory : WebApplicationFactory<Program>,
             services.AddDbContext<IntegrationEventLogDbContext>(opt =>
                 opt.UseSqlServer(connectionString));
 
-                services.ConfigurationEventBus(connectionUri: _rabbitMqContainer.GetConnectionString())
-                        .RegisterEventBusRabbitMQ(_queueName);
+            services.ConfigurationEventBus(connectionUri: _rabbitMqContainer.GetConnectionString())
+                .RegisterEventBusRabbitMQ(_queueName);
         });
         builder.UseEnvironment("Development");
     }
