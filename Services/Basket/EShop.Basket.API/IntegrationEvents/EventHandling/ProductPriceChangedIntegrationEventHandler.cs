@@ -21,7 +21,7 @@ public class ProductPriceChangedIntegrationEventHandler : IIntegrationEventHandl
             // Temporarely until an user security server will be created.
             string userId = "9899b909-e395-47a5-914e-676d9602942a";
 
-            var basket = await _basketRepository.GetBasketByCustomerId(userId);
+            var basket = await _basketRepository.GetProductFromBasketByUserId(userId);
             if(basket is not null)
             {
                 await UpdatePriceInBasketItems(@event.productId, @event.newPrice, @event.oldPrice, basket);

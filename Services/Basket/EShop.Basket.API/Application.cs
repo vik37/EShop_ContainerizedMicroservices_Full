@@ -12,4 +12,6 @@ public sealed class Application
     }
 
     public static Application GetApplication() => new Application();
+
+    public int RabbitMQRetry(IConfiguration configuration) => int.Parse(configuration["EventBusRetry"]);
 }

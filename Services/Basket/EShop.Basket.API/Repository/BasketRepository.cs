@@ -12,7 +12,7 @@ public class BasketRepository : IBasketRepository
         _logger = loggerFactory.CreateLogger<BasketRepository>();
     }  
 
-    public async Task<CustomerBasket> GetBasketByCustomerId(string customerId)
+    public async Task<CustomerBasket> GetProductFromBasketByUserId(string customerId)
     {
         var data = await _database.StringGetAsync(customerId);
         if(data.IsNullOrEmpty) return null;
@@ -28,7 +28,7 @@ public class BasketRepository : IBasketRepository
             return null;
         }
         _logger.LogInformation("Basket item persisted successfully");
-        return await GetBasketByCustomerId(customerBasket.BuyerId);
+        return await GetProductFromBasketByUserId(customerBasket.BuyerId);
     }
 
     public async Task<bool> DeleteBasket(string id)
