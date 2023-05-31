@@ -1,11 +1,4 @@
-﻿using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
-using EShop.Basket.API;
-using Testcontainers.RabbitMq;
-using Testcontainers.Redis;
-
-namespace Basket.IntegrationTest;
+﻿namespace Basket.IntegrationTest;
 
 public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -21,10 +14,10 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
     public BasketWebApplicationFactory()
     {
         _redisBuilder = new RedisBuilder()
-            .WithImage("redis").WithName("testbasketdata")
+            .WithImage("redis").WithName("testbasketdata"+Guid.NewGuid().ToString())
             .WithPortBinding(port,6379).Build();
 
-        _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName)
+        _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName+Guid.NewGuid().ToString())
              .WithHostname(_hostName)
              .WithImage("rabbitmq:3-management-alpine")
              .WithPortBinding(port, 15672)
@@ -47,16 +40,12 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
             services.RedisConnectionMultyplexer(redisConnectionString);
 
             services.ConfigurationEventBus(connectionUri: _rabbitMqContainer.GetConnectionString())
-                .RegisterEventBusRabbitMQ(_queueName);
-
-            
+                .RegisterEventBusRabbitMQ(_queueName);            
         });
-
     }
 
     public async Task DisposeAsync()
     {
-        await _redisBuilder.StopAsync();
-        await _rabbitMqContainer.StopAsync();
+        await Task.WhenAll(_rabbitMqContainer.StopAsync(), _redisBuilder.StopAsync());
     }
 }

@@ -4,3 +4,7 @@ global using Microsoft.AspNetCore.Mvc.Testing;
 global using EShop.Basket.API.Model;
 global using EShop.Basket.API.Repository;
 global using Newtonsoft.Json;
+global using DotNet.Testcontainers.Builders;
+global using EShop.Basket.API;
+global using Testcontainers.RabbitMq;
+global using Testcontainers.Redis;
