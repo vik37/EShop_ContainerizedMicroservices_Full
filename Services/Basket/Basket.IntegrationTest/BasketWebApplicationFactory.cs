@@ -5,7 +5,7 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
     private readonly RedisContainer _redisBuilder;
     private readonly RabbitMqContainer _rabbitMqContainer;
 
-    private string _hostName = "testrabbit";
+    private string _hostName = "testbasketrabbit";
     private string _username = "guest";
     private string _password = "guest";
     private string _queueName = "TestCatalog";

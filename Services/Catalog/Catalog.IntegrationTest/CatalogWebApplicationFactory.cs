@@ -6,7 +6,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     private MsSqlContainer _mssqlContainer;
     private static RabbitMqContainer _rabbitMqContainer;
 
-    private string _hostName = "testrabbit";
+    private string _hostName = "testcatalograbbit";
     private string _username = "guest";
     private string _password = "guest";
     private string _queueName = "TestCatalog";
