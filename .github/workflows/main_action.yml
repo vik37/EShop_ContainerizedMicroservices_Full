@@ -1,0 +1,28 @@
+name: Docker Compose Workflow
+
+on:
+  push:
+    branches: -master
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    
+    steps:
+       - name: Checkout repository
+         uses: actions/checkout@v2
+         
+       - name: Set Up Docker Compose
+         run: |
+           sudo apt-get install docker-compose
+           docker-compose version v2
+         
+       - name: Build and Run App
+         run: |
+           docker-compose build
+           docker-compose -d docker-compose.yml -d docker-compose.override.yml up
+           
+       - name: Shut Down App
+         run: |
+           docker-compose down
