@@ -14,9 +14,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - DockerDbConnectionString=${ESHOP_CATALOG_MSQL_CONNECTION_STRING}
-      - RabbitMQConnection = rabbitmq
-      - EventBusRabbitMQUsername = guest
-      - EventBusRabbitMQPassword = guest
+      - RabbitMQConnection=rabbitmq
+      - EventBusRabbitMQUsername=guest
+      - EventBusRabbitMQPassword=guest
     ports:
       - "4040:80"
 
@@ -24,16 +24,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - RedisConnectionString=basketdata 
-      - RabbitMQConnection = rabbitmq
-      - EventBusRabbitMQUsername = ${ESHOP_RABBITMQ_DEFAULT_USERNAME}
-      - EventBusRabbitMQPassword = ${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
+      - RabbitMQConnection=rabbitmq
+      - EventBusRabbitMQUsername=${ESHOP_RABBITMQ_DEFAULT_USERNAME}
+      - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
     ports:
       - "3001:80"
 
   rabbitmq:
     ports:
-        - "15672:15672"
-        - "5672:5672"
+      - "15672:15672"
+      - "5672:5672"
   sqldata:
     environment:
       - MSSQL_SA_PASSWORD=${ESHOP_MSQL_PASS}
