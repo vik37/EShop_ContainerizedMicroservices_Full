@@ -5,10 +5,11 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "eshop.web.mvc": "StartDebugging",
-        "eshop.catalog.api": "StartDebugging",
+        "eshop.catalog.api": "StartWithoutDebugging",
         "eshop.basket.api": "StartDebugging",
         "sqldata": "StartWithoutDebugging",
-        "basketdata": "StartWithoutDebugging"
+        "basketdata": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging"
       }
     }
   }
