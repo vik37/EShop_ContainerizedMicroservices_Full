@@ -25,4 +25,4 @@ jobs:
            
        - name: Shut Down App
          run: |
-           docker-compose down
+           docker-compose docker-compose.yml docker-compose.override.yml down
