@@ -12,7 +12,7 @@ Building Dot Net MVC application, Dot Net Web API (RESTFul App), Angular SPA.
 
 ## Badges
 
-
+[![Docker Compose Workflow](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/main.yml/badge.svg)](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/main.yml)
 
 [![GitHub repo file count](https://img.shields.io/github/directory-file-count/vik37/EShop_ContainerizedMicroservices_Full?color=yellow&logoColor=green&style=plastic)](https://img.shields.io/github/directory-file-count/vik37/EShop_ContainerizedMicroservices_Full?color=yellow&logoColor=green&style=plastic)
 
