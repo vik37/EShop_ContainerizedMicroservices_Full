@@ -20,7 +20,6 @@ jobs:
          
        - name: Build and Run App
          run: |
-           docker-compose docker-compose.yml docker-compose.override.yml build 
            docker-compose -d ./docker-compose.yml -d ./docker-compose.override.yml --env-file .env up
            
        - name: Shut Down App
