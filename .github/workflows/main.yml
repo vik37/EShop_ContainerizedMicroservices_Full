@@ -7,8 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    
+        
     steps:
        - name: Checkout repository
          uses: actions/checkout@v2
@@ -16,7 +15,7 @@ jobs:
        - name: Set Up Docker Compose
          run: |
            sudo apt-get install docker-compose
-           docker-compose version v2
+           docker-compose version 
          
        - name: Build and Run App
          run: |
