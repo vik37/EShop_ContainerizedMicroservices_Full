@@ -19,6 +19,6 @@ jobs:
         with:
           dotnet-versions: 6.0.x
       - name: Build
-        run: dotnet build Services/Catalog/EShop.Catalog.API/Catalog.UnitTest/Catalog.UnitTest.cproj --configuration Release --no-restore
+        run: dotnet build  --configuration Release --no-restore
       - name: Test
-        run: dotnet test Services/Catalog/EShop.Catalog.API/Catalog.UnitTest/Catalog.UnitTest.cproj --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal
