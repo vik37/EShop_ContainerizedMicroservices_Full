@@ -1,0 +1,26 @@
+name: Application Tests
+
+on: 
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - master
+      
+jobs:
+  unittest:    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        name: Setup .NET Core SDK
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-versions: 6.0.x
+      - name: Install dependencies
+        run: dotnet-restore
+      - name: Build
+        run: dotnet build ./Services/Catalog/EShop.Catalog.API/Catalog.UnitTest/Catalog.UnitTest.cproj --configuration Release --no-restore
+      - name: Test
+        run: dotnet test ./Services/Catalog/EShop.Catalog.API/Catalog.UnitTest/Catalog.UnitTest.cproj --no-restore --verbosity normal
