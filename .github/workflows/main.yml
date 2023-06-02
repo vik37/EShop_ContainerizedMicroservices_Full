@@ -1,4 +1,4 @@
-name: Docker Compose Workflow
+name: Build and Run Main App
 
 on:
   push:
