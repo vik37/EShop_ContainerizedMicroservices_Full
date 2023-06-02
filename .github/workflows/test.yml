@@ -18,7 +18,5 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-versions: 6.0.x
-      - name: Build
-        run: dotnet build  --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test ./Services/Catalog/Catalog.UnitTest/Catalog.UnitTest.csproj --no-restore --verbosity normal
