@@ -14,6 +14,8 @@ Building Dot Net MVC application, Dot Net Web API (RESTFul App), Angular SPA.
 
 [![Docker Compose Workflow](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/main.yml/badge.svg)](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/main.yml)
 
+[![Application Tests](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/test.yml/badge.svg)](https://github.com/vik37/EShop_ContainerizedMicroservices_Full/actions/workflows/test.yml)
+
 [![GitHub repo file count](https://img.shields.io/github/directory-file-count/vik37/EShop_ContainerizedMicroservices_Full?color=yellow&logoColor=green&style=plastic)](https://img.shields.io/github/directory-file-count/vik37/EShop_ContainerizedMicroservices_Full?color=yellow&logoColor=green&style=plastic)
 
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vik37/EShop_ContainerizedMicroservices_Full)](https://img.shields.io/github/commit-activity/m/vik37/EShop_ContainerizedMicroservices_Full)
