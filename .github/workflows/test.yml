@@ -18,8 +18,6 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-versions: 6.0.x
-      - name: Install dependencies
-        run: dotnet-restore
       - name: Build
         run: dotnet build ./Services/Catalog/EShop.Catalog.API/Catalog.UnitTest/Catalog.UnitTest.cproj --configuration Release --no-restore
       - name: Test
