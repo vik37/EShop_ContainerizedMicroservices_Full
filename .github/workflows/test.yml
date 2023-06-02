@@ -17,6 +17,6 @@ jobs:
         name: Setup .NET Core SDK
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-versions: 6.0.x
+          dotnet-versions: 6.0
       - name: Test
         run: dotnet test ./Services/Catalog/Catalog.UnitTest/Catalog.UnitTest.csproj --no-restore --verbosity normal
