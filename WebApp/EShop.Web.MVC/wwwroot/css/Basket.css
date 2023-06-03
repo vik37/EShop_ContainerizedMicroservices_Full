@@ -28,3 +28,52 @@ img {
 i{
     text-decoration:underline dashed 2px rgba(52, 121, 205,0.4);
 }
+.aside {
+    padding: 10px 0;
+    text-align: center;
+    border-left: 10px dotted rgba(204, 21, 21,0.6);
+    border-right: 10px dotted rgba(204, 21, 21,0.6);
+    background-color: rgb(0,0,0);
+    height: 100%;
+    color: rgb(255, 255, 255);
+    margin-left: 5px;
+    filter: opacity(85%);
+    animation: aside-border 5s ease-in-out;
+    animation-iteration-count: infinite;
+}
+h3 {
+    margin-bottom:25px;
+    text-shadow: -1px 2px rgba(176, 167, 43,0.4);
+}
+.order-bn{
+    font-size: 0.8rem;
+    font-weight: bolder;
+    padding: 4px 9px;
+}
+
+
+@keyframes aside-border {
+    0% {
+        border-left: 10px dotted rgba(204, 21, 21,0.6);
+        border-right: 10px dotted rgba(204, 21, 21,0.6);
+        filter: opacity(85%);
+    }
+
+    25% {
+        border-left: 15px dotted rgb(249, 59, 59);
+        border-right: 10px dotted rgba(204, 21, 21,0);
+        filter: opacity(85%);
+    }
+
+    50% {
+        border-left: 5px solid rgb(96, 251, 238);
+        border-right: 5px solid rgb(96, 251, 238);
+        filter: opacity(100%);
+    }
+
+    100% {
+        border-left: 10px dotted rgba(204, 21, 21,0.6);
+        border-right: 10px dotted rgba(204, 21, 21,0.6);
+        filter: opacity(85%);
+    }
+}

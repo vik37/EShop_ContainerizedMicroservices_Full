@@ -58,7 +58,7 @@
                             <p class="changed-product">
                                 <i>The price of the</i> <b>@item.ProductName</b> <i>product has changed.</i> 
                                 <b>
-                                    @(item.OldUnitPrice.ToString("N2"))$
+                                    @(item.OldUnitPrice.ToString("N2")) $
                                 <i class="fa fa-exchange" aria-hidden="true"></i>
                                     @(item.UnitPrice.ToString("N2"))$
                                 </b>
@@ -69,6 +69,12 @@
             </div>
             <div class="col-md-4">
                 <div class="aside">
+                    <h3>Total Price: @(Model.Total().ToString("N2")) $</h3>
+                    <div class="row">
+                        <div class="offset-md-4 col-md-3">
+                            <button type="button" class="btn btn-outline-warning order-bn">Order</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
