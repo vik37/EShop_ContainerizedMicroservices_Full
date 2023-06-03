@@ -4,7 +4,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     IAsyncLifetime
 {
     private MsSqlContainer _mssqlContainer;
-    private static RabbitMqContainer _rabbitMqContainer;
+    private RabbitMqContainer _rabbitMqContainer;
 
     private string _hostName = "testcatalograbbit";
     private string _username = "guest";
@@ -20,7 +20,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
             .WithPassword("TestMSQL123#")
             .Build();
         
-        _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName)
+        _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName+Guid.NewGuid().ToString())
             .WithHostname(_hostName)
             .WithImage("rabbitmq:3-management-alpine")
             .WithPortBinding(port,15672)
