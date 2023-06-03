@@ -5,7 +5,9 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
     private readonly RedisContainer _redisBuilder;
     private readonly RabbitMqContainer _rabbitMqContainer;
 
-    private string _hostName = "testbasketrabbit";
+    private string _RedisHostName = "testbasketrabbit";
+
+    private string _rabbitHostName = "testrabbit" + Guid.NewGuid().ToString();
     private string _username = "guest";
     private string _password = "guest";
     private string _queueName = "TestCatalog";
@@ -17,8 +19,8 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
             .WithImage("redis").WithName("testbasketdata"+Guid.NewGuid().ToString())
             .WithPortBinding(port,6379).Build();
 
-        _rabbitMqContainer = new RabbitMqBuilder().WithName(_hostName+Guid.NewGuid().ToString())
-             .WithHostname(_hostName)
+        _rabbitMqContainer = new RabbitMqBuilder().WithName(_rabbitHostName)
+             .WithHostname(_rabbitHostName)
              .WithImage("rabbitmq:3-management-alpine")
              .WithPortBinding(port, 15672)
              .WithUsername(_username)
@@ -42,6 +44,7 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
             services.ConfigurationEventBus(connectionUri: _rabbitMqContainer.GetConnectionString())
                 .RegisterEventBusRabbitMQ(_queueName);            
         });
+
     }
 
     public async Task DisposeAsync()
