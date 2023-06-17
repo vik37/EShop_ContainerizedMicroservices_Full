@@ -21,7 +21,7 @@ public class BasketService : BaseService, IBasketService
     {
         var http = _httpClientFactory.CreateClient("BasketAPI");
         var basketContent = new StringContent(JsonConvert.SerializeObject(basket), Encoding.UTF8, "application/json");
-        var response = await http.PostAsync(string.Empty, basketContent);
+        var response = await http.PostAsync("basket", basketContent);
 
         response.EnsureSuccessStatusCode();
         http.DefaultRequestHeaders.Clear();

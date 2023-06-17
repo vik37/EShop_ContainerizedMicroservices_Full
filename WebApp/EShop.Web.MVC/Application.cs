@@ -19,7 +19,9 @@ public sealed class Application
 
     public string BasketDockerURL(IConfiguration configuration) => configuration["BasketAPIDocker"];
 
-    public string CatalogLocalKestrelURL(IConfiguration configuration) => configuration["HttpClient:CatalogAPILocal"];
+    public string CatalogLocalKestrelURL(IConfiguration configuration) => configuration["HttpClienAPIt:CatalogAPILocal"];
 
-    public string BasketLocalKestrelURL(IConfiguration configuration) => configuration["HttpClient:BasketAPILocal"];
+    public string BasketLocalKestrelURL(IConfiguration configuration) => configuration["HttpClientAPI:BasketAPILocal"];
+
+    public string GatewayAPI(IConfiguration configuration) => configuration["GatewayAPI"];
 }

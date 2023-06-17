@@ -41,7 +41,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.UnitTest", "Buildi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.IntegrationTest", "Services\Catalog\Catalog.IntegrationTest\Catalog.IntegrationTest.csproj", "{6C78EE5F-E182-4271-9C2F-EF27FB3136DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.IntegrationTest", "Services\Basket\Basket.IntegrationTest\Basket.IntegrationTest.csproj", "{56EE98A6-7E71-474C-A44A-564C02DEA8B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.IntegrationTest", "Services\Basket\Basket.IntegrationTest\Basket.IntegrationTest.csproj", "{56EE98A6-7E71-474C-A44A-564C02DEA8B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{6A803091-DA54-400E-987C-269346AC51AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebGateway", "WebGateway", "{5EE81231-23E3-4D59-8B17-2662EEA2F4A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ocelot", "Ocelot", "{DE2D3385-1A0E-4450-9AA7-FB4B67E80D40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotAPIGw", "Gateway\WebGateway\Ocelot\OcelotAPIGw\OcelotAPIGw.csproj", "{F449D5E5-69A8-47A5-92A6-ABBA4240224C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +109,10 @@ Global
 		{56EE98A6-7E71-474C-A44A-564C02DEA8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56EE98A6-7E71-474C-A44A-564C02DEA8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56EE98A6-7E71-474C-A44A-564C02DEA8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F449D5E5-69A8-47A5-92A6-ABBA4240224C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F449D5E5-69A8-47A5-92A6-ABBA4240224C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F449D5E5-69A8-47A5-92A6-ABBA4240224C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F449D5E5-69A8-47A5-92A6-ABBA4240224C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +134,9 @@ Global
 		{0A098ECE-14CD-4051-8114-062A1D6493F9} = {9E49AFF9-6B4C-468C-A0D0-9A9036AC64DE}
 		{6C78EE5F-E182-4271-9C2F-EF27FB3136DA} = {1DA6006E-F844-4D85-AD70-B37A4AB609D5}
 		{56EE98A6-7E71-474C-A44A-564C02DEA8B5} = {D6802A6D-945D-4A40-B7D3-113566149120}
+		{5EE81231-23E3-4D59-8B17-2662EEA2F4A7} = {6A803091-DA54-400E-987C-269346AC51AA}
+		{DE2D3385-1A0E-4450-9AA7-FB4B67E80D40} = {5EE81231-23E3-4D59-8B17-2662EEA2F4A7}
+		{F449D5E5-69A8-47A5-92A6-ABBA4240224C} = {DE2D3385-1A0E-4450-9AA7-FB4B67E80D40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB720210-4DB5-465E-AC18-2081629282DC}

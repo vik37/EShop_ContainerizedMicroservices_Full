@@ -38,8 +38,9 @@ public class CatalogController : ControllerBase
                                                                 .Skip(pageSize * pageIndex)
                                                                 .Take(pageSize)
                                                                 .ToListAsync();
-        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.PictureFileName!.Split(".")[0]}/image"; return c; });
+        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
         var model = new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
+        //{ c.PictureFileName!.Split(".")[0]}
         return Ok(model);
     }
 
@@ -62,7 +63,7 @@ public class CatalogController : ControllerBase
         
         if (item != null)
         {
-            item.PictureUri = $"{_catalogUrl}{item.PictureFileName!.Split(".")[0]}/image";
+            item.PictureUri = $"{_catalogUrl}{item.Id}/image";
             return Ok(item);
         }
             
@@ -174,7 +175,7 @@ public class CatalogController : ControllerBase
     /// <param name="id"></param>
     /// <returns>Status Code 200 - OK</returns>
     [HttpDelete]
-    [Route("{id}")]
+    [Route("{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult> DeleteProductAsync(int id, CancellationToken token = default)

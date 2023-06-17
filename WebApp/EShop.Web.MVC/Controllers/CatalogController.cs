@@ -50,7 +50,7 @@ public class CatalogController : Controller
         {
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
-            ViewBag.Url = _productImageUrl.Url + $"{model.TempPictureId}/image?filename={model.FileName}";
+            ViewBag.Url = _productImageUrl.Url + $"{model.TempPictureId}/image?temporarilyFilename={model.FileName}";
             AddUpdateCatalogVM vm = new AddUpdateCatalogVM();
             vm.PictureFileName = model.FileName;            
 

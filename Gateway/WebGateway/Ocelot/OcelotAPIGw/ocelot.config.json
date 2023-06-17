@@ -1,0 +1,151 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/catalogtypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/catalogtypes",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/catalogbrands",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/catalogbrands",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items/image/{filename}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items/image/{filename}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/catalog/items/image/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.catalog.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/catalog/items/image/{everything}",
+      "UpstreamHttpMethod": [ "POST", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/basket/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/basket/{userId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/basket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/basket",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5106"
+  }
+}

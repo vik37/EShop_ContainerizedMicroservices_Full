@@ -20,7 +20,7 @@ public static class CatalogAPI
 
     public static string RemoveCatalogURIPath(int id) => $"catalog/{id}";
 
-    public static string UploadImage(int? catalogId) => $"catalog/image?catalogId={catalogId}";
+    public static string UploadImage(int? catalogId) => catalogId==null? "catalog/items/image/upload" : $"catalog/items/image/upload?catalogId={catalogId}";
 
     public static string RemoveImage(string filename) => $"catalog/items/image/{filename}";
 }

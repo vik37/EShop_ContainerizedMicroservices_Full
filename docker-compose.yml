@@ -1,14 +1,14 @@
 version: '3.4'
 
 services:
+      
   eshop.web.mvc:
     image: ${DOCKER_REGISTRY-}eshopwebmvc:${TAG:-latest}
     build:
       context: .
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
     depends_on:
-        - eshop.catalog.api
-        - eshop.basket.api
+        - ocelotapigw
 
   eshop.catalog.api:
     image: ${DOCKER_REGISTRY-}eshopcatalogapi:${TAG:-latest}
@@ -36,3 +36,13 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: Gateway/WebGateway/Ocelot/OcelotAPIGw/Dockerfile
+    depends_on:
+      - eshop.catalog.api
+      - eshop.basket.api
+
