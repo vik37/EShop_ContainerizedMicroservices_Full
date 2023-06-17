@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
+ 
   eshop.web.mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CatalogAPIDocker=http://eshop.catalog.api/api/v1.0/
-      - BasketAPIDocker=http://eshop.basket.api/api/basket/
+      - GatewayAPI=http://ocelotapigw/gw/
     ports:
       - "2020:80"
 
@@ -47,7 +47,12 @@ services:
     expose:
       - "6379"
 
+  ocelotapigw:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9010:80"
+
 volumes:
   eshop-data:
      external: false
-

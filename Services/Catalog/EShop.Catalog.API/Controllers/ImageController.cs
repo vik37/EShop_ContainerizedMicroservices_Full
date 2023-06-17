@@ -18,7 +18,7 @@ public class ImageController : Controller
     [Route("api/v{version:apiVersion}/catalog/items/{catalogItemId:int}/image")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> GetImageAsync(int catalogItemId, [FromQuery] string? filename)
+    public async Task<ActionResult> GetImageAsync(int catalogItemId, [FromQuery] string? temporarilyFilename)
     {
         try
         {
@@ -28,12 +28,12 @@ public class ImageController : Controller
             var item = await _dbCatalogContext.CatalogItems
                 .SingleOrDefaultAsync(ci => ci.Id == catalogItemId);            
 
-            if (item != null || !string.IsNullOrEmpty(filename))
+            if (item != null || !string.IsNullOrEmpty(temporarilyFilename))
             {
                 string webRoot = _webHostEnvironment.WebRootPath;
-                var path = Path.Combine(webRoot, item?.PictureFileName ?? $"{filename}");
+                var path = Path.Combine(webRoot, item?.PictureFileName ?? $"{temporarilyFilename}");
 
-                string imageFileExtension = Path.GetExtension(item?.PictureFileName ?? $"{filename}");
+                string imageFileExtension = Path.GetExtension(item?.PictureFileName ?? $"{temporarilyFilename}");
                 string mimetype = GetImageMimeTypeFromImageFileExtension(imageFileExtension);
 
                 var buffer = await System.IO.File.ReadAllBytesAsync(path);
@@ -54,7 +54,7 @@ public class ImageController : Controller
     }
 
     [HttpPost, DisableRequestSizeLimit]
-    [Route("api/v{version:apiVersion}/catalog/image")]
+    [Route("api/v{version:apiVersion}/catalog/items/image/upload")]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> UploadImage([FromForm] IFormFile file, int? catalogId)
     {

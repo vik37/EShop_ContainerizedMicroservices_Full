@@ -9,7 +9,8 @@
         "eshop.basket.api": "StartDebugging",
         "sqldata": "StartWithoutDebugging",
         "basketdata": "StartWithoutDebugging",
-        "rabbitmq": "StartWithoutDebugging"
+        "rabbitmq": "StartWithoutDebugging",
+        "ocelotapigw": "StartDebugging"
       }
     }
   }
