@@ -59,7 +59,7 @@ public class CatalogController_Test
 
         CatalogItem catalogItem = CatalogFakeDb.FakeCatalog().Single(c => c.Id == catalogId);
 
-        string catalogImageUrl = string.Concat("http://localhost:4040/api/v1.0/catalog/items/",$"{catalogItem.PictureFileName!.Split(".")[0]}/image");
+        string catalogImageUrl = string.Concat($"http://localhost:4040/api/v1.0/catalog/items/",$"{catalogId}/image");
 
         var catalogDbContext = new CatalogDbContext(_dbContextOptions);
         var integrationServicesMock = new Mock<ICatalogIntegrationEventService>();
