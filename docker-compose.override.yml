@@ -5,7 +5,7 @@ services:
   eshop.web.mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - GatewayAPI=http://ocelotapigw/gw/
+      - GatewayAPI=http://ocelotapigw/gw/v1/
     ports:
       - "2020:80"
 

@@ -1,4 +1,6 @@
-﻿namespace EShop.Basket.API;
+﻿using Microsoft.AspNetCore.Mvc.Versioning;
+
+namespace EShop.Basket.API;
 
 public static class CustomApplicationExtensionMethods
 {
@@ -13,6 +15,28 @@ public static class CustomApplicationExtensionMethods
                 Description = "The Basket Microservice HTTP API"
             });
         });
+
+    public static IServiceCollection ApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+        {
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            options.ReportApiVersions = true;
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                    new HeaderApiVersionReader("X-Version"),
+                    new MediaTypeApiVersionReader("ver")
+                );
+        });
+
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
+
+        return services;
+    }
 
     public static IServiceCollection CorsConfiguration(this IServiceCollection services) =>
        services.AddCors(options =>

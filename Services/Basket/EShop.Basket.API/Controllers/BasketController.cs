@@ -1,7 +1,8 @@
 ﻿namespace EShop.Basket.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
+[ApiVersion("1.0")]
 public class BasketController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
