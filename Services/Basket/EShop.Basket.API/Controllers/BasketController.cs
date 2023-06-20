@@ -2,6 +2,7 @@
 
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
+[ApiVersion("1.0")]
 public class BasketController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
