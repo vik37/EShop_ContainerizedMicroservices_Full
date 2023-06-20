@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items?pageSize={pageSize}&pageIndex={pageIndex}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items/{id}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,11 +21,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items/{id}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
+      "DownstreamPathTemplate": "/api/v1/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -33,11 +33,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items/type/{TypeFilterIndex}/brand/{BrandFilterIndex}?pageSize={pageSize}&pageIndex={pageIndex}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -45,11 +45,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items/{id}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -57,11 +57,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items/{id}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items/{id}",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/catalogtypes",
+      "DownstreamPathTemplate": "/api/{version}/catalog/catalogtypes",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -69,11 +69,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/catalogtypes",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/catalogtypes",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/catalogbrands",
+      "DownstreamPathTemplate": "/api/{version}/catalog/catalogbrands",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -81,11 +81,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/catalogbrands",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/catalogbrands",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/{id}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -93,11 +93,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/{id}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/{id}",
       "UpstreamHttpMethod": [ "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items/image/{filename}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items/image/{filename}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -105,11 +105,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items/image/{filename}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items/image/{filename}",
       "UpstreamHttpMethod": [ "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1.0/catalog/items/image/{everything}",
+      "DownstreamPathTemplate": "/api/{version}/catalog/items/image/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -117,11 +117,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/catalog/items/image/{everything}",
+      "UpstreamPathTemplate": "/gw/{version}/catalog/items/image/{everything}",
       "UpstreamHttpMethod": [ "POST", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/basket/{userId}",
+      "DownstreamPathTemplate": "/api/{version}/basket/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -129,11 +129,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/basket/{userId}",
+      "UpstreamPathTemplate": "/gw/{version}/basket/{userId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/basket",
+      "DownstreamPathTemplate": "/api/{version}/basket",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -141,11 +141,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/basket",
+      "UpstreamPathTemplate": "/gw/{version}/basket",
       "UpstreamHttpMethod": [ "POST" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5106"
+    "BaseUrl": "http://host.docker.internal:9010"
   }
 }

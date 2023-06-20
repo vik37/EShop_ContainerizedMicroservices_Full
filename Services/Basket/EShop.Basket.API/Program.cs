@@ -25,6 +25,7 @@ services.AddControllers()
 services.AddEndpointsApiExplorer();
 services.SwaggerConfigurations()
         .CorsConfiguration()
+        .ApiVersioning()
         .RedisConnectionMultyplexer(configuration["RedisConnectionString"])
         .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration))
         .ConfigurationEventBus(configuration,retryConnection: application.RabbitMQRetry(configuration));
