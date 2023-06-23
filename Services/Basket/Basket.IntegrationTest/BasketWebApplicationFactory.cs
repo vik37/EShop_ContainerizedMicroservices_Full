@@ -5,26 +5,30 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
     private readonly RedisContainer _redisBuilder;
     private readonly RabbitMqContainer _rabbitMqContainer;
 
-    private string _RedisHostName = "testbasketrabbit";
+    private string _redisHostName = "testbasketrredis" + Guid.NewGuid().ToString();
 
     private string _rabbitHostName = "testrabbit" + Guid.NewGuid().ToString();
     private string _username = "guest";
     private string _password = "guest";
     private string _queueName = "TestCatalog";
+
     private int port;
 
     public BasketWebApplicationFactory()
     {
+        port = Random.Shared.Next(100,1000);
+
         _redisBuilder = new RedisBuilder()
-            .WithImage("redis").WithName("testbasketdata"+Guid.NewGuid().ToString())
-            .WithPortBinding(port,6379).Build();
+            .WithImage("redis").WithName(_redisHostName)
+            .WithPortBinding(port+1,6379)
+            .Build();
 
         _rabbitMqContainer = new RabbitMqBuilder().WithName(_rabbitHostName)
              .WithHostname(_rabbitHostName)
              .WithImage("rabbitmq:3-management-alpine")
-             .WithPortBinding(port, 15672)
              .WithUsername(_username)
              .WithPassword(_password)
+             .WithPortBinding(port,15672)
              .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5672))
              .Build();
     }
@@ -49,6 +53,7 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
 
     public async Task DisposeAsync()
     {
-        await Task.WhenAll(_rabbitMqContainer.StopAsync(), _redisBuilder.StopAsync());
+        await _rabbitMqContainer.StopAsync();
+        await _redisBuilder.StopAsync();
     }
 }
