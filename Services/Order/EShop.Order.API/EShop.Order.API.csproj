@@ -30,4 +30,9 @@
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EShop.Order.Domain\EShop.Order.Domain.csproj" />
+    <ProjectReference Include="..\EShop.Order.Infrastructure\EShop.Order.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

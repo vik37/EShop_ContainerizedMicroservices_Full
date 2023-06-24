@@ -1,8 +1,4 @@
-﻿using EShop.Order.API.Application.Queries;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-
-namespace EShop.Order.API.Controllers;
+﻿namespace EShop.Order.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
