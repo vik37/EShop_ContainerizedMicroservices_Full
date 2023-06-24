@@ -1,7 +1,4 @@
-﻿using Dapper;
-using System.Data.SqlClient;
-
-namespace EShop.Order.API.Application.Queries;
+﻿namespace EShop.Order.API.Application.Queries;
 
 public class OrderQuery : IOrderQuery
 {
