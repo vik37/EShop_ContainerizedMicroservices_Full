@@ -1,0 +1,9 @@
+﻿global using System.Net;
+global using System.Data.SqlClient;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.OpenApi.Models;
+global using EShop.Orders.API;
+global using EShop.Orders.API.Application.Models;
+global using EShop.Orders.API.Application.Queries;
+global using Serilog;
+global using Dapper;
