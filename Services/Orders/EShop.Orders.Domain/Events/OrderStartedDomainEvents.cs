@@ -1,6 +1,6 @@
 ﻿namespace EShop.Orders.Domain.Events;
 
-public class OrderStartedDomainEvents
+public class OrderStartedDomainEvents : INotification
 {
     public string UserId { get; }
     public string UserName { get; }
