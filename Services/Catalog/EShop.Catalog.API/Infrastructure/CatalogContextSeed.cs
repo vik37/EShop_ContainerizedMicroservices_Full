@@ -31,7 +31,7 @@ public class CatalogContextSeed
         });       
     }
 
-    static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands
+    private IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands
         => new List<CatalogBrand>()
         {
                  new CatalogBrand() { Brand = "Azure"},
@@ -40,7 +40,7 @@ public class CatalogContextSeed
                  new CatalogBrand() { Brand = "SQL Server" },
                  new CatalogBrand() { Brand = "Other" }
         };
-    static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes
+    private IEnumerable<CatalogType> GetPreconfiguredCatalogTypes
         => new List<CatalogType>()
         {
                  new CatalogType() { Type = "Mug"},
@@ -67,7 +67,7 @@ public class CatalogContextSeed
         };
 
 
-    private static RetryPolicy CreatePolicy(ILogger<CatalogDbContext> logger, int retries = 3)
+    private RetryPolicy CreatePolicy(ILogger<CatalogDbContext> logger, int retries = 3)
         => Policy.Handle<SqlException>()
             .WaitAndRetry(
                 retryCount: retries,

@@ -2,5 +2,5 @@
 
 public interface IOrderQuery
 {
-    Task<IEnumerable<OrderSummary>> getOrdersAsync();
+    Task<IEnumerable<OrderSummary>> GetOrdersAsync();
 }

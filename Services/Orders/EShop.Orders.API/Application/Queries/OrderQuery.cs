@@ -9,7 +9,7 @@ public class OrderQuery : IOrderQuery
          _connectionString = connectionString;
     }
 
-    public async Task<IEnumerable<OrderSummary>> getOrdersAsync()
+    public async Task<IEnumerable<OrderSummary>> GetOrdersAsync()
     {
         using(var connection = new SqlConnection(_connectionString))
         {
