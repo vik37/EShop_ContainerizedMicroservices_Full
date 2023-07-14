@@ -10,7 +10,7 @@ public class PaymentMethod : Entity
 
     private int _cardTypeId;
 
-    public int CardTypeId { get; private set; }
+    public CardType? CardType { get; private set; }
 
     protected PaymentMethod() { }
 

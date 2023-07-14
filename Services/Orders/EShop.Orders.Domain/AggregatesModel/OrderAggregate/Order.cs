@@ -32,7 +32,7 @@ public class Order : Entity, IAggregateRoot
 
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
-    public Order(string userId, Address address, int cardTypeId, string cardNumber, string cardSecurityNumber,
+    public Order(string userId, string userName, Address address, int cardTypeId, string cardNumber, string cardSecurityNumber,
         string cardHolderName, DateTime cardExpirationDate, int? buyerId = null, int? paymentMethodId = null)
     {
         _orderItems = new List<OrderItem>();
@@ -41,6 +41,8 @@ public class Order : Entity, IAggregateRoot
         _orderStatusId = OrderStatus.Submitted.Id;
         _orderDate = DateTime.UtcNow;
         Address = address;
+
+        AddOrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpirationDate);
     }
 
     public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
@@ -59,4 +61,11 @@ public class Order : Entity, IAggregateRoot
         _buyerId = buyerId;
     }
 
+    private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber,
+                                                string cardHolderName, DateTime cardExpiration)
+    {
+        var orderStartedDomainEvent = new OrderStartedDomainEvents(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
+
+        this.AddDomainEvent(orderStartedDomainEvent);
+    }
 }

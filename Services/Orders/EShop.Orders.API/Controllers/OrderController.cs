@@ -15,7 +15,7 @@ public class OrderController : ControllerBase
     [ProducesResponseType(typeof(OrderSummary),(int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetOrders()
     {
-        var orders = await _orderQuery.getOrdersAsync();
+        var orders = await _orderQuery.GetOrdersAsync();
         return Ok(orders);
     }
 }

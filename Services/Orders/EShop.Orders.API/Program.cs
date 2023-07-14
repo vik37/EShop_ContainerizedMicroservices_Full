@@ -1,3 +1,5 @@
+using EShop.Orders.API;
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -16,7 +18,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.SwaggerConfigurations();
+builder.Services.AddMediatR( cfg =>
+{
+    cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+    
+});
+
+builder.Services.SwaggerConfigurations()
+                .DatabaseConfiguration(configuration["OrderingDbConnection"]??"");
 
 builder.Services.AddTransient<IOrderQuery, OrderQuery>(o =>
 {
@@ -40,5 +49,7 @@ app.UseSerilogRequestLogging();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MigrateDbContext();
 
 app.Run();
