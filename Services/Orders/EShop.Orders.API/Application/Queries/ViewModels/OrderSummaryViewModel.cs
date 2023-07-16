@@ -1,6 +1,6 @@
-﻿namespace EShop.Orders.API.Application.Models;
+﻿namespace EShop.Orders.API.Application.Queries.ViewModels;
 
-public class OrderSummary
+public class OrderSummaryViewModel
 {
     public int OrderNumber { get; set; }
     public DateTime Date { get; set; }

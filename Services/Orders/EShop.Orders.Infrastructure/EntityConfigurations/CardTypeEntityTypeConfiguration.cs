@@ -4,7 +4,7 @@ public class CardTypeEntityTypeConfiguration : IEntityTypeConfiguration<CardType
 {
     public void Configure(EntityTypeBuilder<CardType> builder)
     {
-        builder.ToTable("cardtypes", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("CardTypes", OrderContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 

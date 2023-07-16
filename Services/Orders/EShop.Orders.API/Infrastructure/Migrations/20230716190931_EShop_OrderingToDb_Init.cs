@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EShop.Orders.API.Infrastructure.Migrations
 {
-    public partial class EShopOrderToDb_Init : Migration
+    public partial class EShop_OrderingToDb_Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 incrementBy: 10);
 
             migrationBuilder.CreateTable(
-                name: "buyers",
+                name: "Buyers",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -42,11 +42,11 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_buyers", x => x.Id);
+                    table.PrimaryKey("PK_Buyers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "cardtypes",
+                name: "CardTypes",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -55,11 +55,11 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_cardtypes", x => x.Id);
+                    table.PrimaryKey("PK_CardTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "orderstatus",
+                name: "OrderStatus",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -68,11 +68,11 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orderstatus", x => x.Id);
+                    table.PrimaryKey("PK_OrderStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "paymentmethods",
+                name: "PaymentMethods",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -86,25 +86,25 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_paymentmethods", x => x.Id);
+                    table.PrimaryKey("PK_PaymentMethods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_paymentmethods_buyers_BuyerId",
+                        name: "FK_PaymentMethods_Buyers_BuyerId",
                         column: x => x.BuyerId,
                         principalSchema: "ordering",
-                        principalTable: "buyers",
+                        principalTable: "Buyers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_paymentmethods_cardtypes_CardTypeId",
+                        name: "FK_PaymentMethods_CardTypes_CardTypeId",
                         column: x => x.CardTypeId,
                         principalSchema: "ordering",
-                        principalTable: "cardtypes",
+                        principalTable: "CardTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "orders",
+                name: "Orders",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -122,31 +122,31 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orders", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_orders_buyers_BuyerId",
+                        name: "FK_Orders_Buyers_BuyerId",
                         column: x => x.BuyerId,
                         principalSchema: "ordering",
-                        principalTable: "buyers",
+                        principalTable: "Buyers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_orders_orderstatus_OrderStatusId",
+                        name: "FK_Orders_OrderStatus_OrderStatusId",
                         column: x => x.OrderStatusId,
                         principalSchema: "ordering",
-                        principalTable: "orderstatus",
+                        principalTable: "OrderStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_orders_paymentmethods_PaymentMethodId",
+                        name: "FK_Orders_PaymentMethods_PaymentMethodId",
                         column: x => x.PaymentMethodId,
                         principalSchema: "ordering",
-                        principalTable: "paymentmethods",
+                        principalTable: "PaymentMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "orderItems",
+                name: "OrderItems",
                 schema: "ordering",
                 columns: table => new
                 {
@@ -161,84 +161,84 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orderItems", x => x.Id);
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_orderItems_orders_OrderId",
+                        name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalSchema: "ordering",
-                        principalTable: "orders",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_buyers_IdentityGuid",
+                name: "IX_Buyers_IdentityGuid",
                 schema: "ordering",
-                table: "buyers",
+                table: "Buyers",
                 column: "IdentityGuid",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_orderItems_OrderId",
+                name: "IX_OrderItems_OrderId",
                 schema: "ordering",
-                table: "orderItems",
+                table: "OrderItems",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_orders_BuyerId",
+                name: "IX_Orders_BuyerId",
                 schema: "ordering",
-                table: "orders",
+                table: "Orders",
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_orders_OrderStatusId",
+                name: "IX_Orders_OrderStatusId",
                 schema: "ordering",
-                table: "orders",
+                table: "Orders",
                 column: "OrderStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_orders_PaymentMethodId",
+                name: "IX_Orders_PaymentMethodId",
                 schema: "ordering",
-                table: "orders",
+                table: "Orders",
                 column: "PaymentMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_paymentmethods_BuyerId",
+                name: "IX_PaymentMethods_BuyerId",
                 schema: "ordering",
-                table: "paymentmethods",
+                table: "PaymentMethods",
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_paymentmethods_CardTypeId",
+                name: "IX_PaymentMethods_CardTypeId",
                 schema: "ordering",
-                table: "paymentmethods",
+                table: "PaymentMethods",
                 column: "CardTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "orderItems",
+                name: "OrderItems",
                 schema: "ordering");
 
             migrationBuilder.DropTable(
-                name: "orders",
+                name: "Orders",
                 schema: "ordering");
 
             migrationBuilder.DropTable(
-                name: "orderstatus",
+                name: "OrderStatus",
                 schema: "ordering");
 
             migrationBuilder.DropTable(
-                name: "paymentmethods",
+                name: "PaymentMethods",
                 schema: "ordering");
 
             migrationBuilder.DropTable(
-                name: "buyers",
+                name: "Buyers",
                 schema: "ordering");
 
             migrationBuilder.DropTable(
-                name: "cardtypes",
+                name: "CardTypes",
                 schema: "ordering");
 
             migrationBuilder.DropSequence(

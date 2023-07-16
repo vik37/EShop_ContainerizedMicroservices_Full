@@ -4,7 +4,7 @@ public class OrderStatusEntityType : IEntityTypeConfiguration<OrderStatus>
 {
     public void Configure(EntityTypeBuilder<OrderStatus> builder)
     {
-        builder.ToTable("orderstatus", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("OrderStatus", OrderContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 

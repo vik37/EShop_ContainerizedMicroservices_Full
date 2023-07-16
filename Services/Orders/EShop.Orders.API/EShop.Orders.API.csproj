@@ -33,6 +33,8 @@
 
   <ItemGroup>
     <Folder Include="Application\Commands\" />
+    <Folder Include="Application\Models\" />
+    <Folder Include="logs\" />
   </ItemGroup>
 
   <ItemGroup>

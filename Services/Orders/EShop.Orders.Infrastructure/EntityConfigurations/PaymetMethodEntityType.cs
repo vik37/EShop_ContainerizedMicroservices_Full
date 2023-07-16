@@ -4,7 +4,7 @@ public class PaymetMethodEntityType : IEntityTypeConfiguration<PaymentMethod>
 {
     public void Configure(EntityTypeBuilder<PaymentMethod> builder)
     {
-        builder.ToTable("paymentmethods", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("PaymentMethods", OrderContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 

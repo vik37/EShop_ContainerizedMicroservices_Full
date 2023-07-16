@@ -55,7 +55,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
                     b.HasIndex("IdentityGuid")
                         .IsUnique();
 
-                    b.ToTable("buyers", "ordering");
+                    b.ToTable("Buyers", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.BuyerAggregate.CardType", b =>
@@ -71,7 +71,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("cardtypes", "ordering");
+                    b.ToTable("CardTypes", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.BuyerAggregate.PaymentMethod", b =>
@@ -118,7 +118,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                     b.HasIndex("_cardTypeId");
 
-                    b.ToTable("paymentmethods", "ordering");
+                    b.ToTable("PaymentMethods", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.OrderAggregate.Order", b =>
@@ -156,7 +156,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                     b.HasIndex("_paymentMethodId");
 
-                    b.ToTable("orders", "ordering");
+                    b.ToTable("Orders", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.OrderAggregate.OrderItem", b =>
@@ -200,7 +200,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("orderItems", "ordering");
+                    b.ToTable("OrderItems", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.OrderAggregate.OrderStatus", b =>
@@ -216,7 +216,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("orderstatus", "ordering");
+                    b.ToTable("OrderStatus", "ordering");
                 });
 
             modelBuilder.Entity("EShop.Orders.Domain.AggregatesModel.BuyerAggregate.PaymentMethod", b =>
@@ -283,7 +283,7 @@ namespace EShop.Orders.API.Infrastructure.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("orders", "ordering");
+                            b1.ToTable("Orders", "ordering");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
