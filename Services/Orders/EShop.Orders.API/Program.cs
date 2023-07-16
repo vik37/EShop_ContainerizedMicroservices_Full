@@ -1,4 +1,3 @@
-using EShop.Orders.API;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -27,10 +26,9 @@ builder.Services.AddMediatR( cfg =>
 builder.Services.SwaggerConfigurations()
                 .DatabaseConfiguration(configuration["OrderingDbConnection"]??"");
 
-builder.Services.AddTransient<IOrderQuery, OrderQuery>(o =>
-{
-    return new OrderQuery(configuration["OrderingDbConnection"]??"");
-});
+builder.Services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration["OrderingDbConnection"]??""));
+builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 

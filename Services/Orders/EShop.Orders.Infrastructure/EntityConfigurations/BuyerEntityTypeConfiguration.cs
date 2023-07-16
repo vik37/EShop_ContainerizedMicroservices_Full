@@ -4,7 +4,7 @@ public class BuyerEntityTypeConfiguration : IEntityTypeConfiguration<Buyer>
 {
     public void Configure(EntityTypeBuilder<Buyer> builder)
     {
-        builder.ToTable("buyers", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("Buyers", OrderContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 
