@@ -24,6 +24,11 @@ public abstract class Entity
         if(_domainEvents is null) return;
         _domainEvents.Remove(eventItem);
     }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents!.Clear();
+    }
     public bool IsTransient() => this.Id == default(Int32);
 
     public override bool Equals(object? obj)

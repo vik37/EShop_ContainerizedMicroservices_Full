@@ -2,8 +2,8 @@
 
 public class OrderItemViewModel
 {
-    public string ProductName { get; set; } = string.Empty;
-    public int Units { get; set; }
-    public double UnitPrice { get; set; }
-    public string? PictureUrl { get; set; }
+    public string ProductName { get; init; } = string.Empty;
+    public int Units { get; init; }
+    public double UnitPrice { get; init; }
+    public string? PictureUrl { get; init; }
 }

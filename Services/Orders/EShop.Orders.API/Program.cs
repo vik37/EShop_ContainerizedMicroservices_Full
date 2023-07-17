@@ -1,4 +1,6 @@
 
+using EShop.Orders.API.Application.Behaviors;
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -20,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR( cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
-    
+    cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 builder.Services.SwaggerConfigurations()

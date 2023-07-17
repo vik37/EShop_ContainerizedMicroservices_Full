@@ -20,7 +20,7 @@ public class OrderController : ControllerBase
 
     [Route("{orderId:int}")]
     [HttpGet]
-    [ProducesResponseType(typeof(Order),(int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(OrderViewModel),(int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<OrderViewModel>> GetOrderByIdAsync(int orderId)
     {
