@@ -2,8 +2,8 @@
 
 public class OrderSummaryViewModel
 {
-    public int OrderNumber { get; set; }
-    public DateTime Date { get; set; }
-    public string Status { get; set; } = string.Empty;
-    public double Total { get; set; }
+    public int OrderNumber { get; init; }
+    public DateTime Date { get; init; }
+    public string Status { get; init; } = string.Empty;
+    public double Total { get; init; }
 }
