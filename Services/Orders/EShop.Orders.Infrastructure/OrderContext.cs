@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
-
-namespace EShop.Orders.Infrastructure;
+﻿namespace EShop.Orders.Infrastructure;
 
 public class OrderContext : DbContext, IUnitOfWork
 {
