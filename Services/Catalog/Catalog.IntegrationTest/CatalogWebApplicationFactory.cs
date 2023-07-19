@@ -60,7 +60,6 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     public async Task DisposeAsync()
     {
         await _mssqlContainer.StopAsync();
-        await _rabbitMqContainer.StopAsync();
-        
+        await _rabbitMqContainer.StopAsync();        
     }
 }
