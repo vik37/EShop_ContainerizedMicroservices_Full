@@ -1,6 +1,4 @@
 
-using EShop.Orders.API.Application.Behaviors;
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -23,10 +21,13 @@ builder.Services.AddMediatR( cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
     cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+    cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
+    cfg.AddOpenBehavior(typeof(ValidateBehavior<,>));
 });
 
 builder.Services.SwaggerConfigurations()
-                .DatabaseConfiguration(configuration["OrderingDbConnection"]??"");
+                .DatabaseConfiguration(configuration["OrderingDbConnection"]??"")
+                .ConfigureIntegrationeventServices();
 
 builder.Services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration["OrderingDbConnection"]??""));
 builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
