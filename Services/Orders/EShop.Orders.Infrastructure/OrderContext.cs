@@ -51,7 +51,7 @@ public class OrderContext : DbContext, IUnitOfWork
         return _currentTransaction;
     }
 
-    public async Task CommitTransaction(IDbContextTransaction transaction)
+    public async Task CommitTransactionAsync(IDbContextTransaction transaction)
     {
         if(transaction is null) throw new ArgumentNullException(nameof(transaction));
 

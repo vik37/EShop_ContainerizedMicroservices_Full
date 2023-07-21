@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.19" />
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBloks\Events\IntegrationEventLogEntityFramework\IntegrationEventLogEntityFramework.csproj" />
     <ProjectReference Include="..\EShop.Orders.Domain\EShop.Orders.Domain.csproj" />
     <ProjectReference Include="..\EShop.Orders.Infrastructure\EShop.Orders.Infrastructure.csproj" />
   </ItemGroup>

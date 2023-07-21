@@ -17,25 +17,41 @@ public static class CustomExtensionMethods
 
     public static IServiceCollection DatabaseConfiguration(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<OrderContext>(options =>
+
+        static void ConfigureSqlOptions(SqlServerDbContextOptionsBuilder sqlOptions)
         {
-            if (!string.IsNullOrEmpty(connectionString))
+            sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
+
+            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15,maxRetryDelay: TimeSpan.FromSeconds(30),errorNumbersToAdd:null);
+        }
+        
+        if(!string.IsNullOrEmpty(connectionString)) 
+        {
+            services.AddDbContext<OrderContext>(options =>
             {
-                options.UseSqlServer(connectionString,
-                        sqlServerOptionsAction: sqlOption =>
-                        {
-                            sqlOption.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-                            sqlOption.EnableRetryOnFailure(maxRetryCount: 15,
-                                                    maxRetryDelay: TimeSpan.FromSeconds(30),
-                                                    errorNumbersToAdd: null);
-                        }
-                    );
-            }
-        });
+                options.UseSqlServer(connectionString, ConfigureSqlOptions);
+            });
+
+            services.AddDbContext<IntegrationEventLogDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString, ConfigureSqlOptions);
+            });
+        }
 
         return services;
     }
 
+    public static IServiceCollection ConfigureIntegrationeventServices(this IServiceCollection services)
+    {
+
+        services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
+             (DbConnection dc) => new IntegrationEventLogService(dc));
+
+        services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
+
+
+        return services;
+    }
     //************** APPLICATION BUILDER ******************\\
 
     public static WebApplication MigrateDbContext(this WebApplication app)
