@@ -2,16 +2,16 @@
 
 public class Address : ValueObject
 {
-    public String Street { get; private set; } = string.Empty;
-    public String City { get; private set; } = string.Empty;
-    public String State { get; private set; } = string.Empty;
-    public String Country { get; private set; } = string.Empty; 
-    public String ZipCode { get; private set; } = string.Empty;
+    public String? Street { get; private set; }
+    public String? City { get; private set; }
+    public String? State { get; private set; }
+    public String? Country { get; private set; }
+    public String? ZipCode { get; private set; }
 
     public Address() { }
 
 
-    public Address(string street, string city, string state, string country, string zipCode) 
+    public Address(string? street, string? city, string? state, string? country, string? zipCode) 
     {
         Street = street;
         City = city;

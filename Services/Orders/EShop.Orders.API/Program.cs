@@ -32,6 +32,7 @@ builder.Services.SwaggerConfigurations()
 builder.Services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration["OrderingDbConnection"]??""));
 builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IRequestManager, RequestManager>();
 
 var app = builder.Build();
 
