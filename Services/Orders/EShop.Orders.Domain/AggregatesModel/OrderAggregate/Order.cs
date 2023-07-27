@@ -1,11 +1,15 @@
-﻿namespace EShop.Orders.Domain.AggregatesModel.OrderAggregate;
+﻿using EShop.Orders.Domain.Events;
+
+namespace EShop.Orders.Domain.AggregatesModel.OrderAggregate;
 
 public class Order : Entity, IAggregateRoot
 {
     private DateTime _orderDate;
 
     public Address? Address { get; private set; }
+
     private int? _buyerId;
+    public int? GetBuyerId => _buyerId;
 
     public OrderStatus? OrderStatus { get; private set; }
     private int _orderStatusId;
@@ -14,7 +18,7 @@ public class Order : Entity, IAggregateRoot
 
     private int? _paymentMethodId;
 
-    private bool _isDraft;
+    private bool _isDraft = false;
 
     public static Order NewDraft()
     {
@@ -59,6 +63,77 @@ public class Order : Entity, IAggregateRoot
     public void SetBuyerId(int buyerId)
     {
         _buyerId = buyerId;
+    }
+
+    public void SetAwaitingValidationStatus()
+    {
+        if(_orderStatusId == OrderStatus.Submitted.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id,_orderItems));
+            _orderStatusId = OrderStatus.AwaitingValidation.Id;
+        }
+    }
+
+    public void SetStockConfirmedStatus()
+    {
+        if(_orderStatusId == OrderStatus.StockConfirmed.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(Id));
+            _orderStatusId= OrderStatus.StockConfirmed.Id;
+            _description = "All the items were confirmed ith available stock.";
+        }
+    }
+
+    public void SetPaiedStatus()
+    {
+        if(_orderStatusId == OrderStatus.Paid.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id, OrderItems));
+            _orderStatusId = OrderStatus.Paid.Id;
+        }
+    }
+
+    public void SetShippedStatus()
+    {
+        if (_orderStatusId == OrderStatus.Paid.Id)
+            StatusChangedException(OrderStatus.Shipped);
+
+        _orderStatusId = OrderStatus.Shipped.Id;
+        _description = "The order was shipped";
+
+        AddDomainEvent(new OrderShippedDomainEvent(this));
+    }
+
+    public void SetCancelledStatus()
+    {
+        if(_orderStatusId == OrderStatus.Paid.Id ||_orderStatusId == OrderStatus.Shipped.Id)
+        {
+            StatusChangedException(OrderStatus.Cancelled);
+        }
+
+        _orderStatusId = OrderStatus.Cancelled.Id;
+        _description = "The Order was Cancelled";
+        AddDomainEvent(new OrderCancelledDomainEvent(this));
+    }
+
+    public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
+    {
+        if(_orderStatusId == OrderStatus.AwaitingValidation.Id)
+        {
+            _orderStatusId = OrderStatus.Cancelled.Id;
+
+            var itemStockRejectedProductNames = OrderItems.
+                                                    Where(x => orderStockRejectedItems.Contains(x.ProductId))
+                                                    .Select(x => x.GetOrderItemProductName());
+
+            var itemsStockRejectedDescription = string.Join(", ", itemStockRejectedProductNames);
+            _description = $"Product items don't have stock: ({itemStockRejectedProductNames}).";
+        }
+    }
+
+    private void StatusChangedException(OrderStatus orderStatusToChange)
+    {
+        throw new OrderDomainException($"It is not possible to change the order status from {OrderStatus!.Name} to {orderStatusToChange.Name}");
     }
 
     private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber,
