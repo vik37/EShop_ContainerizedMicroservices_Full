@@ -1,12 +1,9 @@
-﻿using EShop.Orders.API.Application.Models;
-using static EShop.Orders.API.Application.Commands.CreateOrderCommand;
-
-namespace EShop.Orders.API.Extensions;
+﻿namespace EShop.Orders.API.Extensions;
 
 public static class BasketItemExtension
 {
 
-    public static IEnumerable<OrderItemDto> ToOrderItemsDto(this IEnumerable<BasketItems> items)
+    public static IEnumerable<OrderItemDto> ToOrderItemsDto(this IEnumerable<BasketItem> items)
     {
         foreach (var item in items)
         {
@@ -14,7 +11,7 @@ public static class BasketItemExtension
         }
     }
 
-    public static OrderItemDto ToOrderItemDto(this BasketItems basketItems)
+    public static OrderItemDto ToOrderItemDto(this BasketItem basketItems)
         => new OrderItemDto
         {
             ProductId = basketItems.ProductId,

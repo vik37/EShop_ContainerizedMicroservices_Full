@@ -29,3 +29,13 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
+
+public class CancleOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CancelOrderCommand, bool>
+{
+    public CancleOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<CancelOrderCommand,bool>> logger) : base(mediator,requestManager,logger)
+    { }
+
+    protected override bool CreateResultForDuplicateRequest()
+        => true;
+}

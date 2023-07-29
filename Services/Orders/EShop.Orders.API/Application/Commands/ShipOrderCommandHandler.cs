@@ -27,3 +27,13 @@ public class ShipOrderCommandHandler : IRequestHandler<ShipOrderCommand, bool>
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
+
+public class ShipOrderIdentifiedCommandHandler : IdentifiedCommandHandler<ShipOrderCommand, bool>
+{
+    public ShipOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<ShipOrderCommand,bool>> logger)
+        : base(mediator, requestManager, logger) { }
+
+    protected override bool CreateResultForDuplicateRequest()
+        => true;
+}

@@ -29,7 +29,7 @@ public class OrderItem : Entity
 
     public string GetPictureUrl => _pictureUrl;
 
-    public decimal GetUnits() => _unitPrice;
+    public int GetUnits() => _units;
 
     public decimal GetUnitPrice() => _unitPrice;
 

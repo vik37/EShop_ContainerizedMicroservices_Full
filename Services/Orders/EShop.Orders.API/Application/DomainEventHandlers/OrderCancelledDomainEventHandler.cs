@@ -5,15 +5,15 @@ public class OrderCancelledDomainEventHandler : INotificationHandler<OrderCancel
     private readonly IOrderRepository _orderRepository;
     private readonly IBuyerRepository _buyerRepository;
     private readonly ILogger<OrderCancelledDomainEventHandler> _logger;
-    private readonly IOrderIntegrationEventService _integrationEventService;
+    //private readonly IOrderIntegrationEventService _integrationEventService;
 
     public OrderCancelledDomainEventHandler(IOrderRepository orderRepository, IBuyerRepository buyerRepository, 
-        ILogger<OrderCancelledDomainEventHandler> logger, IOrderIntegrationEventService integrationEventService)
+        ILogger<OrderCancelledDomainEventHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _buyerRepository = buyerRepository ?? throw new ArgumentNullException(nameof(buyerRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _integrationEventService = integrationEventService;
+        //_integrationEventService = integrationEventService;
     }
 
     public async Task Handle(OrderCancelledDomainEvent notification, CancellationToken cancellationToken)

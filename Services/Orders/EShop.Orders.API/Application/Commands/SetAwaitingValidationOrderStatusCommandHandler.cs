@@ -25,3 +25,13 @@ public class SetAwaitingValidationOrderStatusCommandHandler : IRequestHandler<Se
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
+
+public class SetAwaitingValidationOrderSatusIdentifiedCommandHandler : IdentifiedCommandHandler<SetAwaitingValidationOrderStatusCommand, bool>
+{
+    public SetAwaitingValidationOrderSatusIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<SetAwaitingValidationOrderStatusCommand,bool>> logger) : base(mediator,requestManager,logger)
+    { }
+
+    protected override bool CreateResultForDuplicateRequest()
+        => true;
+}

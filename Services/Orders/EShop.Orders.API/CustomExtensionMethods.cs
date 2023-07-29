@@ -32,10 +32,10 @@ public static class CustomExtensionMethods
                 options.UseSqlServer(connectionString, ConfigureSqlOptions);
             });
 
-            services.AddDbContext<IntegrationEventLogDbContext>(options =>
-            {
-                options.UseSqlServer(connectionString, ConfigureSqlOptions);
-            });
+            //services.AddDbContext<IntegrationEventLogDbContext>(options =>
+            //{
+            //    options.UseSqlServer(connectionString, ConfigureSqlOptions);
+            //});
         }
 
         return services;

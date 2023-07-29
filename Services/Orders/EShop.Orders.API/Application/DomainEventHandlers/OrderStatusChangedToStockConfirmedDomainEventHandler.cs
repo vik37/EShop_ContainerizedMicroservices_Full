@@ -4,12 +4,12 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler :
     INotificationHandler<OrderStatusChangedToStockConfirmedDomainEvent>
 {
 
-    private readonly OrderRepository _orderRepository;
-    private readonly BuyerRepository _buyerRepository;
+    private readonly IOrderRepository _orderRepository;
+    private readonly IBuyerRepository _buyerRepository;
     private readonly ILogger<OrderStatusChangedToStockConfirmedDomainEventHandler> _logger;
 
-    public OrderStatusChangedToStockConfirmedDomainEventHandler(OrderRepository orderRepository, 
-        BuyerRepository buyerRepository, ILogger<OrderStatusChangedToStockConfirmedDomainEventHandler> logger)
+    public OrderStatusChangedToStockConfirmedDomainEventHandler(IOrderRepository orderRepository, 
+        IBuyerRepository buyerRepository, ILogger<OrderStatusChangedToStockConfirmedDomainEventHandler> logger)
     {
         _orderRepository = orderRepository;
         _buyerRepository = buyerRepository;

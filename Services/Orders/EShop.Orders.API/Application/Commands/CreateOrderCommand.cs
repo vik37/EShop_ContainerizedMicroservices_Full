@@ -1,5 +1,10 @@
 ﻿namespace EShop.Orders.API.Application.Commands;
 
+/// <summary>
+///     DDD and CQRS patterns comment: Note that it is recommended to implement immutable Commands
+///     In this case, its immutability is achieved by having all the setters as private
+///     plus only being able to update the data just once, when creating the object through its constructor.
+/// </summary>
 [DataContract]
 public class CreateOrderCommand : IRequest<bool>
 {
@@ -48,7 +53,7 @@ public class CreateOrderCommand : IRequest<bool>
     public CreateOrderCommand()
       =>   _orderItems = new List<OrderItemDto>();
 
-    public CreateOrderCommand(List<BasketItems> basketItems, string userId, string userName, string city, string state,
+    public CreateOrderCommand(List<BasketItem> basketItems, string userId, string userName, string city, string state,
                                 string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration,
                                 string cardSecurityNumber, int cardTypeId) : this()
     {
@@ -64,15 +69,5 @@ public class CreateOrderCommand : IRequest<bool>
         CardExpiration = cardExpiration;
         CardSecurityNumber = cardSecurityNumber;
         CardTypeId = cardTypeId;
-    }
-
-    public class OrderItemDto
-    {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; } = string.Empty;
-        public decimal UnitPrice { get; set; }
-        public decimal Discount { get; set; }
-        public int Units { get; set; }
-        public string PictureUrl { get; set; } = string.Empty;
     }
 }
