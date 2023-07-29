@@ -30,6 +30,7 @@ public class OrderContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfiguration(new BuyerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CardTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new PaymetMethodEntityType());
+        modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
     } 
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)

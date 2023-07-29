@@ -5,9 +5,13 @@
 public class OrderController : ControllerBase
 {
     private readonly IOrderQuery _orderQuery;
-    public OrderController(IOrderQuery orderQuery)
+    private readonly IMediator _mediator;
+    private readonly ILogger<OrderController> _logger;
+    public OrderController(IOrderQuery orderQuery, IMediator mediator, ILogger<OrderController> logger)
     {
-        _orderQuery = orderQuery;
+        _orderQuery = orderQuery ?? throw new ArgumentNullException(nameof(orderQuery));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet]
@@ -58,5 +62,69 @@ public class OrderController : ControllerBase
         var cardTypes = await _orderQuery.GetCardTypesAsync();
 
         return Ok(cardTypes);
+    }
+
+    [Route("cancel")]
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> CancelOrderAsync([FromBody] CancelOrderCommand cancelOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
+    {
+        bool commandResult = false;
+
+        if(Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+        {
+            var requestCanceledOrder = new IdentifiedCommand<CancelOrderCommand, bool>(cancelOrderCommand, guid);
+
+            _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
+                nameof(OrderController),requestCanceledOrder.GetType().Name,nameof(requestCanceledOrder.Command.OrderNumber),
+                        requestCanceledOrder.Command.OrderNumber,requestCanceledOrder);
+
+            commandResult = await _mediator.Send(requestCanceledOrder);            
+        }
+
+        if (!commandResult)
+            return BadRequest();
+        else
+            return Ok();
+    }
+
+    [Route("ship")]
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> ShipOrderASync([FromBody] ShipOrderCommand shipOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
+    {
+        bool commandResult = false;
+
+        if(Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+        {
+            var requestShipOrder = new IdentifiedCommand<ShipOrderCommand, bool>(shipOrderCommand, guid);
+
+            _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
+                nameof(OrderController), requestShipOrder.GetType().Name, nameof(requestShipOrder.Command.OrderNumber),
+                        requestShipOrder.Command.OrderNumber, requestShipOrder);
+
+            commandResult = await _mediator.Send(requestShipOrder);
+        }
+
+        if (!commandResult)
+            return BadRequest();
+        else
+            return Ok();
+    }
+
+    [Route("draft")]
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<OrderDraftDto>> CreateOrder([FromBody] CreateOrderDraftCommand createOrderDraftCommand)
+    {
+        _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
+                nameof(OrderController), createOrderDraftCommand.GetType().Name, nameof(createOrderDraftCommand.BuyerId),
+                        createOrderDraftCommand.BuyerId, createOrderDraftCommand);
+
+        var result = await _mediator.Send(createOrderDraftCommand);
+
+        return Ok(result);
     }
 }

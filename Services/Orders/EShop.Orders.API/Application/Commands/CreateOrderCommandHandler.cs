@@ -4,15 +4,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
-    private readonly IOrderIntegrationEventService _integrationEventService;
+    // private readonly IOrderIntegrationEventService _integrationEventService;
     private readonly ILogger<CreateOrderCommandHandler> _logger;
 
     public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator, 
-        IOrderIntegrationEventService integrationEventService, ILogger<CreateOrderCommandHandler> logger)
+         ILogger<CreateOrderCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
+        // _integrationEventService = integrationEventService ?? throw new ArgumentNullException(nameof(integrationEventService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -21,7 +21,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
         // Add Integration event to clean the basket
         var orderStartedIntegrationEvent = new OrderStartedIntegrationEvent(request.UserId);
 
-        await _integrationEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent);
+       // await _integrationEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent);
 
         // Add/Update the Buyer AggregateRoot
         // DDD patterns comment: Add child entities and value-objects through the Order Aggregate - Root
@@ -44,4 +44,14 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
 
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
+}
+
+
+public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateOrderCommand, bool>
+{
+    public CreateOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<CreateOrderCommand,bool>> logger) : base(mediator, requestManager, logger) { }
+
+    protected override bool CreateResultForDuplicateRequest()
+        => true; // Ignore duplicate requests for processing order.
 }

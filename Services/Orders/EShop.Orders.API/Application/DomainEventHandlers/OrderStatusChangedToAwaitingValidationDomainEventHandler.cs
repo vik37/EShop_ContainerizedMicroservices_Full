@@ -6,16 +6,16 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
     private readonly IOrderRepository _orderRepository;
     private readonly ILogger<OrderStatusChangedToAwaitingValidationDomainEventHandler> _logger;
     private readonly IBuyerRepository _buyerRepository;
-    private readonly IOrderIntegrationEventService _orderIntegrationEventService;
+    //private readonly IOrderIntegrationEventService _orderIntegrationEventService;
 
     public OrderStatusChangedToAwaitingValidationDomainEventHandler(IOrderRepository orderRepository, 
-        ILogger<OrderStatusChangedToAwaitingValidationDomainEventHandler> logger, IBuyerRepository buyerRepository, 
-        IOrderIntegrationEventService orderIntegrationEventService)
+        ILogger<OrderStatusChangedToAwaitingValidationDomainEventHandler> logger, IBuyerRepository buyerRepository
+        )
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _buyerRepository = buyerRepository;
-        _orderIntegrationEventService = orderIntegrationEventService;
+        //_orderIntegrationEventService = orderIntegrationEventService;
     }
 
     public async Task Handle(OrderStatusChangedToAwaitingValidationDomainEvent notification, CancellationToken cancellationToken)

@@ -29,3 +29,13 @@ public class SetPaidOrderStatusCommandHandler : IRequestHandler<SetPaidOrderStat
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
+
+public class SetPaidOrderStatusIdentifiedCommandHandler : IdentifiedCommandHandler<SetPaidOrderStatusCommand, bool>
+{
+    public SetPaidOrderStatusIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<SetPaidOrderStatusCommand,bool>> logger) : base(mediator, requestManager, logger)
+    { }
+
+    protected override bool CreateResultForDuplicateRequest()
+        => true;
+}

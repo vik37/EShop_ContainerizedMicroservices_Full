@@ -1,6 +1,6 @@
 ﻿namespace EShop.Orders.API.Application.Models;
 
-public class BasketItems
+public class BasketItem
 {
     public string Id { get; set; } = string.Empty;
     public int ProductId { get; set; }

@@ -7,4 +7,5 @@ global using EShop.Orders.Domain.AggregatesModel.OrderAggregate;
 global using EShop.Orders.Domain.AggregatesModel.BuyerAggregate;
 global using EShop.Orders.Infrastructure.EntityConfigurations;
 global using EShop.Orders.Domain.Exceptions;
+global using EShop.Orders.Infrastructure.Idempotency;
 global using MediatR;

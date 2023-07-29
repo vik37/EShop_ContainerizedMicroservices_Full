@@ -131,6 +131,9 @@ public class Order : Entity, IAggregateRoot
         }
     }
 
+    public decimal GetTotal()
+         => _orderItems.Sum(oi => oi.GetUnits() * oi.GetUnitPrice());
+
     private void StatusChangedException(OrderStatus orderStatusToChange)
     {
         throw new OrderDomainException($"It is not possible to change the order status from {OrderStatus!.Name} to {orderStatusToChange.Name}");
