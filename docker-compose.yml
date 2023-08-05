@@ -27,6 +27,15 @@ services:
     depends_on:
       - basketdata
       - rabbitmq
+  
+  eshop.orders.api:
+    image: ${DOCKER_REGISTRY-}eshopordersapi
+    build:
+      context: .
+      dockerfile: Services/Orders/EShop.Orders.API/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2022-latest

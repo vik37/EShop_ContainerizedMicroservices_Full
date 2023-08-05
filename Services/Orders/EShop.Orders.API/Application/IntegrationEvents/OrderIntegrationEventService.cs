@@ -10,7 +10,7 @@ public class OrderIntegrationEventService : IOrderIntegrationEventService
     private readonly ILogger<OrderIntegrationEventService> _logger;
 
     public OrderIntegrationEventService(Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory, 
-        IEventBus eventBus, OrderContext orderContext, IIntegrationEventLogService integrationEventLogService,
+        IEventBus eventBus, OrderContext orderContext,
         ILogger<OrderIntegrationEventService> logger)
     {
         _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));

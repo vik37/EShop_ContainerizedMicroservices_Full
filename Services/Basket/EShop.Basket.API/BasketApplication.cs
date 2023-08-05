@@ -1,17 +1,17 @@
 ﻿namespace EShop.Basket.API;
 
-public sealed class Application
+public sealed class BasketApplication
 {
     public string AppNamespace { get; private set; }
     public string ApplicationName { get; private set; }
-    private Application()
+    private BasketApplication()
     {
-        this.AppNamespace = typeof(Application).Assembly.GetName().Name ?? null;
+        this.AppNamespace = typeof(BasketApplication).Assembly.GetName().Name ?? null;
         if (this.AppNamespace is not null)
             this.ApplicationName = this.AppNamespace.Substring(this.AppNamespace.LastIndexOf('.', this.AppNamespace.LastIndexOf('.') - 1) + 1);
     }
 
-    public static Application GetApplication() => new Application();
+    public static BasketApplication GetApplication() => new BasketApplication();
 
     public int RabbitMQRetry(IConfiguration configuration) => int.Parse(configuration["EventBusRetry"]);
 }

@@ -13,7 +13,7 @@ IConfiguration configuration = builder.Configuration;
 var services = builder.Services;
 // Add services to the container.
 
-var application = Application.GetApplication();
+var application = BasketApplication.GetApplication();
 
 services.AddControllers()
     .AddNewtonsoftJson(opt =>

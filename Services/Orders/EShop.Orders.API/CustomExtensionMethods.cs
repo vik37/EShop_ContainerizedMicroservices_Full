@@ -15,6 +15,28 @@ public static class CustomExtensionMethods
             });
         });
 
+    public static IServiceCollection ApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+        {
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            options.ReportApiVersions = true;
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                    new HeaderApiVersionReader("X-Version"),
+                    new MediaTypeApiVersionReader("ver")
+                );
+        });
+
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
+
+        return services;
+    }
+
     public static IServiceCollection DatabaseConfiguration(this IServiceCollection services, string connectionString)
     {
 
@@ -32,26 +54,75 @@ public static class CustomExtensionMethods
                 options.UseSqlServer(connectionString, ConfigureSqlOptions);
             });
 
-            //services.AddDbContext<IntegrationEventLogDbContext>(options =>
-            //{
-            //    options.UseSqlServer(connectionString, ConfigureSqlOptions);
-            //});
+            services.AddDbContext<IntegrationEventLogDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString, ConfigureSqlOptions);
+            });
         }
 
         return services;
     }
 
-    public static IServiceCollection ConfigureIntegrationeventServices(this IServiceCollection services)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration configuration,
+                                        int retryConnection = 5, string? connectionUri = null)
     {
 
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
              (DbConnection dc) => new IntegrationEventLogService(dc));
 
-        services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
+        
 
+        services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
+        {
+            var logger = rpc.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
+
+            ConnectionFactory? factory = null;
+            if (string.IsNullOrEmpty(connectionUri))
+            {
+                factory = new ConnectionFactory
+                {
+                    HostName = configuration["RabbitMQConnection"],
+                    DispatchConsumersAsync = true
+                };
+
+                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQUsername"]))
+                    factory.UserName = configuration["EventBusRabbitMQUsername"];
+
+                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQPassword"]))
+                    factory.Password = configuration["EventBusRabbitMQPassword"];
+            }
+            else
+            {
+                factory = new()
+                {
+                    Uri = new Uri(connectionUri)
+                };
+            }
+            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
+        });
+
+        services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
+        return services;
+    }
+
+    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services,
+                                            string subscriptionClientName, int retryConnection = 5)
+    {
+        services.AddSingleton<IEventBus, EventBusRabbitMQ>(reb =>
+        {
+
+            var rabbitMQPersistentConnetion = reb.GetRequiredService<IRabbitMQPersistentConnection>();
+            var logger = reb.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+            var rabbitMQEventBusSubscriptionManager = reb.GetRequiredService<IEventBusSubscriptionManager>();
+
+            return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: subscriptionClientName,
+                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryConnection);
+        });
+        services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionsManager>();
 
         return services;
     }
+
     //************** APPLICATION BUILDER ******************\\
 
     public static WebApplication MigrateDbContext(this WebApplication app)
@@ -68,6 +139,24 @@ public static class CustomExtensionMethods
                 else
                     logger.LogError("{ContextType} Migration Failed", nameof(OrderContext));
             }
+        }
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetService<IntegrationEventLogDbContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<IntegrationEventLogDbContext>>();
+            if (logger is not null)
+            {
+                if (context is not null)
+                {
+                    logger.LogInformation("{ContextType} Start with Migration", nameof(IntegrationEventLogDbContext));
+                    context.Database.Migrate();
+                    logger.LogInformation("{ContextType} End with Migration", nameof(IntegrationEventLogDbContext));
+                }
+                else
+                    logger.LogError("{ContextType} Migration Failed", nameof(IntegrationEventLogDbContext));
+            }
+
         }
 
         return app;

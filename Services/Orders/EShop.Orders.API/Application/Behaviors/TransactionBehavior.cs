@@ -4,14 +4,15 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 {
     private readonly ILogger<TransactionBehavior<TRequest,TResponse>> _logger;
     private readonly OrderContext _orderContext;
-    //private readonly IOrderIntegrationEventService _orderIntegrationEventService;
+    private readonly IOrderIntegrationEventService _orderIntegrationEventService;
 
     public TransactionBehavior(ILogger<TransactionBehavior<TRequest, TResponse>> logger, 
-        OrderContext orderContext)
+         IOrderIntegrationEventService orderIntegrationEventService, 
+         OrderContext orderContext)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _orderContext = orderContext ?? throw new ArgumentNullException(nameof(orderContext));
-        //_orderIntegrationEventService = orderIntegrationEventService ?? throw new ArgumentNullException(nameof(orderIntegrationEventService));
+        _orderIntegrationEventService = orderIntegrationEventService ?? throw new ArgumentNullException(nameof(orderIntegrationEventService));
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -44,7 +45,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
                     transactionId = transaction.TransactionId;
                 };
 
-                //await _orderIntegrationEventService.PublicEventsThroughtEventBusAsync(transactionId);
+                await _orderIntegrationEventService.PublicEventsThroughtEventBusAsync(transactionId);
             });
             return response!;
         }

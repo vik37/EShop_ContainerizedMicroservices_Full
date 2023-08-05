@@ -14,9 +14,9 @@ public class OrderStartedIntegrationEventHandler : IIntegrationEventHandler<Orde
 
     public async Task Handle(OrderStartedIntegrationEvent @event)
     {
-        using(LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{Application.GetApplication().ApplicationName}"))
+        using(LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{BasketApplication.GetApplication().ApplicationName}"))
         {
-            _logger.LogInformation("------------ Handling integration event: {IntegrationEventId} - at {AppName} - {@IntegrationEvent}", @event.Id, Application.GetApplication().ApplicationName, @event);
+            _logger.LogInformation("------------ Handling integration event: {IntegrationEventId} - at {AppName} - {@IntegrationEvent}", @event.Id, BasketApplication.GetApplication().ApplicationName, @event);
 
             await _basketRepository.DeleteBasket(@event.userId);
         }

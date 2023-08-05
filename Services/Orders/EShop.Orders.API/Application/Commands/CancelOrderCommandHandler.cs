@@ -2,7 +2,6 @@
 
 public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, bool>
 {
-
     private readonly IOrderRepository _orderRepository;
 
     public CancelOrderCommandHandler(IOrderRepository orderRepository)

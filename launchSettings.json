@@ -7,10 +7,12 @@
         "eshop.web.mvc": "StartDebugging",
         "eshop.catalog.api": "StartDebugging",
         "eshop.basket.api": "StartDebugging",
+        "eshop.orders.api": "StartDebugging",
         "sqldata": "StartWithoutDebugging",
         "basketdata": "StartWithoutDebugging",
         "rabbitmq": "StartWithoutDebugging",
         "ocelotapigw": "StartDebugging"
+
       }
     }
   }

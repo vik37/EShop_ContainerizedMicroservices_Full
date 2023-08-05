@@ -1,4 +1,3 @@
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -17,7 +16,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
 // Add services to the container.
 var services = builder.Services;
 
-var application = Application.GetApplication();
+var application = CatalogApplication.GetApplication();
 
 IConfiguration configuration = builder.Configuration;
 
@@ -37,6 +36,9 @@ services.Configure<FormOptions>(options =>
     options.MultipartBoundaryLengthLimit = int.MaxValue;
     options.MemoryBufferThreshold = int.MaxValue;
 });
+
+services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
 
 services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -83,6 +85,11 @@ try
         FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Files/Images")),
         RequestPath = "/Files/Images"
     });
+
+    var eventBus = app.Services.GetService<IEventBus>();
+
+    eventBus!.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+    eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
 
     //***** Custom Extension Methods - WEB APPLICATIONS *****\\\
     app.MigrateDbContext();

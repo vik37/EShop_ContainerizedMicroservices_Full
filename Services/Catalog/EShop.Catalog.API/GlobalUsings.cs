@@ -17,6 +17,8 @@ global using EShop.Catalog.API.Infrastructure.EntityConfigurations;
 global using EShop.Catalog.API.Dtos;
 global using EShop.Catalog.API.IntegrationEvents;
 global using EShop.Catalog.API.IntegrationEvents.Events;
+global using EShop.Catalog.API.Infrastructure.CustomExceptions;
+global using EShop.Catalog.API.IntegrationEvents.EventHandlers;
 global using Serilog;
 global using Newtonsoft.Json.Serialization;
 global using Polly;
