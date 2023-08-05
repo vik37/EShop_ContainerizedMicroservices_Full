@@ -14,9 +14,9 @@ public class ProductPriceChangedIntegrationEventHandler : IIntegrationEventHandl
 
     public async Task Handle(ProductPriceChangedIntegrationEvent @event)
     {
-        using (LogContext.PushProperty("Integration Event Context", $"{@event.Id}-{Application.GetApplication().ApplicationName}"))
+        using (LogContext.PushProperty("Integration Event Context", $"{@event.Id}-{BasketApplication.GetApplication().ApplicationName}"))
         {
-            _logger.LogInformation("------------ Handling integration event: {IntegrationEventId} - at {AppName} - {@IntegrationEvent}", @event.Id, Application.GetApplication().ApplicationName, @event);
+            _logger.LogInformation("------------ Handling integration event: {IntegrationEventId} - at {AppName} - {@IntegrationEvent}", @event.Id, BasketApplication.GetApplication().ApplicationName, @event);
 
             // Temporarely until an user security server will be created.
             string userId = "9899b909-e395-47a5-914e-676d9602942a";

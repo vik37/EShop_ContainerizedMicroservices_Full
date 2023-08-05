@@ -1,6 +1,4 @@
-﻿using static EShop.Orders.API.Application.Commands.CreateOrderCommand;
-
-namespace EShop.Orders.API.Application.Validations;
+﻿namespace EShop.Orders.API.Application.Validations;
 
 public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {

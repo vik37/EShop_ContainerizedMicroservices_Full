@@ -10,8 +10,7 @@ public class UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler :
         ILogger<UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
-        _logger = logger;
-
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>

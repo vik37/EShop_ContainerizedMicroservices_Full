@@ -6,3 +6,4 @@ global using FluentAssertions;
 global using EShop.Basket.API.Repository;
 global using EShop.Basket.API.Controllers;
 global using EShop.Basket.API.Model;
+global using EventBus.Abstractions;

@@ -1,6 +1,7 @@
 ﻿namespace EShop.Orders.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 [ApiController]
 public class OrderController : ControllerBase
 {
@@ -68,7 +69,8 @@ public class OrderController : ControllerBase
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CancelOrderAsync([FromBody] CancelOrderCommand cancelOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
+    public async Task<IActionResult> CancelOrderAsync([FromBody] CancelOrderCommand cancelOrderCommand, 
+        [FromHeader(Name = "x-requestId")] string requestId)
     {
         bool commandResult = false;
 

@@ -13,10 +13,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DockerDbConnectionString=${ESHOP_CATALOG_MSQL_CONNECTION_STRING}
+      - CatalogDockerDbConnectionString=${ESHOP_CATALOG_MSQL_CONNECTION_STRING}
       - RabbitMQConnection=rabbitmq
-      - EventBusRabbitMQUsername=guest
-      - EventBusRabbitMQPassword=guest
+      - EventBusRabbitMQUsername=${ESHOP_RABBITMQ_DEFAULT_USERNAME}
+      - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
     ports:
       - "4040:80"
 
@@ -29,6 +29,17 @@ services:
       - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
     ports:
       - "3001:80"
+
+  eshop.orders.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - OrderingDockerDbConnectionString=${ESHOP_ORDER_MSQL_CONNECTION_STRING}
+      - RabbitMQConnection=rabbitmq
+      - EventBusRabbitMQUsername=${ESHOP_RABBITMQ_DEFAULT_USERNAME}
+      - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
 
   rabbitmq:
     ports:

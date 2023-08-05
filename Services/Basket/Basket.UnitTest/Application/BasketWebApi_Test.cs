@@ -4,11 +4,13 @@ public class BasketWebApi_Test
 {
     private readonly Mock<IBasketRepository> _mockBasketRepo;
     private readonly Mock<ILogger<BasketController>> _loggerMock;
+    private readonly Mock<IEventBus> _eventBusMock;
 
     public BasketWebApi_Test()
     {
         _mockBasketRepo = new Mock<IBasketRepository>();
         _loggerMock = new Mock<ILogger<BasketController>>();
+        _eventBusMock = new Mock<IEventBus>();
     }
 
     [Fact]
@@ -22,7 +24,7 @@ public class BasketWebApi_Test
             .ReturnsAsync(fakeCustomerBasket);
 
         // action
-        var basketController = new BasketController(_mockBasketRepo.Object,_loggerMock.Object);
+        var basketController = new BasketController(_mockBasketRepo.Object,_loggerMock.Object,_eventBusMock.Object);
         var actionResult = await basketController.GetProductFromBasketByUserId(fakeBuyerId);
 
         // assertion
@@ -49,7 +51,7 @@ public class BasketWebApi_Test
 
         // action
         
-        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object);
+        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object, _eventBusMock.Object);
         var actionResult = await basketController.GetProductFromBasketByUserId(buyerId);
 
         // assertion
@@ -69,7 +71,7 @@ public class BasketWebApi_Test
             .ReturnsAsync(fakeCustomerBasket);
 
         // action
-        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object);
+        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object, _eventBusMock.Object);
         var actionResult = await basketController.AddNewProductToBasket(fakeCustomerBasket);
 
         // assertion

@@ -29,7 +29,7 @@ public class CatalogIntegrationEventService : ICatalogIntegrationEventService, I
         try
         {
             _logger.LogInformation("--------- Publishing integration event {IntegrationEventId_Published} from {AppName} - {@(IntegrationEvent)}",
-                integrationEvent.Id, Application.GetApplication().ApplicationName, integrationEvent);
+                integrationEvent.Id, CatalogApplication.GetApplication().ApplicationName, integrationEvent);
 
             await _integrationEventLogService.MarkEventAsInProgressAsync(integrationEvent.Id);
             _eventBus.Publish(integrationEvent);
@@ -37,7 +37,7 @@ public class CatalogIntegrationEventService : ICatalogIntegrationEventService, I
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "IERROR: Publishing integration event: {IntegrationEventId_Published} from {AppName} - ({@IntegrationEvent})", integrationEvent.Id, Application.GetApplication().ApplicationName, Application.GetApplication().AppNamespace);
+            _logger.LogError(ex, "ERROR: Publishing integration event: {IntegrationEventId_Published} from {AppName} - ({@IntegrationEvent})", integrationEvent.Id, CatalogApplication.GetApplication().ApplicationName, CatalogApplication.GetApplication().AppNamespace);
             await _integrationEventLogService.MarkEventAsFailedAsync(integrationEvent.Id);
         }
     }

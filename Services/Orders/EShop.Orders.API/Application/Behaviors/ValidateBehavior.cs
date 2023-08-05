@@ -1,6 +1,4 @@
-﻿using EShop.Orders.Domain.Exceptions;
-
-namespace EShop.Orders.API.Application.Behaviors;
+﻿namespace EShop.Orders.API.Application.Behaviors;
 
 public class ValidateBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
