@@ -1,6 +1,4 @@
-﻿using EShop.Orders.Domain.Events;
-
-namespace EShop.Orders.Domain.AggregatesModel.OrderAggregate;
+﻿namespace EShop.Orders.Domain.AggregatesModel.OrderAggregate;
 
 public class Order : Entity, IAggregateRoot
 {
