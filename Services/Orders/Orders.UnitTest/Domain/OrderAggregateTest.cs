@@ -18,9 +18,8 @@ public class OrderAggregateTest
         var fakeOrderItemWithDefaultUnits = new OrderItem(productId, productName, unitPrice, discount, pictureUrl);
 
         // Assertion
-
-        Assert.NotNull(fakeOrderItemWithUnits);
-        Assert.NotNull(fakeOrderItemWithDefaultUnits);
+        fakeOrderItemWithUnits.Should().NotBeNull();
+        fakeOrderItemWithDefaultUnits.Should().NotBeNull();
     }
 
     [Fact]
@@ -34,8 +33,11 @@ public class OrderAggregateTest
         string pictureUrl = "url@picture.png.com";
         int units = -1;
 
-        // Action - Assert
-        Assert.Throws<OrderDomainException>(() => new OrderItem(productId,productName,unitPrice, discount, pictureUrl,units));
+        // Action
+        Action action = () => new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+
+        // Assert
+        action.Should().Throw<OrderDomainException>().WithMessage("Invalid number of units");
     }
 
     [Fact]
@@ -49,8 +51,11 @@ public class OrderAggregateTest
         string pictureUrl = "url@picture.png.com";
         int units = 1;
 
-        // Action - Assertion
-        Assert.Throws<OrderDomainException>(() => new OrderItem(productId,productName,unitPrice,discount, pictureUrl,units));
+        // Action
+        Action action = () => new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+
+        // Assertion
+        action.Should().Throw<OrderDomainException>().WithMessage("The total oforder items is lower than applied discount");
     }
 
     [Fact]
@@ -68,7 +73,7 @@ public class OrderAggregateTest
         var fakeOrderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
 
         // Assertion
-        Assert.Throws<OrderDomainException>(() => fakeOrderItem.SetNewDiscount(-1));
+        fakeOrderItem.Invoking(x => x.SetNewDiscount(-1)).Should().Throw<OrderDomainException>().WithMessage("Invalid Discount");
     }
 
     [Fact]
@@ -86,7 +91,7 @@ public class OrderAggregateTest
         var fakeOrderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
 
         // Assert
-        Assert.Throws<OrderDomainException>(() => fakeOrderItem.AddUnits(-1));
+        fakeOrderItem.Invoking(x => x.AddUnits(-1)).Should().Throw<OrderDomainException>().WithMessage("Invalid Units");
     }
 
     [Fact]
@@ -98,7 +103,7 @@ public class OrderAggregateTest
                             .AddOneItem(1, "t shirt", 12.55m, 0, "pic.jpg")
                             .Build();
 
-        Assert.Equal(25.10m, order.GetTotal());
+        order.GetTotal().Should().Be(25.10m);
     }
 
     [Fact]
@@ -107,13 +112,13 @@ public class OrderAggregateTest
         // Arrange
         int expectedResult = 1;
 
-        // Arrange
+        // Action
         var address= new AddressBuilder().Build();
         var fakeOrder = new OrderFakeBuilder(address).AddOneItem(1, "cup", 12m, 2, "pic.png",2)
                         .Build();
 
         // Assert
-        Assert.Equal(expectedResult, fakeOrder.DomainEvents.Count);
+        fakeOrder.DomainEvents.Count.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -122,14 +127,14 @@ public class OrderAggregateTest
         // Arrange
         int expectedResult = 2;
 
-        // Arrange
+        // Action
         var address = new AddressBuilder().Build();
         var fakeOrder = new OrderFakeBuilder(address).AddOneItem(1, "cup", 12m, 2, "pic.png", 2)
                         .Build();
         fakeOrder.AddDomainEvent(new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1)));
 
         // Assert
-        Assert.Equal(expectedResult, fakeOrder.DomainEvents.Count);
+        fakeOrder.DomainEvents.Count.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -139,17 +144,17 @@ public class OrderAggregateTest
         int expectedResult = 1;
         int shouldNotBeResult = 2;
 
-        // Arrange
+        // Action
         var address = new AddressBuilder().Build();
         var fakeOrder = new OrderFakeBuilder(address).AddOneItem(1, "cup", 12m, 2, "pic.png", 2)
                         .Build();
 
         var @fakeEvent = new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1));
-        fakeOrder.AddDomainEvent(fakeEvent);
-        fakeOrder.RemoveDomainEvent(fakeEvent);
+        fakeOrder.AddDomainEvent(@fakeEvent);
+        fakeOrder.RemoveDomainEvent(@fakeEvent);
 
         // Assert
-        Assert.Equal(expectedResult, fakeOrder.DomainEvents.Count);
-        Assert.NotEqual(expectedResult, shouldNotBeResult);
+        fakeOrder.DomainEvents.Count.Should().Be(expectedResult);
+        fakeOrder.DomainEvents.Count.Should().NotBe(shouldNotBeResult);
     }
 }
