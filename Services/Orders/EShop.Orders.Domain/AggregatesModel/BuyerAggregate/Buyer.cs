@@ -24,9 +24,17 @@ public class Buyer: Entity, IAggregateRoot
     public PaymentMethod VerifyOrAddPayment(int cardTypeId, string alias, string cardNumber, string securityNumber, string cardHolderName,
                                             DateTime expiration, int orderId)
     {
+        var existPayment = _paymentMethods.SingleOrDefault(x => x.IsEqualTo(cardTypeId, cardNumber, expiration));
+
+        if(existPayment is  not null)
+        {
+            AddDomainEvent(new BuyerAndPeymentMethodVerifiedDomainEvent(this,existPayment,orderId));
+            return existPayment;
+        }
 
         var payment = new PaymentMethod(cardTypeId,alias,cardNumber,securityNumber,cardHolderName,expiration);
         _paymentMethods.Add(payment);
+        AddDomainEvent(new BuyerAndPeymentMethodVerifiedDomainEvent(this,payment,orderId));
         return payment;
     }
 }
