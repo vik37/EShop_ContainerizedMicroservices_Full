@@ -1,4 +1,6 @@
-﻿namespace Orders.UnitTest.Domain;
+﻿using FluentAssertions;
+
+namespace Orders.UnitTest.Domain;
 
 public class BuyerAggregateTest
 {
@@ -13,7 +15,7 @@ public class BuyerAggregateTest
         var fakeBuyerItem = new Buyer(identity, name);
 
         // Assertion
-        Assert.NotNull(fakeBuyerItem);
+        fakeBuyerItem.Should().NotBeNull();
     }
 
     [Fact]
@@ -23,8 +25,11 @@ public class BuyerAggregateTest
         var identity = string.Empty;
         var name = "Fake UserName";
 
-        // Action - Assert
-        Assert.Throws<ArgumentNullException>(() => new Buyer(identity,name));
+        // Action 
+        Action action = () => new Buyer(identity,name);
+
+        // Assert
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -47,7 +52,7 @@ public class BuyerAggregateTest
             cardHolderName, expirationDate, orderId);
 
         // Assert
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
     }
 
     [Fact]
@@ -60,18 +65,16 @@ public class BuyerAggregateTest
         string securityNumber = "1234";
         string cardHolderName = "FakeHolderName";
         DateTime expirationDate = DateTime.Now.AddYears(1);
-        var fakePaymentMethod = new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expirationDate);
-
 
         // Action
         var result = new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expirationDate);
 
         // Assert
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
     }
 
     [Fact]
-    public void CreatePaymentMethod_Failure_ShouldThrowOrderDomainException()
+    public void CreatePaymentMethod_FailureExpirationDate_ShouldThrowOrderDomainException()
     {
         // Arrange
         int cardTypeId = 1;
@@ -79,10 +82,13 @@ public class BuyerAggregateTest
         string cardNumber = "123";
         string securityNumber = "1234";
         string cardHolderName = "FakeHolderName";
-        DateTime expirationDate = DateTime.Now.AddYears(-1);
+        DateTime expiration = DateTime.Now.AddYears(-1);
 
-        // Action - Assert
-        Assert.Throws<OrderDomainException>(() => new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expirationDate));
+        // Action
+        Action action = () => new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expiration);
+
+        // Assert
+        action.Should().ThrowExactly<OrderDomainException>().WithMessage(nameof(expiration));
     }
 
     [Fact]
@@ -101,7 +107,7 @@ public class BuyerAggregateTest
         var result = fakePaymentMethod.IsEqualTo(cardTypeId,cardNumber,expirationDate);
 
         // Assert
-        Assert.True(result);
+        result.Should().BeTrue();
     }
 
     [Fact]
@@ -123,6 +129,6 @@ public class BuyerAggregateTest
         fakeBuyer.VerifyOrAddPayment(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expirationDate, orderId);
 
         // Assert
-        Assert.Equal(expectedResult,fakeBuyer.DomainEvents.Count);
+        fakeBuyer.DomainEvents.Count.Should().Be(expectedResult);
     }
 }
