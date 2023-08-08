@@ -1,3 +1,6 @@
+global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
 global using Xunit;
 global using FluentAssertions;
 global using Moq;
@@ -7,3 +10,10 @@ global using EShop.Orders.Domain.AggregatesModel.BuyerAggregate;
 global using EShop.Orders.Domain.Events;
 global using EShop.Orders.Domain.Exceptions;
 global using EShop.Orders.Domain.SeedWork;
+global using EShop.Orders.Infrastructure.Idempotency;
+global using EShop.Orders.API.Application.Commands;
+global using EShop.Orders.API.Application.Models;
+global using EShop.Orders.API.Application.IntegrationEvents;
+global using EShop.Orders.API.Application.Queries;
+global using EShop.Orders.API.Application.Queries.ViewModels;
+global using EShop.Orders.API.Controllers;

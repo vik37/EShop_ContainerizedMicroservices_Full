@@ -39,7 +39,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler : IIntegrationEventHand
                 using(_logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommand", @event.requestId) }))
                 {
                     var createdOrderCommand = new CreateOrderCommand(@event.customerBasket.Items,@event.userId,@event.userName,
-                                                                    @event.city,@event.state,@event.country,@event.zipCode,@event.cardNumber,
+                                                                    @event.city,@event.state,@event.street, @event.country,@event.zipCode,@event.cardNumber,
                                                                     @event.cardHolderName,@event.cardExpiration,@event.cardSecurityNumber,
                                                                     @event.cardTypeId);
 

@@ -53,7 +53,7 @@ public class CreateOrderCommand : IRequest<bool>
     public CreateOrderCommand()
       =>   _orderItems = new List<OrderItemDto>();
 
-    public CreateOrderCommand(List<BasketItem> basketItems, string userId, string userName, string city, string state,
+    public CreateOrderCommand(List<BasketItem> basketItems, string userId, string userName, string city, string state, string street,
                                 string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration,
                                 string cardSecurityNumber, int cardTypeId) : this()
     {
@@ -62,6 +62,7 @@ public class CreateOrderCommand : IRequest<bool>
         UserName = userName;
         City = city;
         State = state;
+        Street = street;
         Country = country;
         ZipCode = zipCode;
         CardNumber = cardNumber;

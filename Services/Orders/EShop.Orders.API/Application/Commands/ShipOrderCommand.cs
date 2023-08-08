@@ -3,7 +3,7 @@
 public class ShipOrderCommand : IRequest<bool>
 {
     [DataMember]
-    public int OrderNumber { get; set; }
+    public int OrderNumber { get; private set; }
 
     public ShipOrderCommand(int orderNumber)
     {
