@@ -1,6 +1,6 @@
 ﻿namespace Orders.UnitTest.Domain.SeedWork;
 
-public class ValueObjectTest
+public class Test_ValueObject
 {
 
     [Theory]

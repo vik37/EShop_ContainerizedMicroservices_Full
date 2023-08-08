@@ -1,6 +1,6 @@
 ﻿namespace Orders.UnitTest.Domain;
 
-public class OrderAggregateTest
+public class Test_OrderAggregate
 {
     [Fact]
     public void CreateOrderItem_Success()

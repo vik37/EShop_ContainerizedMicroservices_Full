@@ -33,7 +33,7 @@ public class OrderController : ControllerBase
         {
             var order = await _orderQuery.GetOrderByIdAsync(orderId);
 
-            return Ok(order);
+            return order;
         }
         catch (Exception)
         {
@@ -95,7 +95,7 @@ public class OrderController : ControllerBase
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> ShipOrderASync([FromBody] ShipOrderCommand shipOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
+    public async Task<IActionResult> ShipOrderAsync([FromBody] ShipOrderCommand shipOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
     {
         bool commandResult = false;
 

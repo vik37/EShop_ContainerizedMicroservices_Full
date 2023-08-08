@@ -3,10 +3,10 @@
 public class SetStockRejectedOrderStatusCommand : IRequest<bool>
 {
     [DataMember]
-    public int OrderNumber { get; set; }
+    public int OrderNumber { get; private set; }
 
     [DataMember]
-    public IEnumerable<int> OrderStockItems { get; set; }
+    public IEnumerable<int> OrderStockItems { get; private set; }
 
     public SetStockRejectedOrderStatusCommand(int orderNumber, IEnumerable<int> orderStockItems)
     {

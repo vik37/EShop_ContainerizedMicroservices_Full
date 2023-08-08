@@ -1,9 +1,36 @@
-﻿using FluentAssertions;
+﻿namespace Orders.UnitTest.Domain;
 
-namespace Orders.UnitTest.Domain;
-
-public class BuyerAggregateTest
+public class Test_BuyerAggregate
 {
+
+    [Fact]
+    public void HandleThrowException_WhenThereIsNotBuyerId()
+    {
+        // Arrange
+        string identity = string.Empty;
+        string name = "Fake Name";
+
+        // Action
+        Action action = () => new Buyer(identity, name);
+
+        // Asssert
+        action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(identity));
+    }
+
+    [Fact]
+    public void HandleThrowException_WhenThereIsNotBuyerName()
+    {
+        // Arrange
+        string identity = Guid.NewGuid().ToString();
+        string name = string.Empty;
+
+        // Action
+        Action action = () => new Buyer(identity, name);
+
+        // Asssert
+        action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(name));
+    }
+
     [Fact]
     public void CreateBuyerItem_Success()
     {
