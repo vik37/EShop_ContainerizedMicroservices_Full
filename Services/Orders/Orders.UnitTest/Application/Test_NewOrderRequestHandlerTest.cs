@@ -2,15 +2,15 @@
 
 public class Test_NewOrderRequestHandlerTest : FakeOrderRequestWithBuyer
 {
-    private readonly Mock<IOrderRepository> _orderRepository;
-    private readonly Mock<IMediator> _mediator;
-    private readonly Mock<IOrderIntegrationEventService> _orderIntegrationEventService;
+    private readonly IOrderRepository _orderRepositorySub;
+    private readonly IMediator _mediatorSub;
+    private readonly IOrderIntegrationEventService _orderIntegrationEventServiceSub;
 
     public Test_NewOrderRequestHandlerTest()
     {
-        _orderRepository = new Mock<IOrderRepository>();
-        _mediator = new Mock<IMediator>();
-        _orderIntegrationEventService = new Mock<IOrderIntegrationEventService>();
+        _orderRepositorySub = Substitute.For<IOrderRepository>();
+        _mediatorSub = Substitute.For<IMediator>();
+        _orderIntegrationEventServiceSub = Substitute.For<IOrderIntegrationEventService>();
     }
 
     [Fact]
@@ -22,21 +22,19 @@ public class Test_NewOrderRequestHandlerTest : FakeOrderRequestWithBuyer
             ["cardExpirationDate"] = DateTime.Now.AddYears(1),
         });
 
-        _orderRepository.Setup(orderRepo => orderRepo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(FakeOrder()));
-        _orderRepository.Setup(buyerRepo => buyerRepo.UnitOfWork.SaveChangesAsync(default)).Returns(Task.FromResult(1));
+        _orderRepositorySub.GetAsync(Arg.Any<int>()).Returns(Task.FromResult(FakeOrder()));
+        _orderRepositorySub.UnitOfWork.SaveChangesAsync(default).Returns(Task.FromResult(1));
 
-        var logger = new Mock<ILogger<CreateOrderCommandHandler>>();
-
+        var loggerSub = Substitute.For<ILogger<CreateOrderCommandHandler>>();
+     
         // Action
-        var handler = new CreateOrderCommandHandler(_orderRepository.Object, _mediator.Object, _orderIntegrationEventService.Object, logger.Object);
+        var handler = new CreateOrderCommandHandler(_orderRepositorySub, _mediatorSub, _orderIntegrationEventServiceSub, loggerSub);
         var cancellationToken = new CancellationToken();
         var result = await handler.Handle(fakeOrderCommand, cancellationToken);
 
         // Assertion
         result.Should().BeFalse();
     }
-
-    
 
     private Order FakeOrder()
         => new Order("1", "fake name", new Address(
