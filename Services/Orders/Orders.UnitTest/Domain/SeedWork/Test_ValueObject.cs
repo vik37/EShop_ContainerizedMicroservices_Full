@@ -27,7 +27,7 @@ public class Test_ValueObject
 
     private static readonly ValueObject FakeValueObjectA = new ValueObjectA(1,"2",Guid.Parse("e1d9f840-5b2b-4392-b8cf-a3951258531c"),new ComplexObject(2,"3"));
 
-    public static readonly TheoryData<ValueObject, ValueObject, string> EqualityValueObjects = new TheoryData<ValueObject, ValueObject, string>
+    public static readonly TheoryData<ValueObject, ValueObject, string> EqualityValueObjects = new ()
     {
         {
             null, null, "they should be equals because they are boyh null"
@@ -52,7 +52,7 @@ public class Test_ValueObject
         }
     };
 
-    public static readonly TheoryData<ValueObject, ValueObject, string> NotEqualityValueObjects = new TheoryData<ValueObject, ValueObject, string>
+    public static readonly TheoryData<ValueObject, ValueObject, string> NotEqualityValueObjects = new ()
     {
         {
             new ValueObjectA(1,"23",Guid.Parse("e1d9f840-5b2b-4392-b8cf-a3951258531c"), new ComplexObject(6,"24")),
