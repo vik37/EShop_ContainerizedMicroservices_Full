@@ -6,11 +6,15 @@ public class Test_OrdersWebApi
     private readonly IMediator _mediatorSub;
     private readonly ILogger<OrderController> _loggerSub;
 
+    private readonly OrderController _orderController;
+
     public Test_OrdersWebApi()
     {
         _orderQuerySub = Substitute.For<IOrderQuery>();
         _mediatorSub = Substitute.For<IMediator>();
         _loggerSub = Substitute.For<ILogger<OrderController>>();
+
+        _orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
     }
 
     [Fact]
@@ -21,8 +25,7 @@ public class Test_OrdersWebApi
         _mediatorSub.Send(Arg.Any<IdentifiedCommand<CancelOrderCommand,bool>>(),default).Returns(Task.FromResult(true));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub,_mediatorSub,_loggerSub);
-        var actionResult = await orderController.CancelOrderAsync(new CancelOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
+        var actionResult = await _orderController.CancelOrderAsync(new CancelOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
 
         // Assert
         actionResult.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -35,8 +38,7 @@ public class Test_OrdersWebApi
         _mediatorSub.Send(Arg.Any<IdentifiedCommand<CancelOrderCommand, bool>>(), default).Returns(Task.FromResult(true));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.CancelOrderAsync(new CancelOrderCommand(1), string.Empty) as BadRequestResult;
+        var actionResult = await _orderController.CancelOrderAsync(new CancelOrderCommand(1), string.Empty) as BadRequestResult;
 
         // Assert
         actionResult.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -49,8 +51,7 @@ public class Test_OrdersWebApi
         _mediatorSub.Send(Arg.Any<IdentifiedCommand<ShipOrderCommand, bool>>(), default).Returns(Task.FromResult(true));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.ShipOrderAsync(new ShipOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
+        var actionResult = await _orderController.ShipOrderAsync(new ShipOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
 
         // Assert
         actionResult.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -63,8 +64,7 @@ public class Test_OrdersWebApi
         _mediatorSub.Send(Arg.Any<IdentifiedCommand<ShipOrderCommand, bool>>(), default).Returns(Task.FromResult(true));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.ShipOrderAsync(new ShipOrderCommand(1), string.Empty) as BadRequestResult;
+        var actionResult = await _orderController.ShipOrderAsync(new ShipOrderCommand(1), string.Empty) as BadRequestResult;
 
         // Assert
         actionResult.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -78,8 +78,7 @@ public class Test_OrdersWebApi
         _orderQuerySub.GetOrdersFromUserAsync(Guid.NewGuid()).Returns(Task.FromResult(fakeOrderSummary));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.GetAllOrdersByUser();
+        var actionResult = await _orderController.GetAllOrdersByUser();
 
         // Assert
         actionResult.Result.As<OkObjectResult>().StatusCode.Should().Be(StatusCodes.Status200OK);        
@@ -95,8 +94,7 @@ public class Test_OrdersWebApi
         _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>()).Returns(Task.FromResult(fakeOrder));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.GetOrderByIdAsync(fakeOrderId);
+        var actionResult = await _orderController.GetOrderByIdAsync(fakeOrderId);
 
         // Assert
         actionResult.Value.Should().BeOfType<OrderViewModel>().And.BeSameAs(fakeOrder).And.BeEquivalentTo(fakeOrder);
@@ -111,8 +109,7 @@ public class Test_OrdersWebApi
         _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>()).Throws(new KeyNotFoundException());
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.GetOrderByIdAsync(fakeOrderId);
+        var actionResult = await _orderController.GetOrderByIdAsync(fakeOrderId);
 
         var notFoundResult = actionResult.Result as NotFoundResult;
         // Assert
@@ -128,8 +125,7 @@ public class Test_OrdersWebApi
         _orderQuerySub.GetCardTypesAsync().Returns(Task.FromResult(fakeCardType));
 
         // Action
-        var orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-        var actionResult = await orderController.GetAllCartTypes();
+        var actionResult = await _orderController.GetAllCartTypes();
 
         // Assert
         actionResult.Result.As<OkObjectResult>().StatusCode.Should().Be(StatusCodes.Status200OK);

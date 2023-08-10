@@ -36,8 +36,8 @@ public class Test_NewOrderRequestHandlerTest : FakeOrderRequestWithBuyer
         result.Should().BeFalse();
     }
 
-    private Order FakeOrder()
-        => new Order("1", "fake name", new Address(
+    private static Order FakeOrder()
+        => new ("1", "fake name", new Address(
                                         "street", "city", "state", "country", "zipCode"),
                     1, "123456", "1890", "123", DateTime.Now.AddYears(1));
 }

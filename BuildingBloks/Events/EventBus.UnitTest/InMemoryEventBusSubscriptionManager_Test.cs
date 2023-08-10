@@ -14,6 +14,7 @@ public class InMemoryEventBusSubscriptionManager_Test
     {
         var manager = new InMemoryEventBusSubscriptionsManager();
         manager.AddSubscription<TestIntegrationEvent,TestIntegrationEventHandler>();
+
         Assert.True(manager.HasSubscriptionsForEvent<TestIntegrationEvent>());
     }
 
@@ -23,6 +24,7 @@ public class InMemoryEventBusSubscriptionManager_Test
         var manager = new InMemoryEventBusSubscriptionsManager();
         manager.AddSubscription<TestIntegrationEvent, TestIntegrationEventHandler>();
         manager.RemoveSubscription<TestIntegrationEvent, TestIntegrationEventHandler>();
+
         Assert.False(manager.HasSubscriptionsForEvent<TestIntegrationEvent>());
     }
 
@@ -34,6 +36,7 @@ public class InMemoryEventBusSubscriptionManager_Test
         manager.OnEventRemoved += (o, e) => raised = true;
         manager.AddSubscription<TestIntegrationEvent, TestIntegrationEventHandler>();
         manager.RemoveSubscription<TestIntegrationEvent, TestIntegrationEventHandler>();
+
         Assert.True(raised);
     }
 
@@ -44,7 +47,7 @@ public class InMemoryEventBusSubscriptionManager_Test
         manager.AddSubscription<TestIntegrationEvent, TestIntegrationEventHandler>();
         manager.AddSubscription<TestIntegrationEvent, TestIntegrationOtherHandler>();
         var handlers = manager.GetHandlersForEvent<TestIntegrationEvent>();
-        Assert.Equal(2, handlers.Count());
 
+        Assert.Equal(2, handlers.Count());
     }
 }
