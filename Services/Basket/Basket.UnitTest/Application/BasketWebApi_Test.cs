@@ -2,15 +2,18 @@
 
 public class BasketWebApi_Test
 {
-    private readonly Mock<IBasketRepository> _mockBasketRepo;
-    private readonly Mock<ILogger<BasketController>> _loggerMock;
-    private readonly Mock<IEventBus> _eventBusMock;
+    private readonly IBasketRepository _basketRepositorySub;
+    private readonly ILogger<BasketController> _loggerSub;
+    private readonly IEventBus _eventBusSub;
 
+    private readonly BasketController _basketController;
     public BasketWebApi_Test()
     {
-        _mockBasketRepo = new Mock<IBasketRepository>();
-        _loggerMock = new Mock<ILogger<BasketController>>();
-        _eventBusMock = new Mock<IEventBus>();
+        _basketRepositorySub = Substitute.For<IBasketRepository>();
+        _loggerSub = Substitute.For<ILogger<BasketController>>();
+        _eventBusSub = Substitute.For<IEventBus>();
+
+        _basketController = new BasketController(_basketRepositorySub, _loggerSub, _eventBusSub);
     }
 
     [Fact]
@@ -20,19 +23,12 @@ public class BasketWebApi_Test
         string fakeBuyerId = "1";
         var fakeCustomerBasket = GetCustomerBasketFake(fakeBuyerId);
 
-        _mockBasketRepo.Setup(x => x.GetProductFromBasketByUserId(It.IsAny<string>()))
-            .ReturnsAsync(fakeCustomerBasket);
+        _basketRepositorySub.GetProductFromBasketByUserId(Arg.Any<string>()).Returns(fakeCustomerBasket);
 
         // action
-        var basketController = new BasketController(_mockBasketRepo.Object,_loggerMock.Object,_eventBusMock.Object);
-        var actionResult = await basketController.GetProductFromBasketByUserId(fakeBuyerId);
+        var actionResult = await _basketController.GetProductFromBasketByUserId(fakeBuyerId);
 
         // assertion
-
-            //Assert.Equal((actionResult.Result as ObjectResult).StatusCode, (int)System.Net.HttpStatusCode.OK);
-            //Assert.Equal(((actionResult.Result as ObjectResult).Value as CustomerBasket).BuyerId, fakeBuyerId);
-
-        // --- FLUENT ASSERTION -- \\
         actionResult.Result.As<ObjectResult>().StatusCode.Should().Be((int)System.Net.HttpStatusCode.OK);
         actionResult.Result.As<ObjectResult>().Value.As<CustomerBasket>().BuyerId.Should().Be(fakeBuyerId);
     }
@@ -45,14 +41,10 @@ public class BasketWebApi_Test
     {
         // arrange
         var fakeBasketWithCustomerId1 = FakeBasketData.GetFakeBasketItems().SingleOrDefault(x => x!.BuyerId == buyerId);
-        
-        _mockBasketRepo.Setup(x => x.GetProductFromBasketByUserId(It.IsAny<string>()))
-            .ReturnsAsync(fakeBasketWithCustomerId1);
+        _basketRepositorySub.GetProductFromBasketByUserId(Arg.Any<string>()).Returns(fakeBasketWithCustomerId1);
 
         // action
-        
-        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object, _eventBusMock.Object);
-        var actionResult = await basketController.GetProductFromBasketByUserId(buyerId);
+        var actionResult = await _basketController.GetProductFromBasketByUserId(buyerId);
 
         // assertion
         actionResult.Result.As<ObjectResult>().StatusCode.Should().Be((int)System.Net.HttpStatusCode.OK);
@@ -66,21 +58,18 @@ public class BasketWebApi_Test
         // arrange
         string fakeBuyerId = "2";
         var fakeCustomerBasket = GetCustomerBasketFake(fakeBuyerId);
-
-        _mockBasketRepo.Setup(x => x.UpdateBasket(It.IsAny<CustomerBasket>()))
-            .ReturnsAsync(fakeCustomerBasket);
+        _basketRepositorySub.UpdateBasket(Arg.Any<CustomerBasket>()).Returns(fakeCustomerBasket);
 
         // action
-        var basketController = new BasketController(_mockBasketRepo.Object, _loggerMock.Object, _eventBusMock.Object);
-        var actionResult = await basketController.AddNewProductToBasket(fakeCustomerBasket);
+        var actionResult = await _basketController.AddNewProductToBasket(fakeCustomerBasket);
 
         // assertion
         actionResult.Result.As<ObjectResult>().StatusCode.Should().Be((int)System.Net.HttpStatusCode.OK);
         actionResult.Result.As<ObjectResult>().Value.As<CustomerBasket>().BuyerId.Should().Be(fakeBuyerId);
     }
 
-    private CustomerBasket GetCustomerBasketFake(string buyerId)
-        => new CustomerBasket
+    private static CustomerBasket GetCustomerBasketFake(string buyerId)
+        => new ()
         {
             BuyerId = buyerId,
             Items = new List<BasketItem>()

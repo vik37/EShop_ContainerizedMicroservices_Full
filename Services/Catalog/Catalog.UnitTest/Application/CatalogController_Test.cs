@@ -3,8 +3,10 @@
 public class CatalogController_Test
 {
     private readonly DbContextOptions<CatalogDbContext> _dbContextOptions;
-    private readonly Mock<ICatalogIntegrationEventService> _eventServiceMock;
+    private readonly ICatalogIntegrationEventService _integrationEventServiceSub;
 
+    private readonly CatalogDbContext _catalogDbContext;
+    private readonly CatalogController _catalogController;
     public CatalogController_Test()
     {
         _dbContextOptions = new DbContextOptionsBuilder<CatalogDbContext>()
@@ -17,7 +19,11 @@ public class CatalogController_Test
             dbContext.CatalogItems.AddRange(CatalogFakeDb.FakeCatalog());
             dbContext.SaveChanges();
         }
-        _eventServiceMock = new Mock<ICatalogIntegrationEventService>();
+
+        _integrationEventServiceSub = Substitute.For<ICatalogIntegrationEventService>();
+
+        _catalogDbContext = new CatalogDbContext(_dbContextOptions);
+        _catalogController = new CatalogController(_catalogDbContext, _integrationEventServiceSub);
     }
 
     [Fact]
@@ -32,11 +38,8 @@ public class CatalogController_Test
         var expectedItemsInPage = 2;
         var expectedTotalItems = 6;
 
-        var catalogDbContext = new CatalogDbContext(_dbContextOptions);
-
         //action
-        var catalogController = new CatalogController(catalogDbContext, _eventServiceMock.Object);
-        var actionResult = await catalogController.GetCatalogItemsByBrandAndType(typeFilter, brandFilter, pageSize, pageIndex);
+        var actionResult = await _catalogController.GetCatalogItemsByBrandAndType(typeFilter, brandFilter, pageSize, pageIndex);
 
         //assert
         Assert.IsType<ActionResult<PaginatedItemsDto<CatalogItem>>>(actionResult);
@@ -46,7 +49,6 @@ public class CatalogController_Test
         Assert.Equal(pageIndex, page.PageIndex);
         Assert.Equal(pageSize, page.PageSize);
         Assert.Equal(expectedItemsInPage, page.Data.Count());
-
     }
 
     [Fact]
@@ -61,12 +63,8 @@ public class CatalogController_Test
 
         string catalogImageUrl = string.Concat($"http://localhost:4040/api/v1.0/catalog/items/",$"{catalogId}/image");
 
-        var catalogDbContext = new CatalogDbContext(_dbContextOptions);
-        var integrationServicesMock = new Mock<ICatalogIntegrationEventService>();
-
         // action
-        var catalogController = new CatalogController(catalogDbContext, _eventServiceMock.Object);
-        var actionResult = (OkObjectResult)await catalogController.ItemByIdAsync(catalogId);
+        var actionResult = (OkObjectResult) await _catalogController.ItemByIdAsync(catalogId);
         var item = actionResult.Value as CatalogItem;
 
         // assert
@@ -84,15 +82,10 @@ public class CatalogController_Test
 
         int statusCode = StatusCodes.Status400BadRequest;
 
-        var catalogDbContext = new CatalogDbContext(_dbContextOptions);
-
         // action
-        var catalogController = new CatalogController(catalogDbContext,_eventServiceMock.Object);
-        var actionResult = (BadRequestResult) await catalogController.ItemByIdAsync(catalogId);
+        var actionResult = (BadRequestResult) await _catalogController.ItemByIdAsync(catalogId);
 
         // assert
         Assert.True(actionResult.StatusCode.Equals(statusCode));
     }
-
-    
 }
