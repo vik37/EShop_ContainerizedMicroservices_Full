@@ -55,7 +55,7 @@ public static class CustomApplicationExtensionMethods
         );
 
     public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection,
-                                         string rabbitUsername, string rabbitPassword, string? port = null, int retryConnection = 5)
+                                         string rabbitUsername, string rabbitPassword, string port = null, int retryConnection = 5)
     {
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
