@@ -34,7 +34,12 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
 
             services.RemoveAll(typeof(DbContextOptions<IntegrationEventLogDbContext>));
 
-            services.DatabaseConfiguration(_mssqlConnectionString);
+            services.AddDbContext<CatalogDbContext>(o => 
+                o.UseSqlServer(_mssqlConnectionString));
+
+            services.AddDbContext<IntegrationEventLogDbContext>(o =>
+                o.UseSqlServer(_mssqlConnectionString));
+            
         });
     }
 
