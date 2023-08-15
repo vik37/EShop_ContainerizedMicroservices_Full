@@ -20,8 +20,8 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
                             string? queueName = null,
                             int retryCount = 5)
     {
-        _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(_persistentConnection));
-        _logger = logger ?? throw new ArgumentNullException(nameof(_logger));
+        _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _serviceProvider = serviceProvider;
         _retryCount = retryCount;
         _eventBusSubscriptionManager = eventBusSubscriptionManager ?? new InMemoryEventBusSubscriptionsManager();
@@ -41,7 +41,7 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
         {
             _queueName = string.Empty;
             if(_model is not null)
-                _model.Close();
+               _model.Close();
         }
     }
 
@@ -135,7 +135,12 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
 
     public void Dispose()
     {
-        if(_model is not null)
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_model is not null)
             _model.Dispose();
 
         _eventBusSubscriptionManager.Clear();

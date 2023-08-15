@@ -5,14 +5,14 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
     private readonly RedisContainer _redisBuilder;
     private readonly RabbitMqContainer _rabbitMqContainer;
 
-    private string _redisHostName = "testbasketrredis" + Guid.NewGuid().ToString();
+    private readonly string _redisHostName = "testbasketrredis" + Guid.NewGuid().ToString();
 
-    private string _rabbitHostName = "testrabbit" + Guid.NewGuid().ToString();
-    private string _username = "guest";
-    private string _password = "guest";
-    private string _queueName = "TestCatalog";
+    private readonly string _rabbitHostName = "testrabbit" + Guid.NewGuid().ToString();
+    private readonly string _username = "guest";
+    private readonly string _password = "guest";
+    private readonly string _queueName = "TestCatalog";
 
-    private int port;
+    private readonly int port;
 
     public BasketWebApplicationFactory()
     {

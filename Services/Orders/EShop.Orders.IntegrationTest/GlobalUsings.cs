@@ -1,0 +1,17 @@
+global using Xunit;
+global using System.Text;
+global using System.Net;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection.Extensions;
+global using EShop.Orders.API;
+global using EShop.Orders.API.Application.Queries;
+global using EShop.Orders.Infrastructure;
+global using EShop.Orders.API.Application.Commands;
+global using EShop.Orders.Domain.AggregatesModel.BuyerAggregate;
+global using IntegrationEventLogEntityFramework;
+global using EventBussRabbitMQ;
+global using Testcontainers.MsSql;
+global using Testcontainers.RabbitMq;
+global using DotNet.Testcontainers.Builders;
+global using Newtonsoft.Json;

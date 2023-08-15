@@ -11,8 +11,9 @@ public sealed class OrderApplication
             this.ApplicationName = this.AppNamespace.Substring(this.AppNamespace.LastIndexOf('.', this.AppNamespace.LastIndexOf('.') - 1) + 1);
     }
 
-    public static OrderApplication GetApplication() => new OrderApplication();
+    public static OrderApplication GetApplication() => new();
 
     public int RabbitMQRetry(IConfiguration configuration) => int.Parse(configuration["EventBusRetry"]??
-        throw new Exception("Connection String for RabbitMQ Retry is empty"));
+        throw new Exception("Connection String for RabbitMQ Retry is empty or it's not a number"));
+
 }

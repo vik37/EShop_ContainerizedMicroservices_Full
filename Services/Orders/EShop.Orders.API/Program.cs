@@ -22,7 +22,8 @@ services.AddEndpointsApiExplorer();
 services.SwaggerConfigurations()
                 .ApiVersioning()
                 .DatabaseConfiguration(configuration["OrderingDockerDbConnectionString"] ?? string.Empty)
-                .ConfigurationEventBus(configuration, orderApplication.RabbitMQRetry(configuration))
+                .ConfigurationEventBus(rabbitConnection: configuration["RabbitMQConnection"]!, rabbitUsername: configuration["EventBusRabbitMQUsername"]!,
+                                        rabbitPassword: configuration["EventBusRabbitMQPassword"]!, retryConnection: orderApplication.RabbitMQRetry(configuration))
                 .RegisterEventBusRabbitMQ(configuration["SubscriptionClientName"] ?? string.Empty, orderApplication.RabbitMQRetry(configuration));
 
 services.AddMediatR(cfg =>
@@ -92,3 +93,5 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+public partial class Program { }

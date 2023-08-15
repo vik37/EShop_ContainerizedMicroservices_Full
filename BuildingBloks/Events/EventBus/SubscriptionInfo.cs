@@ -13,7 +13,7 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
             HandlerType = handlerType;
         }
 
-        public static SubscriptionInfo Dynamic(Type handlerType) => new SubscriptionInfo(true,handlerType);
-        public static SubscriptionInfo Typed(Type typeHandler) => new SubscriptionInfo(false,typeHandler);
+        public static SubscriptionInfo Dynamic(Type handlerType) => new (true,handlerType);
+        public static SubscriptionInfo Typed(Type typeHandler) => new (false,typeHandler);
     }   
 }
