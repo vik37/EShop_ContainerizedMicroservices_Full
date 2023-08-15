@@ -1,10 +1,12 @@
 global using System.Text;
 global using Xunit;
 global using Microsoft.AspNetCore.Mvc.Testing;
+global using Microsoft.Extensions.DependencyInjection.Extensions;
 global using EShop.Basket.API.Model;
 global using EShop.Basket.API.Repository;
+global using EShop.Basket.API;
+global using EventBussRabbitMQ;
 global using Newtonsoft.Json;
 global using DotNet.Testcontainers.Builders;
-global using EShop.Basket.API;
 global using Testcontainers.RabbitMq;
 global using Testcontainers.Redis;

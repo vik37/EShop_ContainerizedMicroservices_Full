@@ -1,59 +1,46 @@
 ﻿namespace Basket.IntegrationTest;
 
-public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime, IDisposable
 {
-    private readonly RedisContainer _redisBuilder;
-    private readonly RabbitMqContainer _rabbitMqContainer;
+    private readonly int _port;
+    private readonly string _rabbitHostName;
 
-    private readonly string _redisHostName = "testbasketrredis" + Guid.NewGuid().ToString();
+    private string _redisConnectionString = string.Empty;
 
-    private readonly string _rabbitHostName = "testrabbit" + Guid.NewGuid().ToString();
-    private readonly string _username = "guest";
-    private readonly string _password = "guest";
-    private readonly string _queueName = "TestCatalog";
-
-    private readonly int port;
 
     public BasketWebApplicationFactory()
     {
-        port = Random.Shared.Next(100,1000);
+        _port = Random.Shared.Next(900, 9990);
 
-        _redisBuilder = new RedisBuilder()
-            .WithImage("redis").WithName(_redisHostName)
-            .WithPortBinding(port+1,6379)
-            .Build();
-
-        _rabbitMqContainer = new RabbitMqBuilder().WithName(_rabbitHostName)
-             .WithHostname(_rabbitHostName)
-             .WithImage("rabbitmq:3-management-alpine")
-             .WithUsername(_username)
-             .WithPassword(_password)
-             .WithPortBinding(port,15672)
-             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5672))
-             .Build();
+       RedisTestContainerConfig.TestContainerRedisBuilder(_port + 2);
+        
+        _rabbitHostName = RabbitMQTestContainerConfig.TestContainerRabbitMQBuilder(_port - 2);
     }
     public async Task InitializeAsync()
     {
-        await _redisBuilder.StartAsync();
-        await _rabbitMqContainer.StartAsync();
+        await RedisTestContainerConfig.RedisContainer!.StartAsync();
+        await RabbitMQTestContainerConfig.RabbitMqContainer!.StartAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        var redisConnectionString = _redisBuilder.GetConnectionString();
         builder.ConfigureServices(services =>
         {
-            services.RedisConnectionMultyplexer(redisConnectionString);
+            _redisConnectionString = RedisTestContainerConfig.RedisContainer!.GetConnectionString();
+            services.RedisConnectionMultyplexer(_redisConnectionString);
 
-            services.ConfigurationEventBus(connectionUri: _rabbitMqContainer.GetConnectionString())
-                .RegisterEventBusRabbitMQ(_queueName);            
+            services.RemoveAll(typeof(IRabbitMQPersistentConnection));
+
+            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
+                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: RabbitMQTestContainerConfig.ConnectionPort.ToString());
+            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
         });
 
     }
 
     public async Task DisposeAsync()
     {
-        await _rabbitMqContainer.StopAsync();
-        await _redisBuilder.StopAsync();
+        await RedisTestContainerConfig.RedisContainer!.StopAsync(default);
+        await RabbitMQTestContainerConfig.RabbitMqContainer!.StopAsync(default);
     }
 }
