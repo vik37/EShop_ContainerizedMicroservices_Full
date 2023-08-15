@@ -6,17 +6,18 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     private readonly string _mssqlConnectionString;
     private readonly int _port;
     private readonly string _rabbitHostName;
+    private readonly MssqlTestContainerConfig _mssqlContainer = new MssqlTestContainerConfig();
 
     public CatalogWebApplicationFactory()
     {
         _port = Random.Shared.Next(1000, 9990);
-        _mssqlConnectionString = MssqlTestContainerConfig.TestContainerMssqlBuilder(_port + 1);
+        _mssqlConnectionString = _mssqlContainer.TestContainerMssqlBuilder(_port + 1);
         _rabbitHostName = RabbitMQTestContainerConfig.TestContainerRabbitMQBuilder(_port - 1);       
     }
 
     public async Task InitializeAsync()
     {
-        await MssqlTestContainerConfig.MsSqlBuilder.StartAsync();
+        await _mssqlContainer.MsSqlBuilder.StartAsync();
         await RabbitMQTestContainerConfig.RabbitMqContainer.StartAsync();
     }
 
@@ -45,7 +46,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
 
     public async Task DisposeAsync()
     {
-        await MssqlTestContainerConfig.MsSqlBuilder.StopAsync();
+        await _mssqlContainer.MsSqlBuilder.StopAsync();
         await RabbitMQTestContainerConfig.RabbitMqContainer.StopAsync();
     }
 }

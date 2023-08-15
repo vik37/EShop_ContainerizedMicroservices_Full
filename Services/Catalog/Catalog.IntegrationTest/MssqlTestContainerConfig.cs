@@ -2,11 +2,11 @@
 
 public class MssqlTestContainerConfig
 {
-    private static Dictionary<string, string> _mSQlConfigCollection = null;
+    private Dictionary<string, string> _mSQlConfigCollection = null;
 
-    public static MsSqlContainer MsSqlBuilder { get; private set; } = null;
+    public MsSqlContainer MsSqlBuilder { get; private set; } = null;
 
-    public static string TestContainerMssqlBuilder(int port)
+    public string TestContainerMssqlBuilder(int port)
     {
         string connectionString = MssqlConnectionStringBuilder(port);
 
@@ -23,7 +23,7 @@ public class MssqlTestContainerConfig
         return connectionString;
     }
 
-    private static string MssqlConnectionStringBuilder(int port)
+    private string MssqlConnectionStringBuilder(int port)
     {
         StringBuilder sb = new();
 
@@ -38,6 +38,6 @@ public class MssqlTestContainerConfig
                 sb.Append($"{key}={_mSQlConfigCollection[key]};");
         }
 
-        return sb.ToString().Trim();
+        return sb.ToString();
     }
 }
