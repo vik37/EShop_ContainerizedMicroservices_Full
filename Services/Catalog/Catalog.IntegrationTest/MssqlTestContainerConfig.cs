@@ -11,7 +11,7 @@ public class MssqlTestContainerConfig
         string connectionString = MssqlConnectionStringBuilder(port);
 
         MsSqlBuilder = new MsSqlBuilder()
-                            .WithName(_mSQlConfigCollection["Name"]+Guid.NewGuid().ToString())
+                            .WithName(_mSQlConfigCollection["Name"]+"_"+Guid.NewGuid().ToString())
                             .WithHostname(_mSQlConfigCollection["Name"])
                             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                             .WithPortBinding(port, 1433)

@@ -10,20 +10,14 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     public CatalogWebApplicationFactory()
     {
         _port = Random.Shared.Next(1000, 9990);
-        _rabbitHostName = RabbitMQTestContainerConfig.TestContainerRabbitMQBuilder(_port - 1);
         _mssqlConnectionString = MssqlTestContainerConfig.TestContainerMssqlBuilder(_port + 1);
+        _rabbitHostName = RabbitMQTestContainerConfig.TestContainerRabbitMQBuilder(_port - 1);       
     }
 
     public async Task InitializeAsync()
     {
-        if (RabbitMQTestContainerConfig.RabbitMqContainer is not null)
-        {
-            await RabbitMQTestContainerConfig.RabbitMqContainer.StartAsync();
-        }
-        if (MssqlTestContainerConfig.MsSqlBuilder is not null)
-        {
-            await MssqlTestContainerConfig.MsSqlBuilder.StartAsync();
-        }
+        await MssqlTestContainerConfig.MsSqlBuilder.StartAsync();
+        await RabbitMQTestContainerConfig.RabbitMqContainer.StartAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -46,7 +40,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
 
     public async Task DisposeAsync()
     {
-        await RabbitMQTestContainerConfig.RabbitMqContainer!.StopAsync();
-        await MssqlTestContainerConfig.MsSqlBuilder!.StopAsync();
+        await MssqlTestContainerConfig.MsSqlBuilder.StopAsync();
+        await RabbitMQTestContainerConfig.RabbitMqContainer.StopAsync();
     }
 }
