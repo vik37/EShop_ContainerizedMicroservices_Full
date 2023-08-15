@@ -16,6 +16,7 @@ public class MssqlTestContainerConfig
                             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                             .WithPortBinding(port, 1433)
                             .WithPassword(_mSQlConfigCollection["Password"])
+                            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
                             .Build();
 
 
