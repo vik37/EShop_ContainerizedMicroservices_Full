@@ -88,8 +88,8 @@ public static class CustomExtensionMethods
         return services;
     }
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration? config = null, 
-        int retryConnection = 5, string connectionUri = "")
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection,
+                                         string rabbitUsername, string rabbitPassword, string? port = null, int retryConnection = 5)
     {
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             sp => (DbConnection c) => new IntegrationEventLogService(c));
@@ -97,34 +97,28 @@ public static class CustomExtensionMethods
 
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
-            ConnectionFactory? factory = null;
             var logger = rpc.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
-            if (config is not null)
-            {
-                factory = new ConnectionFactory
-                {
-                    HostName = config["RabbitMQConnection"],
-                    VirtualHost = "/",
-                    DispatchConsumersAsync = true
-                };
 
-                if (!string.IsNullOrEmpty(config["EventBusRabbitMQUsername"]))
-                    factory.UserName = config["EventBusRabbitMQUsername"];
-
-                if (!string.IsNullOrEmpty(config["EventBusRabbitMQPassword"]))
-                    factory.Password = config["EventBusRabbitMQPassword"];
-            }
-            else
+            ConnectionFactory factory = new()
             {
-                factory = new ConnectionFactory
-                {
-                    Uri = new Uri(connectionUri)
-                };
+                HostName = rabbitConnection,
+                DispatchConsumersAsync = true,
+                UserName = rabbitUsername,
+                Password = rabbitPassword,
             };
-        
-            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
 
+            if (!string.IsNullOrEmpty(port))
+            {
+                bool isPortNumber = int.TryParse(port, out int num);
+                if (isPortNumber)
+                    factory.Port = num;
+                else
+                    logger.LogError("Port must be of type number. Port {Port} - Type {PortType}", port, port.GetType().Name);
+            }
+
+            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
         });
+
         return services;
     }
         

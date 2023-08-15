@@ -26,7 +26,8 @@ services.SwaggerConfigurations()
         .DatabaseConfiguration(application.DockerMSQLConnectionString(configuration))
         .CorsConfiguration()
         .ApiVersioning()
-        .ConfigurationEventBus(configuration, retryConnection: application.RabbitMQRetry(configuration))
+        .ConfigurationEventBus(rabbitConnection: configuration["RabbitMQConnection"], rabbitUsername: configuration["EventBusRabbitMQUsername"],
+                               rabbitPassword: configuration["EventBusRabbitMQPassword"], retryConnection: application.RabbitMQRetry(configuration))
         .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration));
         
 

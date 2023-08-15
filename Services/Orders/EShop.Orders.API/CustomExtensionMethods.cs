@@ -66,11 +66,9 @@ public static class CustomExtensionMethods
     public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection, 
                                          string rabbitUsername, string rabbitPassword, string? port = null, int retryConnection = 5)
     {
-
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
              (DbConnection dc) => new IntegrationEventLogService(dc));
         services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
-
 
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
@@ -95,7 +93,6 @@ public static class CustomExtensionMethods
 
             return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
         });
-
         
         return services;
     }

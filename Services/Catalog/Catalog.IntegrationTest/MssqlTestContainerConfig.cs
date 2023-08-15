@@ -1,10 +1,10 @@
-﻿namespace EShop.Orders.IntegrationTest;
+﻿namespace Catalog.IntegrationTest;
 
 public class MssqlTestContainerConfig
 {
-    private static Dictionary<string, string>? _mSQlConfigCollection = null;
+    private static Dictionary<string, string> _mSQlConfigCollection = null;
 
-    public static MsSqlContainer? MsSqlBuilder { get; private set; } = null;
+    public static MsSqlContainer MsSqlBuilder { get; private set; } = null;
 
     public static string TestContainerMssqlBuilder(int port)
     {
@@ -13,7 +13,7 @@ public class MssqlTestContainerConfig
         MsSqlBuilder = new MsSqlBuilder()
                             .WithName(_mSQlConfigCollection!["Name"])
                             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-                            .WithPortBinding(port,1433)
+                            .WithPortBinding(port, 1433)
                             .WithPassword(_mSQlConfigCollection["Password"])
                             .Build();
 
@@ -27,15 +27,15 @@ public class MssqlTestContainerConfig
 
         _mSQlConfigCollection = new Dictionary<string, string>
         {
-            {"Name","ordertestdb" },{"Server",$"host.docker.internal,{port}"}, {"Database","EShop_TestOrderDb"},{"User Id","sa"},{"Password","tstOrder123#" }
+            {"Name","catalogtestdb" },{"Server",$"host.docker.internal,{port}"}, {"Database","EShop_TestCatalogDb"},{"User Id","sa"},{"Password","tstCatalog123#" }
         };
 
-        foreach (string key in _mSQlConfigCollection.Keys) 
+        foreach (string key in _mSQlConfigCollection.Keys)
         {
-            if(key != "Name")
+            if (key != "Name")
                 sb.Append($"{key}={_mSQlConfigCollection[key]};");
         }
-        
+
         return sb.ToString().Trim();
     }
 }
