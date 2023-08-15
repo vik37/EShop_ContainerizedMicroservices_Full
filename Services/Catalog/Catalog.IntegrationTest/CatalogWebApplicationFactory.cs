@@ -3,15 +3,15 @@
 public class CatalogWebApplicationFactory : WebApplicationFactory<Program>, 
     IAsyncLifetime
 {
-    private MsSqlContainer _mssqlContainer;
-    private RabbitMqContainer _rabbitMqContainer;
+    private readonly MsSqlContainer _mssqlContainer;
+    private readonly RabbitMqContainer _rabbitMqContainer;
 
-    private string _hostName = "testcatalograbbit";
-    private string _username = "guest";
-    private string _password = "guest";
-    private string _queueName = "TestCatalog";
+    private readonly string _hostName = "testcatalograbbit";
+    private readonly string _username = "guest";
+    private readonly string _password = "guest";
+    private readonly string _queueName = "TestCatalog";
 
-    private int port;
+    private readonly int port;
 
     public CatalogWebApplicationFactory()
     {
@@ -29,6 +29,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5672))
             .Build();
     }
+
     public async Task InitializeAsync()
     {
         await _mssqlContainer.StartAsync();

@@ -29,13 +29,13 @@ public class OrderContextSeed
         });
     }
 
-    private IEnumerable<CardType> GetPreconfiguredCardType
+    private static IEnumerable<CardType> GetPreconfiguredCardType
         => Enumeration.GetAll<CardType>();
 
-    private IEnumerable<OrderStatus> GetPreconfiguredOrderStatus
+    private static IEnumerable<OrderStatus> GetPreconfiguredOrderStatus
         => Enumeration.GetAll<OrderStatus>();
 
-    private RetryPolicy CreatePolicy(ILogger<OrderContext> logger, int retries = 3)
+    private static RetryPolicy CreatePolicy(ILogger<OrderContext> logger, int retries = 3)
         => Policy.Handle<SqlException>()
         .WaitAndRetry(
                 retryCount: retries,

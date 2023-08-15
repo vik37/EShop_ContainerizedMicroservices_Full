@@ -1,6 +1,6 @@
 ﻿namespace EventBussRabbitMQ;
 
-public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
+public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection, IDisposable
 {
     private readonly IConnectionFactory _connectionFactory;
     private readonly int _retryCount;
@@ -8,12 +8,12 @@ public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
     private readonly ILogger<RabbitMQPersistentConnection> _logger;
     public bool Disposed;
 
-    readonly object _syncRoot = new object();
+    readonly object _syncRoot = new();
 
     public RabbitMQPersistentConnection(IConnectionFactory connectionFactory, ILogger<RabbitMQPersistentConnection> logger, int retryCount = 5)
     {
         _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
-        _logger = logger ?? throw new ArgumentNullException(nameof(_logger));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _retryCount = retryCount;        
     }
 
@@ -28,7 +28,13 @@ public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
 
     public void Dispose()
     {
-        if(Disposed) return;
+        Dispose(Disposed);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (Disposed) return;
         Disposed = true;
 
         try
@@ -40,7 +46,7 @@ public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
         }
         catch (IOException ex)
         {
-            _logger.LogCritical(ex.ToString());
+            _logger.LogCritical("{(Exception)}",ex.ToString());
         }
     }
 
@@ -81,7 +87,7 @@ public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
         }
     }
 
-    private void _connection_ConnectionShutdown(object? sender, ShutdownEventArgs e)
+    private void Connection_ConnectionShutdown(object? sender, ShutdownEventArgs e)
     {
         if (Disposed)
             return;
