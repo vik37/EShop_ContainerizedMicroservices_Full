@@ -3,50 +3,51 @@
 public class CatalogWebApplicationFactory : WebApplicationFactory<Program>, 
     IAsyncLifetime
 {
-    private readonly string _mssqlConnectionString;
+    private string _mssqlConnectionString = string.Empty;
     private readonly int _port;
     private readonly string _rabbitHostName;
-    private readonly MssqlTestContainerConfig _mssqlContainer = new MssqlTestContainerConfig();
+    private readonly ITestContainersConfigWithCustomConnectionStrig<MsSqlContainer> _mssqlConntainer = new MssqlTestContainerConfig();
+    private readonly ITestContainersConfigWithConnectionPort<RabbitMqContainer> _rabbitMqConntainer = new RabbitMQTestContainerConfig();
 
     public CatalogWebApplicationFactory()
     {
         _port = Random.Shared.Next(1000, 9990);
-        _mssqlConnectionString = _mssqlContainer.TestContainerMssqlBuilder(_port + 1);
-        _rabbitHostName = RabbitMQTestContainerConfig.TestContainerRabbitMQBuilder(_port - 1);       
+        _mssqlConntainer.TestContainerBuild(_port-1);
+        _rabbitMqConntainer.TestContainerBuild(_port+1);
+        _rabbitHostName = _rabbitMqConntainer.TestContainer.Hostname;
     }
 
     public async Task InitializeAsync()
     {
-        await _mssqlContainer.MsSqlBuilder.StartAsync();
-        await RabbitMQTestContainerConfig.RabbitMqContainer.StartAsync();
+        await _mssqlConntainer.TestContainer.StartAsync();
+        await _rabbitMqConntainer.TestContainer.StartAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
-        {
+        {                       
             services.RemoveAll(typeof(IRabbitMQPersistentConnection));
 
             services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
-                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: RabbitMQTestContainerConfig.ConnectionPort.ToString());
+                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqConntainer.ConnectionPort.ToString());
             services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
 
             services.RemoveAll(typeof(DbContextOptions<CatalogDbContext>));
 
             services.RemoveAll(typeof(DbContextOptions<IntegrationEventLogDbContext>));
 
-            services.AddDbContext<CatalogDbContext>(o => 
-                o.UseSqlServer(_mssqlConnectionString));
+            _mssqlConnectionString = _mssqlConntainer.ConnectionString;
 
-            services.AddDbContext<IntegrationEventLogDbContext>(o =>
-                o.UseSqlServer(_mssqlConnectionString));
+            services.DatabaseConfiguration(_mssqlConnectionString);
             
         });
     }
 
-    public async Task DisposeAsync()
+    public new Task DisposeAsync()
     {
-        await _mssqlContainer.MsSqlBuilder.StopAsync();
-        await RabbitMQTestContainerConfig.RabbitMqContainer.StopAsync();
+        _mssqlConntainer.TestContainer.StopAsync().Wait();
+        _rabbitMqConntainer.TestContainer.StopAsync().Wait();
+        return Task.CompletedTask;
     }
 }

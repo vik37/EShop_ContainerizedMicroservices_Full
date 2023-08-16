@@ -9,6 +9,8 @@ global using EShop.Orders.API.Application.Queries;
 global using EShop.Orders.Infrastructure;
 global using EShop.Orders.API.Application.Commands;
 global using EShop.Orders.Domain.AggregatesModel.BuyerAggregate;
+global using EShop.Orders.IntegrationTest.TestContainers.Abstractions;
+global using EShop.Orders.IntegrationTest.TestContainers;
 global using IntegrationEventLogEntityFramework;
 global using EventBussRabbitMQ;
 global using Testcontainers.MsSql;
