@@ -1,17 +1,21 @@
-﻿namespace Catalog.IntegrationTest;
+﻿namespace Catalog.IntegrationTest.TestContainers;
 
-public class MssqlTestContainerConfig
+public class MssqlTestContainerConfig : ITestContainersConfigWithCustomConnectionStrig<MsSqlContainer>
 {
     private Dictionary<string, string> _mSQlConfigCollection = null;
 
-    public MsSqlContainer MsSqlBuilder { get; private set; } = null;
+    public string ConnectionString { get { return _connectionString; } }
 
-    public string TestContainerMssqlBuilder(int port)
+    public MsSqlContainer TestContainer { get; set; }
+
+    private string _connectionString;
+
+    public void TestContainerBuild(int port)
     {
-        string connectionString = MssqlConnectionStringBuilder(port);
+        _connectionString = MssqlConnectionStringBuilder(port);
 
-        MsSqlBuilder = new MsSqlBuilder()
-                            .WithName(_mSQlConfigCollection["Name"]+"_"+Guid.NewGuid().ToString())
+        TestContainer = new MsSqlBuilder()
+                            .WithName(_mSQlConfigCollection["Name"] + "_" + Guid.NewGuid().ToString())
                             .WithHostname(_mSQlConfigCollection["Name"])
                             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                             .WithPortBinding(port, 1433)
@@ -20,7 +24,6 @@ public class MssqlTestContainerConfig
                             .Build();
 
 
-        return connectionString;
     }
 
     private string MssqlConnectionStringBuilder(int port)
