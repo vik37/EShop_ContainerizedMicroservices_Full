@@ -9,6 +9,7 @@ global using EShop.Catalog.API;
 global using EShop.Catalog.API.Entities;
 global using EShop.Catalog.API.Infrastructure;
 global using IntegrationEventLogEntityFramework;
+global using EventBussRabbitMQ;
 global using Testcontainers.MsSql;
 global using Testcontainers.RabbitMq;
 global using Newtonsoft.Json;

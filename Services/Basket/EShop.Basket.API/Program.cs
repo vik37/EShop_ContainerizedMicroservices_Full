@@ -1,4 +1,3 @@
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -28,7 +27,8 @@ services.SwaggerConfigurations()
         .ApiVersioning()
         .RedisConnectionMultyplexer(configuration["RedisConnectionString"])
         .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration))
-        .ConfigurationEventBus(configuration,retryConnection: application.RabbitMQRetry(configuration));
+        .ConfigurationEventBus(rabbitConnection: configuration["RabbitMQConnection"],rabbitUsername: configuration["EventBusRabbitMQUsername"],
+                               rabbitPassword: configuration["EventBusRabbitMQPassword"] ,retryConnection: application.RabbitMQRetry(configuration));
 
 services.AddTransient<IBasketRepository, BasketRepository>();
 

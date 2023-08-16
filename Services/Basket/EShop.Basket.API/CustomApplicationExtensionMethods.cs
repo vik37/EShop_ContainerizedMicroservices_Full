@@ -54,36 +54,31 @@ public static class CustomApplicationExtensionMethods
             ConnectionMultiplexer.Connect(configuration: redisConnectionString)
         );
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, IConfiguration configuration = null,
-                                        int retryConnection = 5, string connectionUri = null)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection,
+                                         string rabbitUsername, string rabbitPassword, string port = null, int retryConnection = 5)
     {
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
             var logger = rpc.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
 
-            ConnectionFactory factory = null;
-            if(configuration is not null)
+            ConnectionFactory factory = new()
             {
-                factory = new ConnectionFactory
-                {
-                    HostName = configuration["RabbitMQConnection"],
-                    DispatchConsumersAsync = true
-                };
+                HostName = rabbitConnection,
+                DispatchConsumersAsync = true,
+                UserName = rabbitUsername,
+                Password = rabbitPassword,
+            };
 
-                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQUsername"]))
-                    factory.UserName = configuration["EventBusRabbitMQUsername"];
-
-                if (!string.IsNullOrEmpty(configuration["EventBusRabbitMQPassword"]))
-                    factory.Password = configuration["EventBusRabbitMQPassword"];
-            }
-            else
+            if (!string.IsNullOrEmpty(port))
             {
-                factory = new()
-                {
-                    Uri = new Uri(connectionUri)
-                };
+                bool isPortNumber = int.TryParse(port, out int num);
+                if (isPortNumber)
+                    factory.Port = num;
+                else
+                    logger.LogError("Port must be of type number. Port {Port} - Type {PortType}", port, port.GetType().Name);
             }
-            return new RabbitMQPersistentConnection(connectionFactory: factory,logger: logger,retryCount: retryConnection);
+
+            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
         });
         return services;
     }
