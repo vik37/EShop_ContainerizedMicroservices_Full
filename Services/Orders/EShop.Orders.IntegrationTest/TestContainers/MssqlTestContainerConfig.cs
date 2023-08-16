@@ -29,7 +29,7 @@ public class MssqlTestContainerConfig : ITestContainersConfigWithCustomConnectio
 
         _mSQlConfigCollection = new Dictionary<string, string>
         {
-            {"Name","ordertestdb" },{"Server",$"host.docker.internal,{port}"}, {"Database","EShop_TestOrderDb"},{"User Id","sa"},{"Password","tstOrder123#" }
+            {"Name","ordertestdb" },{"Server",$"127.0.0.1,{port}"}, {"Database","EShop_TestOrderDb"},{"User Id","sa"},{"Password","tstOrder123#" }
         };
 
         foreach (string key in _mSQlConfigCollection.Keys)
@@ -38,6 +38,7 @@ public class MssqlTestContainerConfig : ITestContainersConfigWithCustomConnectio
                 sb.Append($"{key}={_mSQlConfigCollection[key]};");
         }
 
+        sb.Append("TrustServerCertificate=True");
         return sb.ToString().Trim();
     }
 }

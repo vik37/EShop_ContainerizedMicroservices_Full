@@ -26,7 +26,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
-        {                       
+        {    
             services.RemoveAll(typeof(IRabbitMQPersistentConnection));
 
             services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
