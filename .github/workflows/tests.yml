@@ -72,11 +72,11 @@ jobs:
         with:
           dotnet-versions: 6.0
       - name: Install dependencies
-        run: dotnet restore ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj
+        run: dotnet restore ./Services/Catalog/EShop.Catalog.IntegrationTest/EShop.Catalog.IntegrationTest.csproj
       - name: Build
-        run: dotnet build ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj
+        run: dotnet build ./Services/Catalog/EShop.Catalog.IntegrationTest/EShop.Catalog.IntegrationTest.csproj
       - name: Test
-        run: dotnet test ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj --no-restore --verbosity normal
+        run: dotnet test ./Services/Catalog/EShop.Catalog.IntegrationTest/EShop.Catalog.IntegrationTest.csproj --no-restore --verbosity normal
 
   integrationtest_basket:
     runs-on: ubuntu-latest    
@@ -87,11 +87,11 @@ jobs:
         with:
           dotnet-versions: 6.0
       - name: Install dependencies
-        run: dotnet restore ./Services/Basket/Basket.IntegrationTest/Basket.IntegrationTest.csproj
+        run: dotnet restore ./Services/Basket/EShop.Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj
       - name: Build
-        run: dotnet build ./Services/Basket/Basket.IntegrationTest/Basket.IntegrationTest.csproj
+        run: dotnet build ./Services/Basket/EShop.Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj
       - name: Test
-        run: dotnet test ./Services/Basket/Basket.IntegrationTest/Basket.IntegrationTest.csproj --no-restore --verbosity normal
+        run: dotnet test ./Services/Basket/EShop.Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj --no-restore --verbosity normal
         
   integrationtest_order:
     runs-on: ubuntu-latest    
