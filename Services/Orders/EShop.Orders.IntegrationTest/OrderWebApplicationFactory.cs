@@ -4,7 +4,6 @@ public class OrderWebApplicationFactory : WebApplicationFactory<Program>, IAsync
 {
     private readonly ITestContainersConfigWithCustomConnectionStrig<MsSqlContainer> _mssqlContainer
         = new MssqlTestContainerConfig();
-
     private readonly ITestContainersConfigWithConnectionPort<RabbitMqContainer> _rabbitMqContainer = new RabbitMQTestContainerConfig();
 
     private readonly string _rabbitHostName;
@@ -31,27 +30,25 @@ public class OrderWebApplicationFactory : WebApplicationFactory<Program>, IAsync
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        
+    {      
         builder.ConfigureServices(services =>
         {
             _mssqlConnectionString = _mssqlContainer.ConnectionString;
-
-            services.RemoveAll(typeof(IRabbitMQPersistentConnection));
-
-            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
-                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqContainer.ConnectionPort.ToString());
-            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
 
             services.RemoveAll(typeof(DbContextOptions<OrderContext>));
             services.RemoveAll(typeof(DbContextOptions<IntegrationEventLogDbContext>));
 
             services.DatabaseConfiguration(_mssqlConnectionString);
 
+            services.RemoveAll(typeof(IRabbitMQPersistentConnection));
+
+            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
+                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqContainer.ConnectionPort.ToString());
+            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);           
+
             services.RemoveAll(typeof(IOrderQuery));
 
-            services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(_mssqlConnectionString));
-           
+            services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(_mssqlConnectionString));         
         });      
     }
 
