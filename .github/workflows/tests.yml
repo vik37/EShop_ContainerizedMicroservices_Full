@@ -62,11 +62,11 @@ jobs:
       - name: Test
         run: dotnet test ./BuildingBloks/Events/EventBus.UnitTest/EventBus.UnitTest.csproj --no-restore --verbosity normal
         
-  integrationtests:    
+  integrationtest_catalog:    
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3.2.0
+      - uses: actions/checkout@v3
         name: Setup .NET Core SDK
       - uses: actions/setup-dotnet@v3
         with:
@@ -77,7 +77,10 @@ jobs:
         run: dotnet build ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj
       - name: Test
         run: dotnet test ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj --no-restore --verbosity normal
-                
+
+  integrationtest_basket:
+    runs-on: ubuntu-latest    
+    steps:
       - uses: actions/checkout@v3.2.0
         name: Setup .NET Core SDK
       - uses: actions/setup-dotnet@v3
@@ -89,7 +92,10 @@ jobs:
         run: dotnet build ./Services/Basket/Basket.IntegrationTest/Basket.IntegrationTest.csproj
       - name: Test
         run: dotnet test ./Services/Basket/Basket.IntegrationTest/Basket.IntegrationTest.csproj --no-restore --verbosity normal
-
+        
+  integrationtest_order:
+    runs-on: ubuntu-latest    
+    steps:
       - uses: actions/checkout@v3.2.0
         name: Setup .NET Core SDK
       - uses: actions/setup-dotnet@v3
