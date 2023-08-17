@@ -29,15 +29,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBussRabbitMQ", "Buildi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEntityFramework", "BuildingBloks\Events\IntegrationEventLogEntityFramework\IntegrationEventLogEntityFramework.csproj", "{D877BD66-0CBD-4D2A-BAAD-996CC1F4A9B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.UnitTest", "Services\Catalog\Catalog.UnitTest\Catalog.UnitTest.csproj", "{26C2B72D-8C9C-409C-AD01-C853CCD23D68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Catalog.UnitTest", "Services\Catalog\Catalog.UnitTest\EShop.Catalog.UnitTest.csproj", "{26C2B72D-8C9C-409C-AD01-C853CCD23D68}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.UnitTest", "Services\Basket\Basket.UnitTest\Basket.UnitTest.csproj", "{5C976F48-54C6-45B7-ADC8-5EC91868887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Basket.UnitTest", "Services\Basket\Basket.UnitTest\EShop.Basket.UnitTest.csproj", "{5C976F48-54C6-45B7-ADC8-5EC91868887F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.UnitTest", "BuildingBloks\Events\EventBus.UnitTest\EventBus.UnitTest.csproj", "{0A098ECE-14CD-4051-8114-062A1D6493F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.IntegrationTest", "Services\Catalog\Catalog.IntegrationTest\Catalog.IntegrationTest.csproj", "{6C78EE5F-E182-4271-9C2F-EF27FB3136DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Catalog.IntegrationTest", "Services\Catalog\Catalog.IntegrationTest\EShop.Catalog.IntegrationTest.csproj", "{6C78EE5F-E182-4271-9C2F-EF27FB3136DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.IntegrationTest", "Services\Basket\Basket.IntegrationTest\Basket.IntegrationTest.csproj", "{56EE98A6-7E71-474C-A44A-564C02DEA8B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Basket.IntegrationTest", "Services\Basket\Basket.IntegrationTest\EShop.Basket.IntegrationTest.csproj", "{56EE98A6-7E71-474C-A44A-564C02DEA8B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{6A803091-DA54-400E-987C-269346AC51AA}"
 EndProject
@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Orders.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.UnitTest", "Services\Orders\Orders.UnitTest\Orders.UnitTest.csproj", "{60B63667-28DA-4775-8017-26A5E9952457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Orders.IntegrationTest", "Services\Orders\EShop.Orders.IntegrationTest\EShop.Orders.IntegrationTest.csproj", "{AB9061C2-26DE-4062-BCFC-498345DE2E6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Orders.IntegrationTest", "Services\Orders\EShop.Orders.IntegrationTest\EShop.Orders.IntegrationTest.csproj", "{AB9061C2-26DE-4062-BCFC-498345DE2E6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
