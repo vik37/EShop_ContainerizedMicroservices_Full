@@ -23,7 +23,6 @@ public class RabbitMQTestContainerConfig : ITestContainersConfigWithConnectionPo
                             .WithPortBinding(_connectionPort, 5672)
                             .WithUsername(Username)
                             .WithPassword(Password)
-                            .WithWaitStrategy(Wait.ForUnixContainer().UntilOperationIsSucceeded(()=>true,2))
                             .Build();
     }
 }
