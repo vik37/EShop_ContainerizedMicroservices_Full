@@ -1,6 +1,7 @@
 ﻿namespace Basket.IntegrationTest;
 
-public class TestBasketHttpResponse : IClassFixture<BasketWebApplicationFactory>
+[Collection("BasketApplication Collection")]
+public class TestBasketHttpResponse
 {
     private readonly BasketWebApplicationFactory _applicationFactory;
     private readonly HttpClient _httpClient;
