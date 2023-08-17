@@ -11,6 +11,7 @@ public sealed class CatalogApplication
             this.ApplicationName = this.AppNamespace.Substring(this.AppNamespace.LastIndexOf('.', this.AppNamespace.LastIndexOf('.') - 1) + 1);
     }
 
+
     public static CatalogApplication GetApplication() => new CatalogApplication();
 
     public string LocalMSQLConnectionString(IConfiguration configuration) => configuration["LocalDbConnectionString"];
