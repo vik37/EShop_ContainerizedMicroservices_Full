@@ -92,6 +92,7 @@ jobs:
         run: dotnet build ./Services/Basket/EShop.Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj
       - name: Test
         run: dotnet test ./Services/Basket/EShop.Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj --no-restore --verbosity normal
+
         
   integrationtest_order:
     runs-on: ubuntu-latest    
