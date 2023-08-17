@@ -87,11 +87,11 @@ jobs:
         with:
           dotnet-versions: 6.0
       - name: Install dependencies
-        run: dotnet restore ./Services/Basket/Basket.IntegrationTest/EShop.Orders.IntegrationTest.csproj
+        run: dotnet restore ./Services/Basket/Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj
       - name: Build
-        run: dotnet build ./Services/Basket/Basket.IntegrationTest/EShop.Orders.IntegrationTest.csproj
+        run: dotnet build ./Services/Basket/Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj
       - name: Test
-        run: dotnet test ./Services/Basket/Basket.IntegrationTest/EShop.Orders.IntegrationTest.csproj --no-restore --verbosity normal
+        run: dotnet test ./Services/Basket/Basket.IntegrationTest/EShop.Basket.IntegrationTest.csproj --no-restore --verbosity normal
         
   integrationtest_order:
     runs-on: ubuntu-latest    
