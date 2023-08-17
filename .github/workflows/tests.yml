@@ -74,9 +74,9 @@ jobs:
       - name: Install dependencies
         run: dotnet restore ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj
       - name: Build
-        run: dotnet build ./Services/Catalog/Catalog.IntegrationTest/EShop.Catalog.IntegrationTest.csproj
+        run: dotnet build ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj
       - name: Test
-        run: dotnet test ./Services/Catalog/Catalog.IntegrationTest/EShop.Catalog.IntegrationTest.csproj --no-restore --verbosity normal
+        run: dotnet test ./Services/Catalog/Catalog.IntegrationTest/Catalog.IntegrationTest.csproj --no-restore --verbosity normal
 
   integrationtest_basket:
     runs-on: ubuntu-latest    
