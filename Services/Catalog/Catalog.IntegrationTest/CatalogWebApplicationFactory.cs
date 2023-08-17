@@ -26,13 +26,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
-        {    
-            services.RemoveAll(typeof(IRabbitMQPersistentConnection));
-
-            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
-                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqConntainer.ConnectionPort.ToString());
-            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
-
+        {
             services.RemoveAll(typeof(DbContextOptions<CatalogDbContext>));
 
             services.RemoveAll(typeof(DbContextOptions<IntegrationEventLogDbContext>));
@@ -40,7 +34,11 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
             _mssqlConnectionString = _mssqlConntainer.ConnectionString;
 
             services.DatabaseConfiguration(_mssqlConnectionString);
-            
+            services.RemoveAll(typeof(IRabbitMQPersistentConnection));
+
+            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
+                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqConntainer.ConnectionPort.ToString());
+            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);                       
         });
     }
 
@@ -48,6 +46,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     {
         _mssqlConntainer.TestContainer.StopAsync().Wait();
         _rabbitMqConntainer.TestContainer.StopAsync().Wait();
+
         return Task.CompletedTask;
     }
 }
