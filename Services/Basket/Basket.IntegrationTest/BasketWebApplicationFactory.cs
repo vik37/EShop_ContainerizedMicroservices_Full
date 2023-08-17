@@ -1,5 +1,6 @@
 ﻿namespace Basket.IntegrationTest;
 
+
 public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly ITestContainersConfig<RedisContainer> _redisContainer = new RedisTestContainerConfig();
@@ -51,3 +52,6 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
         return Task.CompletedTask;
     }
 }
+
+[CollectionDefinition("BasketApplication Collection")]
+public class BasketApplicationCollection : ICollectionFixture<BasketWebApplicationFactory> { }

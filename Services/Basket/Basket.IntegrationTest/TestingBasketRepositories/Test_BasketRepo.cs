@@ -1,6 +1,7 @@
 ﻿namespace Basket.IntegrationTest.TestingBasketRepositories;
 
-public class Test_BasketRepo : IClassFixture<BasketWebApplicationFactory>
+[Collection("BasketApplication Collection")]
+public class Test_BasketRepo
 {
     private readonly BasketWebApplicationFactory _applicationFactory;
     private readonly IBasketRepository _basketRepository;
