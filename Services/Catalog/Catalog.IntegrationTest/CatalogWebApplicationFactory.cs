@@ -1,6 +1,6 @@
 ﻿namespace Catalog.IntegrationTest;
 
-public class CatalogWebApplicationFactory : WebApplicationFactory<Program>, 
+public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     IAsyncLifetime
 {
     private string _mssqlConnectionString = string.Empty;
@@ -12,8 +12,8 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
     public CatalogWebApplicationFactory()
     {
         _port = Random.Shared.Next(1000, 9990);
-        _mssqlConntainer.TestContainerBuild(_port-1);
-        _rabbitMqConntainer.TestContainerBuild(_port+1);
+        _mssqlConntainer.TestContainerBuild(_port - 1);
+        _rabbitMqConntainer.TestContainerBuild(_port + 1);
         _rabbitHostName = _rabbitMqConntainer.TestContainer.Hostname;
     }
 
@@ -38,7 +38,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
 
             services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
                                             rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqConntainer.ConnectionPort.ToString());
-            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);                       
+            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
         });
     }
 

@@ -5,12 +5,12 @@ public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactor
     private readonly HttpClient _httpClient;
     private readonly CatalogWebApplicationFactory _applicationFactory;
 
-    private CatalogItem Item;
+    private readonly CatalogItem Item;
 
     public TestCatalogHttpResponse(CatalogWebApplicationFactory applicationFactory)
     {
         _applicationFactory = applicationFactory;
-        _httpClient = applicationFactory.CreateClient();
+        _httpClient = _applicationFactory.CreateClient();
 
         Item = new CatalogItem
         {
@@ -26,7 +26,7 @@ public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactor
     [Fact]
     public async Task Test_GetPaginatedCatalogItems_ResponseStatusShouldBeOk()
     {
-        var response = await _httpClient.GetAsync(CatalogURIPath.PaginationItems(1,8));
+        var response = await _httpClient.GetAsync(CatalogURIPath.PaginationItems(1, 8));
 
         response.EnsureSuccessStatusCode();
     }
@@ -50,7 +50,7 @@ public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactor
     [Fact]
     public async Task Test_GetCatalogItemsFilterByBrand_ResponseStatusShouldBeOk()
     {
-        var response = await _httpClient.GetAsync(CatalogURIPath.PaginationItemsWithFilterByBrandAndTypes(BrandFilterIndex:2));
+        var response = await _httpClient.GetAsync(CatalogURIPath.PaginationItemsWithFilterByBrandAndTypes(BrandFilterIndex: 2));
 
         response.EnsureSuccessStatusCode();
     }
@@ -60,7 +60,7 @@ public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactor
     {
         var response = await _httpClient.GetAsync(CatalogURIPath.GetCatalogItemById(3333));
 
-        Assert.Equal(HttpStatusCode.NotFound,response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
@@ -120,5 +120,3 @@ public class TestCatalogHttpResponse : IClassFixture<CatalogWebApplicationFactor
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 }
-
-

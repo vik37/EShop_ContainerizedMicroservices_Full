@@ -3,7 +3,7 @@
 public class RabbitMQTestContainerConfig : ITestContainersConfigWithConnectionPort<RabbitMqContainer>
 {
     private const string HostName = "rabbitmqcatalogtest";
-    private string _name = $"{HostName}_{Guid.NewGuid().ToString()}";
+    private readonly string _name = $"{HostName}_{Guid.NewGuid()}";
 
     public const string Username = "guest";
     public const string Password = "guest";
