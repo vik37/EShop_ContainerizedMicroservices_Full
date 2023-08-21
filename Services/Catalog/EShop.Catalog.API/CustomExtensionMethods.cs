@@ -1,8 +1,14 @@
-﻿namespace EShop.Catalog.API;
+﻿using System.Text.RegularExpressions;
+
+namespace EShop.Catalog.API;
 
 public static class CustomExtensionMethods
 {
     //************** Application Configurations  ******************\\
+
+    public static IServiceCollection BuildCatalogOptionSettings(this IServiceCollection services, IConfiguration configuration)
+        => services.Configure<CatalogOptionSettings>(configuration);
+
 
     public static IServiceCollection SwaggerConfigurations(this IServiceCollection services) =>
         services.AddSwaggerGen(options =>
@@ -88,8 +94,8 @@ public static class CustomExtensionMethods
         return services;
     }
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection,
-                                         string rabbitUsername, string rabbitPassword, string? port = null, int retryConnection = 5)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, EventBusSettings eventBusSettings,
+                                                            string? port = null)
     {
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             sp => (DbConnection c) => new IntegrationEventLogService(c));
@@ -101,10 +107,10 @@ public static class CustomExtensionMethods
 
             ConnectionFactory factory = new()
             {
-                HostName = rabbitConnection,
+                HostName = eventBusSettings.rabbitMQConnection,
                 DispatchConsumersAsync = true,
-                UserName = rabbitUsername,
-                Password = rabbitPassword,
+                UserName = eventBusSettings.eventBusRabbitMQUsername,
+                Password = eventBusSettings.eventBusRabbitMQPassword,
             };
 
             if (!string.IsNullOrEmpty(port))
@@ -116,15 +122,14 @@ public static class CustomExtensionMethods
                     logger.LogError("Port must be of type number. Port {Port} - Type {PortType}", port, port.GetType().Name);
             }
 
-            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
+            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: eventBusSettings.eventBusRetry);
         });
 
         return services;
     }
         
 
-    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, string subscriptionClientName,
-                                                                    int retryCount = 5)
+    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, EventBusSettings eventBusSettings)
     {
         services.AddSingleton<IEventBus, EventBusRabbitMQ>(reb =>
         {
@@ -132,8 +137,8 @@ public static class CustomExtensionMethods
             var logger = reb.GetRequiredService<ILogger<EventBusRabbitMQ>>();
             var rabbitMQEventBusSubscriptionManager = reb.GetRequiredService<IEventBusSubscriptionManager>();
 
-            return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: subscriptionClientName,
-                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryCount);
+            return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: eventBusSettings.subscriptionClientName,
+                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: eventBusSettings.eventBusRetry);
         });
         services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionsManager>();
 

@@ -34,11 +34,14 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
             _mssqlConnectionString = _mssqlConntainer.ConnectionString;
 
             services.DatabaseConfiguration(_mssqlConnectionString);
+
+            var eventBusSettings = new EventBusSettings(_rabbitHostName, RabbitMQTestContainerConfig.SubscriptionClient,
+                        RabbitMQTestContainerConfig.Username, RabbitMQTestContainerConfig.Password);
+
             services.RemoveAll(typeof(IRabbitMQPersistentConnection));
 
-            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
-                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMqConntainer.ConnectionPort.ToString());
-            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
+            services.ConfigurationEventBus(eventBusSettings, port: _rabbitMqConntainer.ConnectionPort.ToString());
+            services.RegisterEventBusRabbitMQ(eventBusSettings);
         });
     }
 

@@ -12,7 +12,7 @@ public sealed class CatalogApplication
     }
 
 
-    public static CatalogApplication GetApplication() => new CatalogApplication();
+    public static CatalogApplication GetApplication() => new ();
 
     public string LocalMSQLConnectionString(IConfiguration configuration) => configuration["LocalDbConnectionString"];
 
