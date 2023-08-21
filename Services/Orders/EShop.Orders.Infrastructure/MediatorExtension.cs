@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace EShop.Orders.Infrastructure;
+﻿namespace EShop.Orders.Infrastructure;
 
 public static class MediatorExtension
 {
