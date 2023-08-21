@@ -1,14 +1,8 @@
-﻿using System.Text.RegularExpressions;
-
-namespace EShop.Catalog.API;
+﻿namespace EShop.Catalog.API;
 
 public static class CustomExtensionMethods
 {
     //************** Application Configurations  ******************\\
-
-    public static IServiceCollection BuildCatalogOptionSettings(this IServiceCollection services, IConfiguration configuration)
-        => services.Configure<CatalogOptionSettings>(configuration);
-
 
     public static IServiceCollection SwaggerConfigurations(this IServiceCollection services) =>
         services.AddSwaggerGen(options =>

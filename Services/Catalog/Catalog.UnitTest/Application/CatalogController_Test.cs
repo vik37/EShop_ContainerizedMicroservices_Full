@@ -13,7 +13,7 @@ public class CatalogController_Test
     {
         _options = Options.Create<CatalogOptionSettings>(new CatalogOptionSettings
         {
-            InternalCatalogBaseUrl = "http://host.docker.internal:4040/api/v1.0/catalog"
+            InternalCatalogBaseUrl = "http://host.docker.internal:9010/gw/v1.0/catalog"
         });
 
         _dbContextOptions = new DbContextOptionsBuilder<CatalogDbContext>()

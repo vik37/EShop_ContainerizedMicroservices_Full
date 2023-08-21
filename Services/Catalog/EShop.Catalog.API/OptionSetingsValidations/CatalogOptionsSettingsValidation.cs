@@ -10,7 +10,7 @@ public class CatalogOptionsSettingsValidation : IValidateOptions<CatalogOptionSe
                 throw new Exception($"Wrong configuration {nameof(options.InternalCatalogBaseUrl)} of type {nameof(CatalogOptionSettings)} - {nameof(options.InternalCatalogBaseUrl)} is required");
             if (options.InternalCatalogBaseUrl.Length <= 30)
                 throw new Exception($"Wrong configuration {nameof(options.InternalCatalogBaseUrl)} of type {nameof(CatalogOptionSettings)} with result {options.InternalCatalogBaseUrl} - {nameof(options.InternalCatalogBaseUrl)} can not be less then 30 charachters");
-            if (!options.InternalCatalogBaseUrl.StartsWith("http://host.docker.internal:4040"))
+            if (!options.InternalCatalogBaseUrl.StartsWith("http://host.docker.internal:9010"))
                 throw new Exception($"Wrong configuration {nameof(options.InternalCatalogBaseUrl)} of type {nameof(CatalogOptionSettings)} with result {options.InternalCatalogBaseUrl} - The result of {nameof(options.InternalCatalogBaseUrl)} must be Internal Host URL");
 
             return ValidateOptionsResult.Success;

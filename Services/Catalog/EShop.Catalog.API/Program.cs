@@ -33,7 +33,6 @@ var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"],
 //***** Custom Extension Methods - Application Configurations *****\\\
 
 services.SwaggerConfigurations()
-        //.BuildCatalogOptionSettings(configuration)
         .DatabaseConfiguration(application.DockerMSQLConnectionString(configuration))
         .CorsConfiguration()
         .ApiVersioning()
