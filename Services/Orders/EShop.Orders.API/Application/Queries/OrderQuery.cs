@@ -73,7 +73,7 @@ public class OrderQuery : IOrderQuery
         return await connection.QueryAsync<CardTypeViewModel>("SELECT * FROM ordering.CardTypes");
     }
 
-    private OrderViewModel MapToOrderItem(dynamic result)
+    private static OrderViewModel MapToOrderItem(dynamic result)
     {
         var order = new OrderViewModel()
         {

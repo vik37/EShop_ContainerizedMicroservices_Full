@@ -5,16 +5,18 @@
 [ApiController]
 public class CatalogController : ControllerBase
 {
-    private const string _catalogUrl = "http://localhost:4040/api/v1.0/catalog/items/"; 
     private readonly CatalogDbContext _dbCatalogContext;
     private readonly ICatalogIntegrationEventService _catalogIntegrationEventService;
+    private readonly CatalogOptionSettings _catalogOptionSettings;
 
     public CatalogController(CatalogDbContext dbCatalogContext,
-            ICatalogIntegrationEventService catalogIntegrationEventService
+            ICatalogIntegrationEventService catalogIntegrationEventService,
+            IOptions<CatalogOptionSettings> catalogOptionSettings
         )
     {
         _dbCatalogContext = dbCatalogContext ?? throw new ArgumentNullException(nameof(dbCatalogContext));
         _catalogIntegrationEventService = catalogIntegrationEventService ?? throw new ArgumentNullException(nameof(catalogIntegrationEventService));
+        _catalogOptionSettings = catalogOptionSettings.Value;
     }
 
     /// <summary>
@@ -38,7 +40,7 @@ public class CatalogController : ControllerBase
                                                                 .Skip(pageSize * pageIndex)
                                                                 .Take(pageSize)
                                                                 .ToListAsync();
-        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
+        var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogOptionSettings.InternalCatalogBaseUrl}/items/{c.Id}/image"; return c; });
         var model = new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
         //{ c.PictureFileName!.Split(".")[0]}
         return Ok(model);
@@ -63,7 +65,7 @@ public class CatalogController : ControllerBase
         
         if (item != null)
         {
-            item.PictureUri = $"{_catalogUrl}{item.Id}/image";
+            item.PictureUri = $"{_catalogOptionSettings.InternalCatalogBaseUrl}/items/{item.Id}/image";
             return Ok(item);
         }
             
@@ -94,7 +96,7 @@ public class CatalogController : ControllerBase
                                                 .Skip(pageSize * pageIndex)
                                                 .Take(pageSize)
                                                 .ToListAsync(token);
-        var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogUrl}{c.Id}/image"; return c; });
+        var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogOptionSettings.InternalCatalogBaseUrl}/items/{c.Id}/image"; return c; });
         return new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
     }
 

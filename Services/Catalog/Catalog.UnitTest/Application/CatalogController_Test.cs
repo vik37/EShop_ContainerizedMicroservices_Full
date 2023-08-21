@@ -7,8 +7,15 @@ public class CatalogController_Test
 
     private readonly CatalogDbContext _catalogDbContext;
     private readonly CatalogController _catalogController;
+    private readonly IOptions<CatalogOptionSettings> _options;
+
     public CatalogController_Test()
     {
+        _options = Options.Create<CatalogOptionSettings>(new CatalogOptionSettings
+        {
+            InternalCatalogBaseUrl = "http://host.docker.internal:9010/gw/v1.0/catalog"
+        });
+
         _dbContextOptions = new DbContextOptionsBuilder<CatalogDbContext>()
             .UseInMemoryDatabase("in-memory").Options;
 
@@ -23,7 +30,7 @@ public class CatalogController_Test
         _integrationEventServiceSub = Substitute.For<ICatalogIntegrationEventService>();
 
         _catalogDbContext = new CatalogDbContext(_dbContextOptions);
-        _catalogController = new CatalogController(_catalogDbContext, _integrationEventServiceSub);
+        _catalogController = new CatalogController(_catalogDbContext, _integrationEventServiceSub, _options);
     }
 
     [Fact]
@@ -61,7 +68,7 @@ public class CatalogController_Test
 
         CatalogItem catalogItem = CatalogFakeDb.FakeCatalog().Single(c => c.Id == catalogId);
 
-        string catalogImageUrl = string.Concat($"http://localhost:4040/api/v1.0/catalog/items/",$"{catalogId}/image");
+        string catalogImageUrl = string.Concat(_options.Value.InternalCatalogBaseUrl,$"/items/{catalogId}/image");
 
         // action
         var actionResult = (OkObjectResult) await _catalogController.ItemByIdAsync(catalogId);

@@ -13,12 +13,22 @@ builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
         .ReadFrom.Configuration(ctx.Configuration));
 
+IConfiguration configuration = builder.Configuration;
+
+builder.Services.Configure<CatalogOptionSettings>(configuration)
+                .AddOptions<CatalogOptionSettings>()
+                .ValidateOnStart();
+
 // Add services to the container.
 var services = builder.Services;
 
+services.TryAddSingleton<IValidateOptions<CatalogOptionSettings>, CatalogOptionsSettingsValidation>();
+
 var application = CatalogApplication.GetApplication();
 
-IConfiguration configuration = builder.Configuration;
+var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"], configuration["SubscriptionClientName"],
+                        configuration["EventBusRabbitMQUsername"], configuration["EventBusRabbitMQPassword"], application.RabbitMQRetry(configuration));
+
 
 //***** Custom Extension Methods - Application Configurations *****\\\
 
@@ -26,9 +36,8 @@ services.SwaggerConfigurations()
         .DatabaseConfiguration(application.DockerMSQLConnectionString(configuration))
         .CorsConfiguration()
         .ApiVersioning()
-        .ConfigurationEventBus(rabbitConnection: configuration["RabbitMQConnection"], rabbitUsername: configuration["EventBusRabbitMQUsername"],
-                               rabbitPassword: configuration["EventBusRabbitMQPassword"], retryConnection: application.RabbitMQRetry(configuration))
-        .RegisterEventBusRabbitMQ(subscriptionClientName: configuration["SubscriptionClientName"], application.RabbitMQRetry(configuration));
+        .ConfigurationEventBus(eventBusSettings)
+        .RegisterEventBusRabbitMQ(eventBusSettings);
         
 
 services.Configure<FormOptions>(options =>
