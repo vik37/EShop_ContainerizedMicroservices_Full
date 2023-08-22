@@ -24,16 +24,16 @@ var services = builder.Services;
 
 services.TryAddSingleton<IValidateOptions<CatalogOptionSettings>, CatalogOptionsSettingsValidation>();
 
-var application = CatalogApplication.GetApplication();
+var catalogApplication = CatalogApplication.GetApplication();
 
 var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"], configuration["SubscriptionClientName"],
-                        configuration["EventBusRabbitMQUsername"], configuration["EventBusRabbitMQPassword"], application.RabbitMQRetry(configuration));
+                        configuration["EventBusRabbitMQUsername"], configuration["EventBusRabbitMQPassword"], catalogApplication.RabbitMQRetry(configuration));
 
 
 //***** Custom Extension Methods - Application Configurations *****\\\
 
 services.SwaggerConfigurations()
-        .DatabaseConfiguration(application.DockerMSQLConnectionString(configuration))
+        .DatabaseConfiguration(catalogApplication.DockerMSQLConnectionString(configuration))
         .CorsConfiguration()
         .ApiVersioning()
         .ConfigurationEventBus(eventBusSettings)
@@ -65,7 +65,7 @@ try
 {
     var app = builder.Build();
 
-    Log.Information("Application {ApplicationName} Starting", application.ApplicationName);
+    Log.Information("Application {ApplicationName} Starting", catalogApplication.ApplicationName);
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -108,7 +108,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application {Application} Failes", application.AppNamespace);
+    Log.Fatal(ex, "Application {Application} Failes", catalogApplication.AppNamespace);
 }
 finally
 {

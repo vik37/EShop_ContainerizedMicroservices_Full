@@ -37,9 +37,11 @@ public class BasketWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
 
             services.RemoveAll(typeof(IRabbitMQPersistentConnection));
 
-            services.ConfigurationEventBus(rabbitConnection: _rabbitHostName, rabbitUsername: RabbitMQTestContainerConfig.Username,
-                                            rabbitPassword: RabbitMQTestContainerConfig.Password, port: _rabbitMQContainer.ConnectionPort.ToString());
-            services.RegisterEventBusRabbitMQ(RabbitMQTestContainerConfig.SubscriptionClient);
+            var eventBusSettings = new EventBusSettings(_rabbitHostName, RabbitMQTestContainerConfig.SubscriptionClient,
+                        RabbitMQTestContainerConfig.Username, RabbitMQTestContainerConfig.Password);
+
+            services.ConfigurationEventBus(eventBusSettings,_rabbitMQContainer.ConnectionPort);
+            services.RegisterEventBusRabbitMQ(eventBusSettings);
         });
 
     }
