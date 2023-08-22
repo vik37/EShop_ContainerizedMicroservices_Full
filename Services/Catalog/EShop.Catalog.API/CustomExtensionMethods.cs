@@ -89,7 +89,7 @@ public static class CustomExtensionMethods
     }
 
     public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, EventBusSettings eventBusSettings,
-                                                            string? port = null)
+                                                            int port = 0)
     {
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             sp => (DbConnection c) => new IntegrationEventLogService(c));
@@ -107,14 +107,8 @@ public static class CustomExtensionMethods
                 Password = eventBusSettings.eventBusRabbitMQPassword,
             };
 
-            if (!string.IsNullOrEmpty(port))
-            {
-                bool isPortNumber = int.TryParse(port, out int num);
-                if (isPortNumber)
-                    factory.Port = num;
-                else
-                    logger.LogError("Port must be of type number. Port {Port} - Type {PortType}", port, port.GetType().Name);
-            }
+            if (port > 0)
+                factory.Port = port;
 
             return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: eventBusSettings.eventBusRetry);
         });
@@ -169,8 +163,7 @@ public static class CustomExtensionMethods
                 }                   
                 else
                     logger.LogError("{ContextType} Migration Failed", nameof(IntegrationEventLogDbContext));
-            }
-            
+            }    
         }
         return app;
     }

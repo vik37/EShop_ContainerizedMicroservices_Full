@@ -19,12 +19,14 @@ services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 
+var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"]!, configuration["SubscriptionClientName"]!,
+                        configuration["EventBusRabbitMQUsername"]!, configuration["EventBusRabbitMQPassword"]!, orderApplication.RabbitMQRetry(configuration));
+
 services.SwaggerConfigurations()
                 .ApiVersioning()
-                .DatabaseConfiguration(configuration["OrderingDockerDbConnectionString"] ?? string.Empty)
-                .ConfigurationEventBus(rabbitConnection: configuration["RabbitMQConnection"]!, rabbitUsername: configuration["EventBusRabbitMQUsername"]!,
-                                        rabbitPassword: configuration["EventBusRabbitMQPassword"]!, retryConnection: orderApplication.RabbitMQRetry(configuration))
-                .RegisterEventBusRabbitMQ(configuration["SubscriptionClientName"] ?? string.Empty, orderApplication.RabbitMQRetry(configuration));
+                .DatabaseConfiguration(orderApplication.DockerMSQLConnectionString(configuration))
+                .ConfigurationEventBus(eventBusSettings)
+                .RegisterEventBusRabbitMQ(eventBusSettings);
 
 services.AddMediatR(cfg =>
 {
@@ -39,7 +41,7 @@ services.AddSingleton<IValidator<CreateOrderCommand>, CreateOrderCommandValidato
 services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, IdentifiedCommandValidator>();
 services.AddSingleton<IValidator<ShipOrderCommand>, ShipOrderCommandValidator>();
 
-services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration["OrderingDockerDbConnectionString"] ?? string.Empty));
+services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(orderApplication.DockerMSQLConnectionString(configuration)));
 services.AddScoped<IBuyerRepository, BuyerRepository>();
 services.AddScoped<IOrderRepository, OrderRepository>();
 services.AddScoped<IRequestManager, RequestManager>();

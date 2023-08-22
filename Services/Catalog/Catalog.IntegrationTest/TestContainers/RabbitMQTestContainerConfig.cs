@@ -15,7 +15,7 @@ public class RabbitMQTestContainerConfig : ITestContainersConfigWithConnectionPo
 
     public void TestContainerBuild(int port)
     {
-        _connectionPort = Random.Shared.Next(10000, 90000);
+        _connectionPort = Random.Shared.Next(1000, 9000);
         TestContainer = new RabbitMqBuilder()
                             .WithName(_name)
                             .WithHostname(HostName)

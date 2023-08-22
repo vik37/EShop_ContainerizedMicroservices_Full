@@ -63,8 +63,7 @@ public static class CustomExtensionMethods
         return services;
     }
 
-    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, string rabbitConnection, 
-                                         string rabbitUsername, string rabbitPassword, string? port = null, int retryConnection = 5)
+    public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, EventBusSettings eventBusSettings, int port = 0)
     {
         services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
              (DbConnection dc) => new IntegrationEventLogService(dc));
@@ -76,29 +75,22 @@ public static class CustomExtensionMethods
 
             ConnectionFactory factory = new()
             {
-                HostName = rabbitConnection,
+                HostName = eventBusSettings.rabbitMQConnection,
                 DispatchConsumersAsync = true,
-                UserName = rabbitUsername,
-                Password = rabbitPassword,
+                UserName = eventBusSettings.eventBusRabbitMQUsername,
+                Password = eventBusSettings.eventBusRabbitMQPassword,
             };
 
-            if (!string.IsNullOrEmpty(port))
-            {
-                bool isPortNumber = int.TryParse(port, out int num);
-                if (isPortNumber)
-                    factory.Port = num;
-                else
-                    logger.LogError("Port must be of type number. Port {Port} - Type {PortType}", port, port.GetType().Name);
-            }
+            if(port > 0)
+                factory.Port = port;
 
-            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: retryConnection);
+            return new RabbitMQPersistentConnection(connectionFactory: factory, logger: logger, retryCount: eventBusSettings.eventBusRetry);
         });
         
         return services;
     }
 
-    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services,
-                                            string subscriptionClientName, int retryConnection = 5)
+    public static IServiceCollection RegisterEventBusRabbitMQ(this IServiceCollection services, EventBusSettings eventBusSettings)
     {
         services.AddSingleton<IEventBus, EventBusRabbitMQ>(reb =>
         {
@@ -107,8 +99,8 @@ public static class CustomExtensionMethods
             var logger = reb.GetRequiredService<ILogger<EventBusRabbitMQ>>();
             var rabbitMQEventBusSubscriptionManager = reb.GetRequiredService<IEventBusSubscriptionManager>();
 
-            return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: subscriptionClientName,
-                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: retryConnection);
+            return new EventBusRabbitMQ(persistentConnection: rabbitMQPersistentConnetion, logger: logger, queueName: eventBusSettings.subscriptionClientName,
+                    eventBusSubscriptionManager: rabbitMQEventBusSubscriptionManager, serviceProvider: reb, retryCount: eventBusSettings.eventBusRetry);
         });
         services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionsManager>();
 

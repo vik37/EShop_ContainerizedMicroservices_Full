@@ -40,7 +40,7 @@ public class CatalogWebApplicationFactory : WebApplicationFactory<Program>,
 
             services.RemoveAll(typeof(IRabbitMQPersistentConnection));
 
-            services.ConfigurationEventBus(eventBusSettings, port: _rabbitMqConntainer.ConnectionPort.ToString());
+            services.ConfigurationEventBus(eventBusSettings, port: _rabbitMqConntainer.ConnectionPort);
             services.RegisterEventBusRabbitMQ(eventBusSettings);
         });
     }
