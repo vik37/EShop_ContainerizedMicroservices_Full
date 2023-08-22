@@ -37,6 +37,17 @@ public static class CustomExtensionMethods
         return services;
     }
 
+    public static IServiceCollection CorsConfiguration(this IServiceCollection services) =>
+       services.AddCors(options =>
+       {
+           options.AddPolicy("Order Cors", options =>
+           {
+               options.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+           });
+       });
+
     public static IServiceCollection DatabaseConfiguration(this IServiceCollection services, string connectionString)
     {
 

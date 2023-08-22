@@ -15,7 +15,11 @@ builder.Host.UseSerilog((ctx, lc) => lc
 
 // Add services to the container.
 
-services.AddControllers();
+services.AddControllers()
+    .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+            .AddNewtonsoftJson(opt =>
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver()); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 
@@ -24,6 +28,7 @@ var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"]!
 
 services.SwaggerConfigurations()
                 .ApiVersioning()
+                .CorsConfiguration()
                 .DatabaseConfiguration(orderApplication.DockerMSQLConnectionString(configuration))
                 .ConfigurationEventBus(eventBusSettings)
                 .RegisterEventBusRabbitMQ(eventBusSettings);
@@ -69,6 +74,8 @@ try
     }
 
     app.UseSerilogRequestLogging();
+
+    app.UseCors("Order Cors");
 
     app.UseAuthorization();
 
