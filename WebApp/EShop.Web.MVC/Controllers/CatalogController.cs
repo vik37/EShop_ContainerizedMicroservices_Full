@@ -51,8 +51,10 @@ public class CatalogController : Controller
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
             ViewBag.Url = _productImageUrl.Url + $"{model.TempPictureId}/image?temporarilyFilename={model.FileName}";
-            AddUpdateCatalogVM vm = new AddUpdateCatalogVM();
-            vm.PictureFileName = model.FileName;            
+            AddUpdateCatalogVM vm = new()
+            {
+                PictureFileName = model.FileName
+            };          
 
             return View(vm);
         }
@@ -87,7 +89,7 @@ public class CatalogController : Controller
         if(catalog == null)
             return RedirectToAction(nameof(Index));
 
-        AddUpdateCatalogVM vm = new AddUpdateCatalogVM
+        AddUpdateCatalogVM vm = new()
         {
             Id = catalog.Id,
             Name = catalog.Name,
@@ -123,7 +125,7 @@ public class CatalogController : Controller
             await _catalogService.UploadImage(model.ImageFile.Image, model.Id);
         }        
         
-        AddUpdateCatalogVM oldCatalogVM = new AddUpdateCatalogVM
+        AddUpdateCatalogVM oldCatalogVM = new()
         {
             Name = catalog.Name,
             Description = catalog.Description,
@@ -151,7 +153,7 @@ public class CatalogController : Controller
 
     public async Task<IActionResult> UploadImage()
     {
-        ImageVM vm = new ImageVM();
+        ImageVM vm = new();
         await Task.Yield();
         return await Task.FromResult(View(vm));
     }
