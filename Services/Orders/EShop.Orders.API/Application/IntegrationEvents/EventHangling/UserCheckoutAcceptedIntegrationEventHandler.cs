@@ -2,17 +2,13 @@
 
 public class UserCheckoutAcceptedIntegrationEventHandler : IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>
 {
-    private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
-    private readonly IOrderIntegrationEventService _eventService;
     private readonly ILogger<UserCheckoutAcceptedIntegrationEventHandler> _logger;
 
-    public UserCheckoutAcceptedIntegrationEventHandler(IOrderRepository orderRepository, IMediator mediator, 
-        IOrderIntegrationEventService eventService, ILogger<UserCheckoutAcceptedIntegrationEventHandler> logger)
+    public UserCheckoutAcceptedIntegrationEventHandler( IMediator mediator, 
+         ILogger<UserCheckoutAcceptedIntegrationEventHandler> logger)
     {
-        _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _eventService = eventService ?? throw new ArgumentNullException(nameof(eventService));
         _logger = logger ?? throw new ArgumentNullException(nameof(mediator));
     }
 

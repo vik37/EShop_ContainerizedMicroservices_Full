@@ -42,8 +42,13 @@ public class CatalogService : BaseService, ICatalogService
         httpResponseMessage.EnsureSuccessStatusCode();
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-        var items = new List<SelectListItem>();
-        items.Add(new SelectListItem { Value = null, Text = "All", Selected = true });
+        var items = new List<SelectListItem>()
+        {
+            new SelectListItem
+            {
+                Value = null, Text = "All", Selected = true
+            }
+        };
 
         using var types = JsonDocument.Parse(content);
 
@@ -66,8 +71,13 @@ public class CatalogService : BaseService, ICatalogService
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => http.GetAsync(uriPath));
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-        var items = new List<SelectListItem>();
-        items.Add(new SelectListItem { Value = null, Text = "All", Selected = true });
+        var items = new List<SelectListItem>()
+        {
+            new SelectListItem
+            {
+                Value = null, Text = "All", Selected = true
+            }
+        };
 
         using var brands = JsonDocument.Parse(content);
 
