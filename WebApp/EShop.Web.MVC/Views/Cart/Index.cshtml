@@ -19,7 +19,7 @@
                         <tbody>
                             @foreach (var product in Model.Items)
                             {
-                                <tr>
+                                <tr class="card-list">
                                     <td>
                                         <img src="@product.PictureUrl" alt="@product.ProductName picture" />
                                     </td>
@@ -72,7 +72,20 @@
                     <h3>Total Price: @(Model.Total().ToString("N2")) $</h3>
                     <div class="row">
                         <div class="offset-md-4 col-md-3">
-                            <button type="button" class="btn btn-outline-warning order-bn">Order</button>
+                            <button type="button" class="btn btn-outline-warning basket-btn basket-btn-checkout">Checkout</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        @if(Model.Items.Count > 0)
+                        {
+                            <div class="col-md-6">
+                                <a asp-action="RemoveAllItems" asp-route-userId="@Model.BuyerId" class="btn btn-lg btn-danger basket-btn basket-btn-clear">Clear the Basket</a>
+                            </div>
+                        }
+                        <div class="offset-md-1 col-md-5">
+                            <a  class="btn btn-lg btn-light basket-btn basket-btn-return" 
+                                asp-controller="Catalog" asp-action="Index" asp-route-page="0">Return to Shopping</a>
                         </div>
                     </div>
                 </div>

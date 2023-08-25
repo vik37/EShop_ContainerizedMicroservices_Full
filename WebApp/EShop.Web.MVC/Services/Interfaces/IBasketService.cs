@@ -4,4 +4,5 @@ public interface IBasketService
 {
     Task<Basket> GetBasket();
     Task<Basket> UpdateBasket(Basket basket);
+    Task RemoveAllItems(string userId);
 }

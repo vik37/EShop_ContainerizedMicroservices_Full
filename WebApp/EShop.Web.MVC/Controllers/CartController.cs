@@ -66,10 +66,18 @@ public class CartController : Controller
         return RedirectToAction("Index","Catalog",new {errorMsg = ViewBag.CartErrorMsg });
     }
 
+    [HttpGet]
+    public async Task<IActionResult> RemoveAllItems(string userId)
+    {
+        await _basketService.RemoveAllItems(userId);
+        return RedirectToAction("Index", "Catalog");
+    }
+
     public async Task<IActionResult> SetQuantities(int productId, string calcBtn)
     {
         var cartByUser = await _basketService.GetBasket();
         var findExistingProduct = cartByUser.Items.FirstOrDefault(x => x.ProductId == productId);
+  
         await _basketService.UpdateBasket(QuantityChange(calcBtn[0], cartByUser, findExistingProduct));
 
         return RedirectToAction("Index","Cart");

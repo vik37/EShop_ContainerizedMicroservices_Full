@@ -27,4 +27,12 @@ public class BasketService : BaseService, IBasketService
         http.DefaultRequestHeaders.Clear();
         return basket;
     }
+
+    public async Task RemoveAllItems(string userId)
+    {
+        var http = _httpClientFactory.CreateClient("BasketAPI");
+
+        var response = await http.DeleteAsync("basket/"+userId);
+        response.EnsureSuccessStatusCode();
+    }
 }
