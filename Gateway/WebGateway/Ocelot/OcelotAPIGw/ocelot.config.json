@@ -130,7 +130,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/{version}/basket/{userId}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/api/{version}/basket",
