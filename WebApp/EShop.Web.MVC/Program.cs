@@ -11,7 +11,6 @@ builder.Services.Configure<APIUrlsOptionSettings>(configuration);
 // Custom Extension Methods
 services.HttpClientConfig(configuration);
 
-services.AddSingleton(new ProductImageUrl(configuration));
 services.AddSingleton<Retry>();
 
 
