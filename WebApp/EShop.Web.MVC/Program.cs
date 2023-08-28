@@ -2,14 +2,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 var services = builder.Services;
 IConfiguration configuration = builder.Configuration;
 
+builder.Services.Configure<APIUrlsOptionSettings>(configuration);
+
 // Custom Extension Methods
 services.HttpClientConfig(configuration);
-
-services.AddTransient<ICatalogService, CatalogService>();
-services.AddTransient<IBasketService, BasketService>();
 
 services.AddSingleton(new ProductImageUrl(configuration));
 services.AddSingleton<Retry>();

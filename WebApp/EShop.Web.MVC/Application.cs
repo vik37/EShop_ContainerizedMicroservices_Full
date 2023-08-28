@@ -11,17 +11,5 @@ public sealed class Application
             this.ApplicationName = this.AppNamespace.Substring(this.AppNamespace.LastIndexOf('.', this.AppNamespace.LastIndexOf('.') - 1) + 1);
     }
 
-    public static Application GetApplication() => new Application();
-
-    public string DockerInternalCatalog(IConfiguration configuration) => configuration["DockerInternalCatalog"];
-
-    public string CatalogDockerURL(IConfiguration configuration) => configuration["CatalogAPIDocker"];
-
-    public string BasketDockerURL(IConfiguration configuration) => configuration["BasketAPIDocker"];
-
-    public string CatalogLocalKestrelURL(IConfiguration configuration) => configuration["HttpClienAPIt:CatalogAPILocal"];
-
-    public string BasketLocalKestrelURL(IConfiguration configuration) => configuration["HttpClientAPI:BasketAPILocal"];
-
-    public string GatewayAPI(IConfiguration configuration) => configuration["GatewayAPI"];
+    public static Application GetApplication() => new();
 }

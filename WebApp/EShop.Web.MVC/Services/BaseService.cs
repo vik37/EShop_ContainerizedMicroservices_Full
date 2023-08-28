@@ -2,12 +2,12 @@
 
 public class BaseService
 {
-    protected readonly IHttpClientFactory _httpClientFactory;
+    protected readonly HttpClient _httpClient;
     protected readonly AsyncRetryPolicy<HttpResponseMessage> _policy;
 
-    public BaseService(IHttpClientFactory httpClientFactory, Retry retry)
+    public BaseService(HttpClient httpClient, Retry retry)
     {
-        _httpClientFactory = httpClientFactory;
+        _httpClient = httpClient;
         _policy = retry.CreatePolicy(5);
     }
 }

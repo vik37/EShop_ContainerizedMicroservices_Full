@@ -8,5 +8,7 @@ public static class BasketAPI
     /// </summary>
     /// <param name="userId"></param>
     /// <returns>URI path</returns>
-    public static string GetBasketByUserIdURIPath(string userId = "9899b909-e395-47a5-914e-676d9602942a") => $"basket/{userId}"; 
+    public static string GetBasketByUserIdURIPath(string userId = "9899b909-e395-47a5-914e-676d9602942a") => $"basket/{userId}";
+
+    public static string BasketCheckoutURIPath => "basket/checkout";
 }
