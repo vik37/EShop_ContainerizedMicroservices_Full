@@ -12,9 +12,9 @@ public static class CatalogAPI
 
     public static string GetCatalogByIdURIPath(int id) => $"catalog/items/{id}";
 
-    public static string GetBrandURIPath() => "catalog/catalogbrands";
+    public static string GetCatalogBrandURIPath() => "catalog/catalogbrands";
 
-    public static string GetTypeURIPath() => "catalog/catalogtypes";
+    public static string GetCatalogTypeURIPath() => "catalog/catalogtypes";
 
     public static string AddOrUpdateCatalogURIPath() => "catalog/items";
 

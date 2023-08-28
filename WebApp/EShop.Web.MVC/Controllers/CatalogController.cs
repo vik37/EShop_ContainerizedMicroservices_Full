@@ -3,12 +3,12 @@
 public class CatalogController : Controller
 {
     private readonly ICatalogService _catalogService;
-    private readonly ProductImageUrl _productImageUrl;
+    private readonly APIUrlsOptionSettings _urlOptionSettings;
 
-    public CatalogController(ICatalogService catalogService, ProductImageUrl productImageUrl)
+    public CatalogController(ICatalogService catalogService, IOptions<APIUrlsOptionSettings> apiUrlOptionSettings)
     {
         _catalogService = catalogService;
-        _productImageUrl = productImageUrl;
+        _urlOptionSettings = apiUrlOptionSettings.Value;
     }
 
     public async Task<IActionResult> Index(int? page, int? BrandFilterIndex, int? TypeFilterIndex)   
@@ -50,7 +50,7 @@ public class CatalogController : Controller
         {
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
-            ViewBag.Url = _productImageUrl.Url + $"{model.TempPictureId}/image?temporarilyFilename={model.FileName}";
+            ViewBag.Url = _urlOptionSettings.DockerInternalCatalog + $"{model.TempPictureId}/image?temporarilyFilename={model.FileName}";
             AddUpdateCatalogVM vm = new()
             {
                 PictureFileName = model.FileName
@@ -75,7 +75,7 @@ public class CatalogController : Controller
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
             int pictureProductId = int.Parse(model.PictureFileName.Split(".")[0]);
-            ViewBag.Url = _productImageUrl.Url + $"{pictureProductId}/image?filename={model.PictureFileName}";
+            ViewBag.Url = _urlOptionSettings.DockerInternalCatalog + $"{pictureProductId}/image?filename={model.PictureFileName}";
             return View("AddNewCatalogItem",model);
         }
         

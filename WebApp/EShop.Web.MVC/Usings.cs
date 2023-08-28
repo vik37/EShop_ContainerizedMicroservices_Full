@@ -1,5 +1,6 @@
 ﻿global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.Extensions.Options;
 global using System.Text.Json;
 global using System.Text;
 global using System.Diagnostics;
@@ -14,6 +15,7 @@ global using EShop.Web.MVC.Infrastructure.ApiCalls;
 global using EShop.Web.MVC.Models;
 global using EShop.Web.MVC.Models.PaginationInfo;
 global using EShop.Web.MVC.Models.ViewModels;
+global using EShop.Web.MVC.Services.ModelDTOs;
 global using Newtonsoft.Json;
 global using Polly;
 global using Polly.Retry;
