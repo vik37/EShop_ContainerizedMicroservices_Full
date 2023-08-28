@@ -1,16 +1,9 @@
 ﻿namespace EShop.Web.MVC.Services;
 
-public class CatalogService : ICatalogService
+public class CatalogService : BaseService, ICatalogService
 {
-    private readonly HttpClient _httpClient;
-    protected readonly AsyncRetryPolicy<HttpResponseMessage> _policy;
 
-    public CatalogService(HttpClient httpClient, Retry retry)
-    {
-        _httpClient = httpClient;
-        _policy = retry.CreatePolicy(5);
-    }
-
+    public CatalogService(HttpClient httpClient, Retry retry): base(httpClient, retry) { }
 
     public async Task<Catalog> GetCatalogItems(int pageSize, int pageIndex, int? BrandFilterIndex, int? TypeFilterIndex)
     {

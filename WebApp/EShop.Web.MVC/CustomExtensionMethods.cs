@@ -7,6 +7,7 @@ public static class CustomExtensionMethods
     public static IServiceCollection HttpClientConfig(this IServiceCollection services, IConfiguration configuration)
     {
         var httpUrlsOptionSettings = configuration.Get<APIUrlsOptionSettings>();
+
         services.AddHttpClient<ICatalogService, CatalogService>(httpConfig =>
         {
             httpConfig.BaseAddress = new Uri(httpUrlsOptionSettings.GatewayAPI);
