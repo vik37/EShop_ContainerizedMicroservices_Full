@@ -9,6 +9,24 @@ services:
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
     depends_on:
         - ocelotapigw
+        - eshop.orders.api
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: Gateway/WebGateway/Ocelot/OcelotAPIGw/Dockerfile
+    depends_on:
+      - eshop.catalog.api
+      - eshop.basket.api
+      - eshop.orders.api
+      - web.bff.shoppingaggregator
+
+  web.bff.shoppingaggregator:
+    image: ${DOCKER_REGISTRY-}webbffshoppingaggregator
+    build:
+      context: .
+      dockerfile: Gateway/WebAggregator/Web.BFF.ShoppingAggregator/Dockerfile
 
   eshop.catalog.api:
     image: ${DOCKER_REGISTRY-}eshopcatalogapi:${TAG:-latest}
@@ -45,13 +63,3 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-
-  ocelotapigw:
-    image: ${DOCKER_REGISTRY-}ocelotapigw
-    build:
-      context: .
-      dockerfile: Gateway/WebGateway/Ocelot/OcelotAPIGw/Dockerfile
-    depends_on:
-      - eshop.catalog.api
-      - eshop.basket.api
-

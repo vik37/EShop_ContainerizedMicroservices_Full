@@ -8,7 +8,7 @@ public static class CustomApplicationExtensionMethods
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "eShopOnContainers - Catalog HTTP API",
+                Title = "eShopOnContainers - Basket HTTP API",
                 Version = "v1",
                 Description = "The Basket Microservice HTTP API"
             });

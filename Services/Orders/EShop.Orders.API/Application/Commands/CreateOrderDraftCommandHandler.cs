@@ -5,7 +5,7 @@ public class CreateOrderDraftCommandHandler : IRequestHandler<CreateOrderDraftCo
     public Task<OrderDraftDto> Handle(CreateOrderDraftCommand request, CancellationToken cancellationToken)
     {
         Order order = Order.NewDraft();
-        var orderItems = request.BasketItems.Select(x => x.ToOrderItemDto()).ToList();
+        var orderItems = request.Items.Select(x => x.ToOrderItemDto()).ToList();
 
         foreach (var item in orderItems)
         {

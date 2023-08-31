@@ -1,6 +1,5 @@
 ﻿using EShop.Web.MVC.Models.Converters;
 using EShop.Web.MVC.Models.CustomValidationAttributes;
-using EShop.Web.MVC.Services.ModelDTOs;
 
 namespace EShop.Web.MVC.Models;
 

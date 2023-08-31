@@ -6,7 +6,7 @@ public record OrderDraftDto
     public decimal Total { get; set; }
 
     public static OrderDraftDto FromOrder(Order order)
-        => new OrderDraftDto()
+        => new()
         {
             OrderItems = order.OrderItems.Select(oi => new OrderItemDto
             {
