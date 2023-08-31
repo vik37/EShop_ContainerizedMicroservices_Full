@@ -7,5 +7,6 @@ public interface IOrderService
     Task CancelOrder(string orderId);
     Task ShipOrder(string orderId);
     BasketDTO MapOrderToBasket(Order order);
-    void OverrideUserInfoIntoOrder(Order origin, Order destination);
+    void OverrideUserInfoIntoOrder(Order original, Order destination);
+    Order MapUserInfoIntoOrder(ApplicationUser applicationUser, Order order);
 }

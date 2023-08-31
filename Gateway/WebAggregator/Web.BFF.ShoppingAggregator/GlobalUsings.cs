@@ -1,0 +1,9 @@
+﻿global using Microsoft.Extensions.Options;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.OpenApi.Models;
+global using Web.BFF.ShoppingAggregator.Models;
+global using Web.BFF.ShoppingAggregator.Infrastructure.APIUrlsCall;
+global using Web.BFF.ShoppingAggregator;
+global using Web.BFF.ShoppingAggregator.Services;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Serialization;

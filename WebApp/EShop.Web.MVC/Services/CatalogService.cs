@@ -36,7 +36,7 @@ public class CatalogService : BaseService, ICatalogService
     public async Task<IEnumerable<SelectListItem>> GetCatalogType()
     {
        
-        string uriPath = CatalogAPI.GetCatalogTypeURIPath();
+        string uriPath = CatalogAPI.GetCatalogTypeURIPath;
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(uriPath));
         httpResponseMessage.EnsureSuccessStatusCode();
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -65,7 +65,7 @@ public class CatalogService : BaseService, ICatalogService
 
     public async Task<IEnumerable<SelectListItem>> GetCatalogBrand()
     {
-        string uriPath = CatalogAPI.GetCatalogBrandURIPath();
+        string uriPath = CatalogAPI.GetCatalogBrandURIPath;
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(uriPath));
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
 
@@ -94,7 +94,7 @@ public class CatalogService : BaseService, ICatalogService
     public async Task AddOrUpdateCatalog(AddUpdateCatalogVM catalog, int? id = null, bool isNewModel = true)
     {
         var catalogContent = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-        string uriPath = CatalogAPI.AddOrUpdateCatalogURIPath();
+        string uriPath = CatalogAPI.AddOrUpdateCatalogURIPath;
         HttpResponseMessage response = null;
         if (isNewModel)
             response = await _policy.ExecuteAsync(()=> _httpClient.PostAsync(uriPath, catalogContent));

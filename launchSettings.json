@@ -11,8 +11,8 @@
         "sqldata": "StartWithoutDebugging",
         "basketdata": "StartWithoutDebugging",
         "rabbitmq": "StartWithoutDebugging",
-        "ocelotapigw": "StartDebugging"
-
+        "ocelotapigw": "StartDebugging",
+        "web.bff.shoppingaggregator": "StartDebugging"
       }
     }
   }

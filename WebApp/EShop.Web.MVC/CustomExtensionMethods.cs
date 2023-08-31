@@ -6,6 +6,8 @@ public static class CustomExtensionMethods
 
     public static IServiceCollection HttpClientConfig(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddTransient<HttpCLientRequestIdDelegationHandler>();
+
         var httpUrlsOptionSettings = configuration.Get<APIUrlsOptionSettings>();
 
         services.AddHttpClient<ICatalogService, CatalogService>(httpConfig =>
@@ -26,6 +28,7 @@ public static class CustomExtensionMethods
             httpConfig.BaseAddress = new Uri(httpUrlsOptionSettings.OrderAPIDocker);
             httpConfig.DefaultRequestHeaders.Add("Accept", "application/json");
         })
+         .AddHttpMessageHandler<HttpCLientRequestIdDelegationHandler>()
          .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan });
 
         return services;
