@@ -143,6 +143,18 @@
       ],
       "UpstreamPathTemplate": "/gw/{version}/basket",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/bff/{version}/order/draft/{basketId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "web.bff.shoppingaggregator",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/{version}/order/draft/{basketId}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

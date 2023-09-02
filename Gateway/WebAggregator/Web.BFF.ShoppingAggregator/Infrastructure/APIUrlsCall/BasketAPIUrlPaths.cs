@@ -2,5 +2,5 @@
 
 public static class BasketAPIUrlPaths
 {
-    public static string GetBasketByUserIdAsync(string userId) => $"/basket/{userId}";
+    public static string GetBasketByUserIdAsync(string userId) => $"basket/{userId}";
 }

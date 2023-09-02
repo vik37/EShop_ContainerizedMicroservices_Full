@@ -19,8 +19,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80 
-      - BasketAPIDocker=http://eshop.basket.api/api/v1
-      - OrderAPIDocker=http://eshop.orders.api/api/v1
+      - BasketAPIDocker=http://eshop.basket.api/api/v1/
+      - OrderAPIDocker=http://eshop.orders.api/api/v1/
     ports:
       - "6060:80"
 

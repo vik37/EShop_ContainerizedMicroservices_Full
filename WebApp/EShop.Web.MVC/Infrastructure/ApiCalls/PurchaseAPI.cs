@@ -2,5 +2,5 @@
 
 public static class PurchaseAPI
 {
-    public static string GetOrderDraft => "order/draft";
+    public static string GetOrderDraft(string basketId) => $"order/draft/{basketId}";
 }

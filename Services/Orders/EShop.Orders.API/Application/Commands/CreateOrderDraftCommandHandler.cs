@@ -9,7 +9,7 @@ public class CreateOrderDraftCommandHandler : IRequestHandler<CreateOrderDraftCo
 
         foreach (var item in orderItems)
         {
-            order.AddOrderItem(item.ProductId, item.ProductName, item.UnitPrice, item.Discount, item.PictureUrl);
+            order.AddOrderItem(item.ProductId, item.ProductName, item.UnitPrice, item.Discount, item.PictureUrl, item.Units);
         }
         return Task.FromResult(OrderDraftDto.FromOrder(order));
     }

@@ -9,7 +9,6 @@ services:
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
     depends_on:
         - ocelotapigw
-        - eshop.orders.api
 
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw

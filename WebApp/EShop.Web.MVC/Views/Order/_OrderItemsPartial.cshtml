@@ -1,0 +1,39 @@
+﻿@model List<OrderItem>
+
+<h6>Order Details</h6>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <input type="hidden" value="@item.ProductId" name="@(item.ProductId)" />
+        <div div class="col-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="create_order_product_image" src="@item.PictureUrl" alt="@item.ProductName image" />
+                    <input type="hidden" value="@item.PictureUrl" name="@(item.PictureUrl)" />
+                </div>
+                <div class="offset-md-2 col-md-6">
+                    <div class="col-md-12">
+                        <p><b>@item.ProductName</b></p>
+                        <input type="hidden" value="@item.ProductName" name="@(item.ProductName)" />
+                    </div>
+                    <div class="col-md-12">
+                        <p><b>Price: </b> @item.UnitPrice.ToString("N2")</p>
+                        <input type="hidden" value="@item.Units" name="@(item.Units) $" />
+                    </div>
+                    <div class="col-md-12">
+                        <p><b>Discount: </b> @item.Discount</p>
+                        <input type="hidden" value="@item.ProductName" name="@(item.ProductName)" />
+                    </div>
+                    <div class="col-md-12">
+                        <p><b>Quantity: </b> @item.Units</p>
+                        <input type="hidden" value="@item.ProductName" name="@(item.ProductName)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 total_price_by_units">
+            <h6>@Math.Round(item.Units * item.UnitPrice, 2).ToString("N2") $</h6>           
+        </div> 
+        <hr />
+    }
+</div>

@@ -72,7 +72,7 @@
                     <h3>Total Price: @(Model.Total().ToString("N2")) $</h3>
                     <div class="row">
                         <div class="offset-md-4 col-md-3">
-                            <button type="button" class="btn btn-outline-warning basket-btn basket-btn-checkout">Checkout</button>
+                            <a asp-controller="Order" asp-action="Create" asp-route-basketId="@Model.BuyerId" class="btn btn-outline-warning basket-btn basket-btn-checkout">Checkout</a>
                         </div>
                     </div>
                     <hr />
