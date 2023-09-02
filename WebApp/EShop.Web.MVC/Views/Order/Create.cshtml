@@ -1,0 +1,118 @@
+﻿@model Order;
+
+@{
+    string[] bankCards = new string[] { "amex-min.png", "mastercard-min.jpg", "visa-min.jpg" };
+}
+<section class="container checkout-container">
+    <header>
+        <h3>Checkout</h3>
+        <hr />
+        <p>Please fill in the fields</p>
+    </header>
+    <main>
+        <form class="">
+            <div class="row">
+                <section class="col-md-7 checkout-form">
+                    <h6>Shopping Address</h6>
+                    <section class="shopping">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="City" class="form-label"></label>
+                                <input asp-for="City" type="text" class="form-control form-control-sm" placeholder="City">
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Street" class="form-label"></label>
+                                <input asp-for="Street" type="text" class="form-control form-control-sm" placeholder="Street">
+                            </div>
+                            <div class="col-md-12">
+                                <label asp-for="State" class="form-label"></label>
+                                <input asp-for="State" type="text" class="form-control form-control-sm" placeholder="State">
+                            </div>
+                            <div class="col-md-12">
+                                <label asp-for="Country" class="form-label"></label>
+                                <input asp-for="Country" type="text" class="form-control form-control-sm" placeholder="Country">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="show-shopping">
+                        <h6>Complete the address for shipment fields</h6>
+                        <span>&#10096</span>
+                    </section>
+                    <h6>Payment Methods</h6>
+                    <section class="payment">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label asp-for="CardNumber" class="form-label"></label>
+                                <input asp-for="CardNumber" type="text" class="form-control form-control-sm" placeholder="000000000000000">
+                            </div>
+                            <div class="col-md-12">
+                                <label asp-for="CardHolderName" class="form-label"></label>
+                                <input asp-for="CardHolderName" type="text" class="form-control form-control-sm" placeholder="Card Holdername">
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label asp-for="CardExpirationShort" class="form-label"></label>
+                                <input asp-for="CardExpirationShort" type="text" class="form-control form-control-sm" placeholder="MM/YY">
+                            </div>
+                            <div class="col-md-4 col-sm-12 symbols-deckor-block">
+                                @for (int i = 0; i < 4; i++)
+                                {
+                                    <span class="symbols-deckor">&#x2747;</span>
+                                }
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label asp-for="CardSecurityNumber" class="form-label"></label>
+                                <input asp-for="CardSecurityNumber" type="text" class="form-control form-control-sm card-security-num-input" placeholder="000">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-md-12 show-payment">
+                        <h6>Complete the payment fields</h6>
+                        <span>&#10096</span>
+                    </section>
+                    <br />
+                    <section class="bank-cards">
+                        <div class="row">
+                            <div class="offset-md-4 col-md-7">
+                                <div class="row">
+                                    @for (int i = 0; i < bankCards.Length; i++)
+                                    {
+                                        <div class="col-md-3 bank-cards-image">
+                                            <img class="bank-cards-image-@bankCards[i].Split('-')[0]" src="~/image/bank_card/@bankCards[i]" alt="bank card @bankCards[i]" />
+                                        </div>
+                                    }
+                                </div>                              
+                            </div>
+                        </div>
+                    </section>
+                    <hr />
+                    <section class="offset-md-5 col-md-4">
+                        <input type="submit" value="[Buy Now]" name="action" class="btn btn-warning btn-sm btn-submit-order" />
+                    </section>
+                    <input asp-for="ZipCode" type="hidden" />
+                    <input asp-for="RequestId" type="hidden" value="@Guid.NewGuid().ToString()" />
+                </section>
+                <aside class="offset-md-1 col-md-4 order-summary">
+                    <h5>Order Summary</h5>
+
+                    <section class="col-12 order-summary-details">
+                        <partial name="_OrderItemsPartial" model="@Model.OrderItems" />
+                    </section>
+
+                    <section class="col-12">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h6>Total: @Model.Total.ToString("N2")</h6>
+                                <input asp-for="Total" type="hidden" />
+                            </div>
+                            <div class="col-md-2 show-order-details">
+                                <span>&#10096</span>
+                            </div>
+                        </div>                       
+                    </section>
+                </aside>
+            </div>
+        </form>
+    </main>   
+</section>
+<link href="~/css/create_order.css" rel="stylesheet" />
+<script src="~/js/create_order.js"></script>

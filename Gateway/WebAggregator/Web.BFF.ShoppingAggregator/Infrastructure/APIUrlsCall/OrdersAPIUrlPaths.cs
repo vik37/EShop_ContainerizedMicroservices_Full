@@ -2,5 +2,5 @@
 
 public static class OrdersAPIUrlPaths
 {
-    public static string GetOrderDraft => "/order/draft";
+    public static string GetOrderDraft => "order/draft";
 }

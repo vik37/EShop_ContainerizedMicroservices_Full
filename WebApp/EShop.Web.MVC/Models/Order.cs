@@ -1,7 +1,4 @@
-﻿using EShop.Web.MVC.Models.Converters;
-using EShop.Web.MVC.Models.CustomValidationAttributes;
-
-namespace EShop.Web.MVC.Models;
+﻿namespace EShop.Web.MVC.Models;
 
 public class Order
 {
@@ -31,7 +28,7 @@ public class Order
     [DisplayName("Card Number")]
     public string CardNumber { get; set; }
     [Required]
-    [DisplayName("Card Holder Name")]
+    [DisplayName("Cardholder Name")]
     public string CardHolderName { get; set; }
 
     public DateTime CardExpirationDate { get; set; }

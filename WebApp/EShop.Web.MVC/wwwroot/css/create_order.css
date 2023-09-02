@@ -1,0 +1,151 @@
+﻿.checkout-container{
+    color: rgb(127, 70, 9);
+    letter-spacing: 0.08rem;
+}
+
+.checkout-form{
+    box-shadow: 0 5px 12px 3px rgb(127, 70, 9,0.4);
+    border-radius: 10px;
+    padding: 4px;
+}
+.shopping, .payment {
+    border: 1px solid rgb(128, 128, 128,0.4);
+    border-bottom: none;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 7px;
+}
+
+.payment {
+    display: none;
+}
+
+.show-shopping, .show-payment {
+    border: 1px solid rgb(128, 128, 128,0.4);
+    margin-bottom: 5px;
+    padding: 0 10px;
+    background-color: rgb(0,0,0);
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+
+.show-shopping > h6, .show-payment > h6{
+    color: rgba(0,0,0,0.5);
+    text-shadow: 4px 3px rgb(255, 255, 255);
+    padding-top: 4px;
+    font-family: 'Kufi Outline';
+    font-size: 0.788rem;
+    font-weight: bolder;
+}
+
+.show-shopping > span, .show-payment > span, .show-order-details > span{
+    display: inline-block;
+    font-size: 1.1666rem;
+    padding: 0 4px;
+    color: rgba(128, 128, 128,0.7);
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: -2px 0 1px rgb(255, 255, 255);
+    font-weight: bolder;
+    box-shadow: 0 0 8px 1px rgb(255, 255, 255);
+}
+
+.show-shopping > span{
+   transform: rotate(90deg);
+}
+
+.show-payment > span, .show-order-details > span{
+    transform: rotate(-90deg);
+}
+
+label{
+    font-size: 0.9rem;
+}
+
+.card-security-num-input{
+    width: 50px;
+    margin-left: 120px;
+}
+
+.symbols-deckor-block {
+    text-align: center;
+}
+.symbols-deckor {
+    display: inline-block;
+    padding-top: 40px;
+    font-size: 0.77rem;
+    filter: opacity(80%);
+}
+
+.btn-submit-order{
+    font-size: 0.8rem;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: 700;
+    letter-spacing: 0.03rem;
+    text-decoration: underline 2px dotted rgb(127, 70, 9);
+    padding: 0 3px;
+    color: rgb(3, 13, 74);
+}
+
+.bank-cards{
+    padding-right: 100px;
+}
+.bank-cards-image > img {
+    width: 50px;
+    height: 35px;
+}
+.bank-cards-image-amex{
+    height: 25px !important;
+}
+
+.order-details{
+    display: none;
+}
+/****** Order Items *******/
+.order-summary {
+    background-color: rgb(0,0,0);
+    color: rgb(255, 255, 255);
+}
+
+.create_order_product_image {
+    height: 120px;
+    border-radius: 10px;
+}
+
+.total_price_by_units {
+    background-color: rgb(196, 9, 9);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding-top: 4px;
+    font-family:fantasy;
+    font-weight: bolder;
+    text-shadow: 0 0 1px rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(255, 255, 255);
+}
+/* ============================== */
+@media screen and (max-width: 1200px) {
+    .symbols-deckor{
+        display: none;
+    }
+    .card-security-num-input{
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .symbols-deckor{
+        display: inline-block;
+        padding-top: 0;
+    }
+    .card-security-num-input {
+        margin-left: 6px;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .show-shopping > h6, .show-payment > h6{
+        display: none;
+    }
+}

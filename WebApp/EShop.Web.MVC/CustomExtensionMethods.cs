@@ -25,7 +25,7 @@ public static class CustomExtensionMethods
 
         services.AddHttpClient<IOrderService, OrderService>(httpConfig =>
         {
-            httpConfig.BaseAddress = new Uri(httpUrlsOptionSettings.OrderAPIDocker);
+            httpConfig.BaseAddress = new Uri(httpUrlsOptionSettings.GatewayAPI);
             httpConfig.DefaultRequestHeaders.Add("Accept", "application/json");
         })
          .AddHttpMessageHandler<HttpCLientRequestIdDelegationHandler>()

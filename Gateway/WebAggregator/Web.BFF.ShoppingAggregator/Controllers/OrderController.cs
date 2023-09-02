@@ -1,6 +1,6 @@
 ﻿namespace Web.BFF.ShoppingAggregator.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("bff/v1/[controller]")]
 [ApiController]
 public class OrderController : ControllerBase
 {
@@ -15,6 +15,9 @@ public class OrderController : ControllerBase
 
     [HttpGet]
     [Route("draft/{basketId}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<OrderData>> GetOrderDraftAsync(string basketId)
     {
         var basketData = await _basketService.GetBasketByIdAsync(basketId);

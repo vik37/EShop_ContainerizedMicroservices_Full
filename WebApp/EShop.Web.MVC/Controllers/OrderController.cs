@@ -11,8 +11,9 @@ public class OrderController : Controller
         _basketService = basketService;
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create(string basketId)
     {
-        return View();
+        var order = await _basketService.GetOrderDraft(basketId);
+        return View(order);
     }
 }
