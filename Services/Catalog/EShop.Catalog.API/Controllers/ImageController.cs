@@ -73,7 +73,7 @@ public class ImageController : Controller
         string filename = "";
 
         #region
-        //**************** IF IMAGE FILE CHANGE *******************\\
+        //**************** EDIT IMAGE FILE *******************\\
 
         if (catalogId is not null)
         {
@@ -131,7 +131,7 @@ public class ImageController : Controller
         System.IO.File.Delete(fullPath);
         return NoContent();
     }
-    private string GetImageMimeTypeFromImageFileExtension(string extension)
+    private static string GetImageMimeTypeFromImageFileExtension(string extension)
     {
         string mimetype = extension switch
         {

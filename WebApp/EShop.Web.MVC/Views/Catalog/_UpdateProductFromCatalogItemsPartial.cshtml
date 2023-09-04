@@ -1,31 +1,9 @@
-﻿@model AddUpdateCatalogVM
+﻿@model UpdateProductVM
 
-<form asp-action="@ViewBag.AddUpdateCatalogAction" asp-controller="Catalog" enctype="multipart/form-data" method="post">
-    <input type="hidden" asp-for="@Model.PictureFileName" value="@Model.PictureFileName" />
+<form asp-action="UpdateProductFromCatalogItem" asp-controller="Catalog" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="@Model.PictureUrl" value="@Model.PictureUrl" />
     <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
-    <div class="image-block @ViewBag.DisplayImage">
-        <div class="row">
-            <div class="col-md-1">
-                <img class="image-file" src="@ViewBag.PictureUrl" alt="uploaded temporary image" />
-            </div>           
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="input-group mb-3 input-file-block">
-                    <label asp-for="@Model.ImageFile.Image" class="input-group-text image-file-label">Photo</label>
-                    <input asp-for="@Model.ImageFile.Image" type="file" class="form-control image-file-input" aria-describedby="inputGroup-sizing-sm"
-                           accept="image/png, image/jpeg"
-                           onchange="document.querySelector('.image-file').src=window.URL.createObjectURL(this.files[0])">
 
-                </div>
-                <span asp-validation-for="@Model.ImageFile.Image" class="text-danger"></span>
-                @if (!string.IsNullOrEmpty(ViewBag.SuccessfullyUpdateMessage))
-                {
-                    <span class="text-success">@ViewBag.SuccessfullyUpdateMessage</span>
-                }
-            </div>
-        </div>
-   </div>
     <div class="row">
         <div class="col-md-6">
             <label asp-for="@Model.Name" class="form-label"></label>
@@ -69,12 +47,9 @@
     </div>
     <br />
     <hr />
-    <div class="row">
-        <div class="col-md-9 submit-item-btn-block">
-            <button type="submit" class="btn btn-outline-light">Submit</button>
-        </div>
-        <div class="col-md-2 offset-md-1 cancel-item-btn-block">
-            <button type="submit" class="btn btn-danger" name="cancel" value="cancel">Cancel</button>
-        </div>
-    </div>
+    <partial name="_SubmitCancelButtinsPartial"></partial>
+    @if (!string.IsNullOrEmpty(ViewBag.SuccessfullyUpdateMessage))
+    {
+        <h5 class="text-success">@ViewBag.SuccessfullyUpdateMessage</h5>
+    }
 </form>

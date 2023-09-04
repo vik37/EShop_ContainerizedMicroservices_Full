@@ -17,7 +17,7 @@ global using EShop.Web.MVC.Models.PaginationInfo;
 global using EShop.Web.MVC.Models.ViewModels;
 global using EShop.Web.MVC.Services.ModelDTOs;
 global using EShop.Web.MVC.Models.Converters;
-global using EShop.Web.MVC.Models.CustomValidationAttributes;
+global using EShop.Web.MVC.Infrastructure.Validations;
 global using Newtonsoft.Json;
 global using Polly;
 global using Polly.Retry;

@@ -1,18 +1,17 @@
-﻿@model AddUpdateCatalogVM
-
-@{
-    ViewBag.DisplayImage = "";
-    ViewBag.AddUpdateCatalogAction = "UpdateCatalogItem";
-}
+﻿@model UpdateProductVM
 
 <div class="container">
     <div class="catalog-form-heading-block">
         <h2>Change Catalog</h2>
     </div>
-    <div class="form-block">        
-        <partial name="_AddUpdateCatalogItemsPartial" model="@Model" data="@ViewBag.DisplayImage"></partial>
+    <div class="form-block"> 
+        <div class="row">
+            <div class="offset-2 col-9">
+                <a class="btn btn-sm btn-warning edit-image-btn" asp-controller="Catalog" asp-action="UpdateImage" asp-route-productId="@Model.Id">Edit Image for @Model.Name</a>
+            </div>
+        </div>
+        <partial name="_UpdateProductFromCatalogItemsPartial" model="@Model"></partial>
     </div>
 </div>
 
 <link href="~/css/catalog_form.css" rel="stylesheet" />
-<link href="~/css/update_image.css" rel="stylesheet" />

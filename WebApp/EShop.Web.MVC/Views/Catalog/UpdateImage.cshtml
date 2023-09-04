@@ -6,7 +6,8 @@
             <div class="catalog-form-heading-block">
                 <h2>Upload Image</h2>
             </div>
-            <form class="form-block" asp-action="UploadImage" asp-controller="Catalog" method="post" enctype="multipart/form-data">
+            <form class="form-block" asp-action="UpdateImage" asp-controller="Catalog" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.ProductId" value="@ViewBag.ProductId" />
                 <div class="row">
                     <div class="col-md-3 offset-md-4 image-block">
                         <img class="uploaded-image-file-temp" src="~/image/empty.jpg" alt="upload product image" />
@@ -25,8 +26,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 offset-md-5">
+                    <div class="col-md-6 offset-md-2">
                         <button type="submit" class="btn btn-outline-dark btn-image-upload">Upload</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-outline-danger back-btn" asp-action="UpdateCatalogItem" asp-controller="Catalog" asp-route-id="@ViewBag.ProductId">
+                            <span><i class="fa-solid fa-circle-arrow-left"></i> Back</span>
+                        </a>
                     </div>
                 </div>
             </form>

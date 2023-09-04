@@ -1,7 +1,16 @@
 html {
   font-size: 14px;
 }
-.disabled{
+.basket-nav{
+    margin-right: 15px;
+}
+.eshop-navbar {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bolder;
+    color: rgb(16, 58, 127) !important;
+    text-shadow: -1px 1px rgb(0, 0, 0);
+}
+.disabled {
     display: none;
 }
 .text-danger{
@@ -10,6 +19,18 @@ html {
 }
 .display-image{
     display: none;
+}
+.order-summary, .aside {
+    background-image: url("../image/r21do1.gif");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 200px;
+    color: rgb(255, 255, 255);
+}
+.text-success{
+    text-align: center;
+    background-color: rgba(16, 87, 6,0.3);
+    letter-spacing: 0.04rem;
 }
 @media (min-width: 768px) {
     html {

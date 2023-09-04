@@ -91,15 +91,22 @@ public class CatalogService : BaseService, ICatalogService
         return items;
     }
 
-    public async Task AddOrUpdateCatalog(AddUpdateCatalogVM catalog, int? id = null, bool isNewModel = true)
+    public async Task AddProductToCatalog(AddNewProductVM product)
     {
-        var catalogContent = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-        string uriPath = CatalogAPI.AddOrUpdateCatalogURIPath;
-        HttpResponseMessage response = null;
-        if (isNewModel)
-            response = await _policy.ExecuteAsync(()=> _httpClient.PostAsync(uriPath, catalogContent));
-        else
-            response = await _policy.ExecuteAsync(() => _httpClient.PutAsync(string.Concat(uriPath, $"/{id}"), catalogContent));
+        var catalogContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+        string uriPath = CatalogAPI.AddCatalogURIPath;
+
+        HttpResponseMessage response = await _policy.ExecuteAsync(() => _httpClient.PostAsync(uriPath, catalogContent));
+
+        _httpClient.DefaultRequestHeaders.Clear();
+    }
+
+    public async Task UpdateProductFromCatalog(UpdateProductVM product, int id)
+    {
+        var catalogContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
+        string uriPath = CatalogAPI.UpdateCatalogURIPath(id);
+        
+        HttpResponseMessage response = await _policy.ExecuteAsync(() => _httpClient.PutAsync(uriPath, catalogContent));
         
         _httpClient.DefaultRequestHeaders.Clear();       
     }
@@ -141,4 +148,6 @@ public class CatalogService : BaseService, ICatalogService
         response.EnsureSuccessStatusCode();
         _httpClient.DefaultRequestHeaders.Clear();
     }
+
+    
 }

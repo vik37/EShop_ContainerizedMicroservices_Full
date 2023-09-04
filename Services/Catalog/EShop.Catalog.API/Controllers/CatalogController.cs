@@ -42,7 +42,7 @@ public class CatalogController : ControllerBase
                                                                 .ToListAsync();
         var itemsWithPictures = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogOptionSettings.InternalCatalogBaseUrl}/items/{c.Id}/image"; return c; });
         var model = new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictures);
-        //{ c.PictureFileName!.Split(".")[0]}
+
         return Ok(model);
     }
 
@@ -84,8 +84,7 @@ public class CatalogController : ControllerBase
     [Route("items/type/{catalogTypeId}/brand/{catalogBrandId}")]
     [ProducesResponseType(typeof(PaginatedItemsDto<CatalogItem>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<PaginatedItemsDto<CatalogItem>>> GetCatalogItemsByBrandAndType(int catalogTypeId, int catalogBrandId,
-                                                                            [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0,
-                                                                            CancellationToken token = default)
+                                                                            [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
     {
         var catalogItems = (IQueryable<CatalogItem>)_dbCatalogContext.CatalogItems.Where(ci => ci.CatalogTypeId == catalogTypeId);
         if(catalogBrandId > 0)
@@ -95,7 +94,7 @@ public class CatalogController : ControllerBase
         var itemsOnPage = await catalogItems.OrderBy(x => x)
                                                 .Skip(pageSize * pageIndex)
                                                 .Take(pageSize)
-                                                .ToListAsync(token);
+                                                .ToListAsync();
         var itemsWithPictureUrls = itemsOnPage.Select(c => { c.PictureUri = $"{_catalogOptionSettings.InternalCatalogBaseUrl}/items/{c.Id}/image"; return c; });
         return new PaginatedItemsDto<CatalogItem>(pageIndex, pageSize, totalItems, itemsWithPictureUrls);
     }
@@ -108,7 +107,7 @@ public class CatalogController : ControllerBase
     [HttpPost]
     [Route("items")]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItemDto product, CancellationToken token = default)
+    public async Task<ActionResult> CreateProductAsync([FromBody] CatalogItemDto product)
     {
         var item = new CatalogItem
         {
@@ -123,7 +122,7 @@ public class CatalogController : ControllerBase
         try
         {
             _dbCatalogContext.CatalogItems.Add(item);
-            await _dbCatalogContext.SaveChangesAsync(token);
+            await _dbCatalogContext.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
@@ -144,7 +143,7 @@ public class CatalogController : ControllerBase
     [Route("items/{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItemDto product, [FromRoute] int id, CancellationToken token = default)
+    public async Task<ActionResult> UpdateProductAsync([FromBody] CatalogItemDto product, [FromRoute] int id)
     {
         var catalogItem = await _dbCatalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == id);
         if (catalogItem == null)
@@ -158,7 +157,7 @@ public class CatalogController : ControllerBase
         catalogItem.Description = product.Description;
 
         if(!riseProductPriceChangedEvent)
-            await _dbCatalogContext.SaveChangesAsync(token);
+            await _dbCatalogContext.SaveChangesAsync();
         else
         {
            var priceChangedEvent = new ProductPriceChangedIntegrationEvent(catalogItem.Id, product.Price,oldPrice);
@@ -180,7 +179,7 @@ public class CatalogController : ControllerBase
     [Route("{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult> DeleteProductAsync(int id, CancellationToken token = default)
+    public async Task<ActionResult> DeleteProductAsync(int id)
     {
         var product = _dbCatalogContext.CatalogItems.SingleOrDefault(x => x.Id == id);
         
@@ -191,7 +190,7 @@ public class CatalogController : ControllerBase
 
         _dbCatalogContext.CatalogItems.Remove(product);
 
-        await _dbCatalogContext.SaveChangesAsync(token);
+        await _dbCatalogContext.SaveChangesAsync();
 
         return Ok(pictureFileName);
     }
@@ -203,9 +202,9 @@ public class CatalogController : ControllerBase
     [HttpGet]
     [Route("catalogtypes")]
     [ProducesResponseType(typeof(List<CatalogType>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<List<CatalogType>>> CatalogTypesAsync(CancellationToken token = default)
+    public async Task<ActionResult<List<CatalogType>>> CatalogTypesAsync()
     {
-        return await _dbCatalogContext.CatalogTypes.ToListAsync(token);
+        return await _dbCatalogContext.CatalogTypes.ToListAsync();
     }
 
     /// <summary>
@@ -215,23 +214,8 @@ public class CatalogController : ControllerBase
     [HttpGet]
     [Route("catalogbrands")]
     [ProducesResponseType(typeof(List<CatalogBrand>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<List<CatalogBrand>>> CatalogBrandsAsync(CancellationToken token = default)
+    public async Task<ActionResult<List<CatalogBrand>>> CatalogBrandsAsync()
     {
-        return await _dbCatalogContext.CatalogBrands.ToListAsync(token);
-    }
-
-    /****************************/
-    // Private helper methods
-    /****************************/
-
-    private async Task<IEnumerable<CatalogItem>> GetItemsByIds(string ids)
-    {
-        var numIds = ids.Split(',').Select(id => (Ok: int.TryParse(id, out int x), Value: x));
-
-        if (!numIds.All(nid => nid.Ok))
-            return new List<CatalogItem>();
-        var selectedIds = numIds.Select(id => id.Value);
-
-        return await _dbCatalogContext.CatalogItems.Where(ci => selectedIds.Contains(ci.Id)).ToListAsync();
+        return await _dbCatalogContext.CatalogBrands.ToListAsync();
     }
 }

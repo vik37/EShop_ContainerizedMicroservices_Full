@@ -19,7 +19,9 @@ public static class CatalogAPI
 
     public static string GetCatalogTypeURIPath => $"{Base}catalogtypes";
 
-    public static string AddOrUpdateCatalogURIPath => BaseWithItems;
+    public static string AddCatalogURIPath => $"{Base}items";
+
+    public static string UpdateCatalogURIPath(int? id) => $"{Base}items/{id}";
 
     public static string RemoveCatalogURIPath(int id) => $"{Base}{id}";
 

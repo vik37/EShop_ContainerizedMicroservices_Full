@@ -1,8 +1,8 @@
 ﻿namespace EShop.Web.MVC.Models.ViewModels;
 
-public class AddUpdateCatalogVM
+public class UpdateProductVM
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     [Required(ErrorMessage = "Product Name is Required")]
     [MinLength(5, ErrorMessage = "Product Name can not be less than 5 charachters")]
@@ -28,27 +28,26 @@ public class AddUpdateCatalogVM
     [DisplayName("Product Type")]
     public int CatalogTypeId { get; set; }
 
-    public string PictureFileName { get; set; }
-
-    public ImageVM ImageFile { get; set; }
+    public string PictureUrl { get; set; }
 
     public override bool Equals(object obj)
     {
-        if(!(obj is AddUpdateCatalogVM))
+        if(!(obj is UpdateProductVM))
             return false;
 
-        var other = obj as AddUpdateCatalogVM;
+        var other = obj as UpdateProductVM;
         if(Name != other.Name) return false;
         if(Description != other.Description) return false;
         if(Price != other.Price) return false;
         if(CatalogBrandId != other.CatalogBrandId) return false;
         if(CatalogTypeId != other.CatalogTypeId) return false;
+        if(PictureUrl != other.PictureUrl) return false;
         else return true;
     }
 
-    public static bool operator ==(AddUpdateCatalogVM lhs, AddUpdateCatalogVM rhs) { return lhs.Equals(rhs); }
+    public static bool operator ==(UpdateProductVM lhs, UpdateProductVM rhs) { return lhs.Equals(rhs); }
 
-    public static bool operator !=(AddUpdateCatalogVM lhs, AddUpdateCatalogVM rhs) { return !(lhs == rhs); }
+    public static bool operator !=(UpdateProductVM lhs, UpdateProductVM rhs) { return !(lhs == rhs); }
 
     public override int GetHashCode()
     {

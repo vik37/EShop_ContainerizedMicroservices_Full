@@ -14,6 +14,13 @@ public class OrderController : Controller
     public async Task<IActionResult> Create(string basketId)
     {
         var order = await _basketService.GetOrderDraft(basketId);
+        order.Buyer = basketId;
         return View(order);
+    }
+
+    [HttpPost]
+    public IActionResult Checkout(Order model)
+    {
+        return View("Create",model);
     }
 }

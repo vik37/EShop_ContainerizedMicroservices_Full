@@ -44,42 +44,27 @@ public class CatalogController : Controller
         return View(vm);
     }
 
-    public async Task<IActionResult> AddNewCatalogItem(ProductImageVM model)    
+    public async Task<IActionResult> AddNewProductToCatalogItem()    
     {
-        if(model is not null)
-        {
-            ViewBag.Brands = await _catalogService.GetCatalogBrand();
-            ViewBag.Types = await _catalogService.GetCatalogType();
-            ViewBag.Url = _urlOptionSettings.DockerInternalCatalog + $"{model.TempPictureId}/image?temporarilyFilename={model.FileName}";
-            AddUpdateCatalogVM vm = new()
-            {
-                PictureFileName = model.FileName
-            };          
-
-            return View(vm);
-        }
-        return RedirectToAction(nameof(UploadImage));
-    }        
+        ViewBag.Brands = await _catalogService.GetCatalogBrand();
+        ViewBag.Types = await _catalogService.GetCatalogType();
+        return View();
+    }
 
     [HttpPost]
-    public async Task<IActionResult> AddNewCatalogItem(AddUpdateCatalogVM model)
+    public async Task<IActionResult> AddNewCatalogItem(AddNewProductVM model)
     {
-        var cancelled = Request.Form["cancel"];
-        if(cancelled.Count > 0)
-        {
-            await _catalogService.DeleteImage(model.PictureFileName);
-            return RedirectToAction(nameof(Index),controllerName: "Catalog");
-        }
         if (!ModelState.IsValid)
         {
             ViewBag.Brands = await _catalogService.GetCatalogBrand();
             ViewBag.Types = await _catalogService.GetCatalogType();
-            int pictureProductId = int.Parse(model.PictureFileName.Split(".")[0]);
-            ViewBag.Url = _urlOptionSettings.DockerInternalCatalog + $"{pictureProductId}/image?filename={model.PictureFileName}";
-            return View("AddNewCatalogItem",model);
+            return View("AddNewProductToCatalogItem", model);
         }
         
-        await _catalogService.AddOrUpdateCatalog(model);
+        var productImage = await _catalogService.UploadImage(model.ImageFile.Image, null);
+        model.PictureFileName = productImage.FileName;
+        await _catalogService.AddProductToCatalog(model);
+        
         return RedirectToAction(nameof(Index), controllerName: "Catalog");
     }
 
@@ -89,7 +74,7 @@ public class CatalogController : Controller
         if(catalog == null)
             return RedirectToAction(nameof(Index));
 
-        AddUpdateCatalogVM vm = new()
+        UpdateProductVM vm = new()
         {
             Id = catalog.Id,
             Name = catalog.Name,
@@ -97,51 +82,41 @@ public class CatalogController : Controller
             CatalogBrandId = catalog.CatalogBrandId,
             CatalogTypeId = catalog.CatalogTypeId,
             Price = catalog.Price,
-            ImageFile = new()
+            PictureUrl = catalog.PictureUri
         };
-        ViewBag.PictureUrl = catalog.PictureUri;
         ViewBag.Brands = await _catalogService.GetCatalogBrand();
         ViewBag.Types = await _catalogService.GetCatalogType();
         return View(vm);
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateCatalogItem(AddUpdateCatalogVM model)
+    public async Task<IActionResult> UpdateProductFromCatalogItem(UpdateProductVM model)
     {
-        var clicked = Request.Form["cancel"];
-        if (clicked.Count > 0)
-            return RedirectToAction(nameof(Index), controllerName: "Catalog");
-
         if (!ModelState.IsValid)
             return View(model);
 
-        var catalog = await _catalogService.GetCatalogItemById((int)model.Id);
-        ViewBag.PictureUrl = catalog.PictureUri;
-        ViewBag.Brands = await _catalogService.GetCatalogBrand();
-        ViewBag.Types = await _catalogService.GetCatalogType();
+        var catalog = await _catalogService.GetCatalogItemById(model.Id);
 
-        if (model.ImageFile is not null)
-        {
-            await _catalogService.UploadImage(model.ImageFile.Image, model.Id);
-        }        
+        ViewBag.Brands = await _catalogService.GetCatalogBrand();
+        ViewBag.Types = await _catalogService.GetCatalogType();    
         
-        AddUpdateCatalogVM oldCatalogVM = new()
+        UpdateProductVM oldCatalogVM = new()
         {
             Name = catalog.Name,
             Description = catalog.Description,
             Price = catalog.Price,
             CatalogBrandId = catalog.CatalogBrandId,
-            CatalogTypeId = catalog.CatalogTypeId
+            CatalogTypeId = catalog.CatalogTypeId,
+            PictureUrl = catalog.PictureUri
         };
 
         if(model != oldCatalogVM)
         {
-            model.PictureFileName = "";
-            await _catalogService.AddOrUpdateCatalog(model,id: model.Id ,isNewModel: false);
+            await _catalogService.UpdateProductFromCatalog(model, model.Id);
             ViewBag.SuccessfullyUpdateMessage = "The update was successful";
-            return View(model);
+            return View("UpdateCatalogItem", model);
         }
-        return View(model);
+        return View("UpdateCatalogItem", model);
     }
 
     public async Task<IActionResult> DeleteCatalog(int id)
@@ -151,22 +126,23 @@ public class CatalogController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> UploadImage()
+    public async Task<IActionResult> UpdateImage(int productId)
     {
-        ImageVM vm = new();
-        await Task.Yield();
-        return await Task.FromResult(View(vm));
+        var catalog = await _catalogService.GetCatalogItemById(productId);
+        ViewBag.PictureUrl = catalog.PictureUri;
+        ViewBag.ProductId = productId;
+        return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadImage(ImageVM model)
+    public async Task<IActionResult> UpdateImage(ImageVM model)
     {
         if(!ModelState.IsValid)
         {
             return View();
         }
-        var newTemporaryProductImage = await _catalogService.UploadImage(model.Image,null);
-        return RedirectToAction($"AddNewCatalogItem", newTemporaryProductImage);
+        await _catalogService.UploadImage(model.Image,model.ProductId);
+        return RedirectToAction(nameof(Index), controllerName: "Catalog");
     }
 };
             
