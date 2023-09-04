@@ -10,7 +10,8 @@
         <p>Please fill in the fields</p>
     </header>
     <main>
-        <form class="">
+        <form asp-action="Checkout" asp-controller="Order" method="post">
+            <input type="hidden" asp-for="Buyer" />
             <div class="row">
                 <section class="col-md-7 checkout-form">
                     <h6>Shopping Address</h6>
@@ -19,10 +20,12 @@
                             <div class="col-md-6">
                                 <label asp-for="City" class="form-label"></label>
                                 <input asp-for="City" type="text" class="form-control form-control-sm" placeholder="City">
+                                <span asp-validation-for="City" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="Street" class="form-label"></label>
                                 <input asp-for="Street" type="text" class="form-control form-control-sm" placeholder="Street">
+                                <span asp-validation-for="Street" class="text-danger"></span>
                             </div>
                             <div class="col-md-12">
                                 <label asp-for="State" class="form-label"></label>
@@ -31,6 +34,7 @@
                             <div class="col-md-12">
                                 <label asp-for="Country" class="form-label"></label>
                                 <input asp-for="Country" type="text" class="form-control form-control-sm" placeholder="Country">
+                                <span asp-validation-for="Country" class="text-danger"></span>
                             </div>
                         </div>
                     </section>
@@ -44,14 +48,17 @@
                             <div class="col-md-12">
                                 <label asp-for="CardNumber" class="form-label"></label>
                                 <input asp-for="CardNumber" type="text" class="form-control form-control-sm" placeholder="000000000000000">
+                                <span asp-validation-for="CardNumber" class="text-danger"></span>
                             </div>
                             <div class="col-md-12">
                                 <label asp-for="CardHolderName" class="form-label"></label>
                                 <input asp-for="CardHolderName" type="text" class="form-control form-control-sm" placeholder="Card Holdername">
+                                <span asp-validation-for="CardHolderName" class="text-danger"></span>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <label asp-for="CardExpirationShort" class="form-label"></label>
                                 <input asp-for="CardExpirationShort" type="text" class="form-control form-control-sm" placeholder="MM/YY">
+                                <span asp-validation-for="CardExpirationShort" class="text-danger"></span>
                             </div>
                             <div class="col-md-4 col-sm-12 symbols-deckor-block">
                                 @for (int i = 0; i < 4; i++)
@@ -62,6 +69,7 @@
                             <div class="col-md-4 col-sm-12">
                                 <label asp-for="CardSecurityNumber" class="form-label"></label>
                                 <input asp-for="CardSecurityNumber" type="text" class="form-control form-control-sm card-security-num-input" placeholder="000">
+                                <span asp-validation-for="CardSecurityNumber" class="text-danger"></span>
                             </div>
                         </div>
                     </section>
@@ -99,10 +107,11 @@
                     </section>
 
                     <section class="col-12">
+                        <h6>Total: @Model.Total.ToString("N2") USD</h6>
+                        <input asp-for="Total" type="hidden" />
                         <div class="row">
                             <div class="col-md-10">
-                                <h6>Total: @Model.Total.ToString("N2")</h6>
-                                <input asp-for="Total" type="hidden" />
+                                <p class="show-order-details-text">See Your Orders Details</p>
                             </div>
                             <div class="col-md-2 show-order-details">
                                 <span>&#10096</span>

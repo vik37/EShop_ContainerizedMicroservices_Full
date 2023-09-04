@@ -1,13 +1,13 @@
 ﻿.catalog-form-heading-block {
-    text-align: center;
+    text-align: start;
     background-color: rgb(0, 0, 0);
     color: rgba(0,0,0,1);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    padding:10px 0;
+    padding:1px 5px;
     font-family:'Global Serif';
     letter-spacing: 0.2rem;
-    text-shadow: 3px 1px 1px rgb(210, 89, 255);
+    text-shadow: 3px 1px 1px rgb(79, 157, 244);
 }
 label{
     font-size:0.9rem;
@@ -17,7 +17,7 @@ label{
 }
 .form-block {
     background-color: rgba(128, 128, 128,0.6);
-    padding: 2px 15px;
+    padding: 2px 10px;
     border: 2px double rgb(0, 0, 0);
 }
 .upladed-image{
@@ -36,4 +36,14 @@ label{
     border-radius: 0;
     border-top-right-radius: 24px;
     border-bottom-left-radius: 10px;
+}
+.edit-image-btn{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style:italic;
+    font-weight: bolder;
+    padding: 2px 7px;
+    border: 1px solid rgba(0, 0, 0,0.4);
+    border-radius: 10px;
+    box-shadow: 0 5px 8px 4px rgb(128, 128, 128);
+    color: rgb(122, 56, 13);
 }

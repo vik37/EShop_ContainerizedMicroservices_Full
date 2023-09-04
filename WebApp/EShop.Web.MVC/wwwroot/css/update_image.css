@@ -1,8 +1,9 @@
 ﻿.image-block{
     padding: 3px 7px;
 }
-.image-file {
+.image-file{
     width: 100px;
+    height: 90px;
     box-shadow: 0 0 12px 3px rgb(128, 128, 128);
 }
 .image-file-input, .image-file-label {

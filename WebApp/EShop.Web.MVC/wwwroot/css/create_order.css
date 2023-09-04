@@ -100,13 +100,15 @@ label{
     height: 25px !important;
 }
 
-.order-details{
+/****** Order Items *******/
+.order-summary-details {
     display: none;
 }
-/****** Order Items *******/
-.order-summary {
-    background-color: rgb(0,0,0);
-    color: rgb(255, 255, 255);
+
+.show-order-details-text {
+    font-size: 0.71rem;
+    color: rgb(239, 197, 42);
+    text-align: end;
 }
 
 .create_order_product_image {
@@ -141,6 +143,9 @@ label{
     }
     .card-security-num-input {
         margin-left: 6px;
+    }
+    .bank-cards{
+        display: none;
     }
 }
 

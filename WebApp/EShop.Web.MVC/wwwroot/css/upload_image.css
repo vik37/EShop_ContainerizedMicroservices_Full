@@ -33,3 +33,8 @@
     color: rgb(59, 15, 102);
     margin-bottom: 5px;
 }
+.back-btn{
+    padding: 1px 5px;
+    font-weight: bolder;
+    font-size: 0.76rem;
+}

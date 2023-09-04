@@ -6,7 +6,8 @@ public interface ICatalogService
     Task<CatalogItem> GetCatalogItemById(int id);
     Task<IEnumerable<SelectListItem>> GetCatalogBrand();
     Task<IEnumerable<SelectListItem>> GetCatalogType();
-    Task AddOrUpdateCatalog(AddUpdateCatalogVM catalog, int? id = null, bool isNewModel = true);
+    Task UpdateProductFromCatalog(UpdateProductVM product, int id);
+    Task AddProductToCatalog(AddNewProductVM product);
     Task<string> RemoveCatalog(int id);
     Task<ProductImageVM> UploadImage(IFormFile file, int? id);
     Task DeleteImage(string filename);

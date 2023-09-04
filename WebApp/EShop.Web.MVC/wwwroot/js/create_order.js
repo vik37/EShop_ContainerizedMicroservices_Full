@@ -17,6 +17,7 @@
         $(".order-summary-details").slideToggle("slow");
         isOrderDetailsHidden = !isOrderDetailsHidden;
         changeRotationTransformation(isOrderDetailsHidden, "order-details", degreesNumber);
+        $(".show-order-details-text").css("display", "none");
     });
 
     function changeRotationTransformation(hidden, showTypeClass, degreesNumber) {

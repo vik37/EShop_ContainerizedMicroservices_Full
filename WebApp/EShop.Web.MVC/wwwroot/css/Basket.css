@@ -33,9 +33,7 @@ i{
     text-align: center;
     border-radius: 25px;
     border: 1px solid rgba(0,0,0,0.2);
-    background-color: rgb(0,0,0);
-    height: 100%;
-    color: rgb(255, 255, 255);
+    height: 100%;    
     margin-left: 5px;
     animation: aside-border 8s ease-in-out;
     animation-iteration-count: infinite;
@@ -61,30 +59,19 @@ h3 {
 @keyframes aside-border {
     0% {
         border-radius: 25px;
-        background-color: rgb(0,0,0);
-        color: rgb(255, 255, 255);
-        filter: opacity(85%);
     }
 
     25% {
         border-radius: 20px;
-        background-color: rgb(0,0,0);
-        color: rgb(255, 255, 255);
     }
 
     50% {
         border-radius: 0px;
-        background-color: rgb(255, 255, 255);
-        color: rgb(128 128 128);
     }
     80% {
         border-radius: 0px;
-        background-color: rgb(255, 255, 255);
-        color: rgb(0,0,0);
     }
     100% {
         border-radius: 25px;
-        background-color: rgb(0,0,0);
-        color: rgb(255, 255, 255);
     }
 }

@@ -17,7 +17,7 @@ public class Order
     public string City { get; set; }
     [Required]
     public string Street { get; set; }
-    [Required]
+
     public string State { get; set; }
     [Required]
     public string Country { get; set; }
@@ -38,7 +38,7 @@ public class Order
     [DisplayName("Card Expiration")]
     public string CardExpirationShort { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Card Security is Required")]
     [DisplayName("Card Security Number")]
     public string CardSecurityNumber { get; set; }
 
@@ -69,7 +69,7 @@ public class Order
     private List<SelectListItem> GetActionCodesByCurrentState()
     {
         var actions = new List<OrderProcessAction>();
-        switch(Status.ToLower())
+        switch(Status?.ToLower())
         {
             case "Paid":
                 actions.Add(OrderProcessAction.Ship);
