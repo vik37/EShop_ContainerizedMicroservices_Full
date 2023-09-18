@@ -14,7 +14,7 @@ global using EShop.Orders.Domain.Exceptions;
 global using EShop.Orders.Domain.SeedWork;
 global using EShop.Orders.Infrastructure.Idempotency;
 global using EShop.Orders.API.Application.Commands;
-global using EShop.Orders.API.Application.Models;
+global using EShop.Orders.API.Application.Models.Dto;
 global using EShop.Orders.API.Application.IntegrationEvents;
 global using EShop.Orders.API.Application.Queries;
 global using EShop.Orders.API.Application.Queries.ViewModels;

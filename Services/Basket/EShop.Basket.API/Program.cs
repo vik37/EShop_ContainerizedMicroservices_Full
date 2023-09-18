@@ -32,7 +32,6 @@ services.SwaggerConfigurations()
         .RedisConnectionMultyplexer(configuration["RedisConnectionString"])
         .ConfigurationEventBus(eventBusSettings)
         .RegisterEventBusRabbitMQ(eventBusSettings);
-        
 
 services.AddTransient<IBasketRepository, BasketRepository>();
 
@@ -73,7 +72,7 @@ finally
     Log.CloseAndFlush();
 }
 
-void ConfigurationEvents(IApplicationBuilder app)
+static void ConfigurationEvents(IApplicationBuilder app)
 {
     var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
     eventBus.Subscribe<ProductPriceChangedIntegrationEvent, ProductPriceChangedIntegrationEventHandler>();

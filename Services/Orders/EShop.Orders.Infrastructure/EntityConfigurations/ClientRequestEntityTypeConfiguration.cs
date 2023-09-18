@@ -4,7 +4,7 @@ public class ClientRequestEntityTypeConfiguration : IEntityTypeConfiguration<Cli
 {
     public void Configure(EntityTypeBuilder<ClientRequest> builder)
     {
-        builder.ToTable("Request", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("Request", OrderingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired();

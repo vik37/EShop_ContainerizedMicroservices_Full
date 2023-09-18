@@ -140,7 +140,8 @@ public class Order : Entity, IAggregateRoot
     private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber,
                                                 string cardHolderName, DateTime cardExpiration)
     {
-        var orderStartedDomainEvent = new OrderStartedDomainEvents(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
+        var status = OrderStatus.From(_orderStatusId);
+        var orderStartedDomainEvent = new OrderStartedDomainEvents(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration,status);
 
         this.AddDomainEvent(orderStartedDomainEvent);
     }

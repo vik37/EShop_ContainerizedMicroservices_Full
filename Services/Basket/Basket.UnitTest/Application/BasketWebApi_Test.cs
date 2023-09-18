@@ -4,16 +4,14 @@ public class BasketWebApi_Test
 {
     private readonly IBasketRepository _basketRepositorySub;
     private readonly ILogger<BasketController> _loggerSub;
-    private readonly IEventBus _eventBusSub;
 
     private readonly BasketController _basketController;
     public BasketWebApi_Test()
     {
         _basketRepositorySub = Substitute.For<IBasketRepository>();
         _loggerSub = Substitute.For<ILogger<BasketController>>();
-        _eventBusSub = Substitute.For<IEventBus>();
 
-        _basketController = new BasketController(_basketRepositorySub, _loggerSub, _eventBusSub);
+        _basketController = new BasketController(_basketRepositorySub, _loggerSub);
     }
 
     [Fact]

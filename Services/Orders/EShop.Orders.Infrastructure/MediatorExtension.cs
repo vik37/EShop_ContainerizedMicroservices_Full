@@ -2,7 +2,7 @@
 
 public static class MediatorExtension
 {
-    public static async Task DispatchDomainEvents(this IMediator medoator, OrderContext context)
+    public static async Task DispatchDomainEventAsync(this IMediator medoator, OrderingContext context)
     {
         var domainEntities = context.ChangeTracker
             .Entries<Entity>()

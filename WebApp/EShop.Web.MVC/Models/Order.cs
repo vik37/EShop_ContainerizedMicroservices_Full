@@ -46,6 +46,8 @@ public class Order
 
     public string Buyer { get; set; }
 
+    public string Username { get; set; }
+
     public List<SelectListItem> ActionCodeSelect =>
         GetActionCodesByCurrentState();
 
@@ -84,4 +86,6 @@ public class Order
 
         return result;
     }
+
+    public string ErrorMessage { get; set; } = string.Empty;
 }

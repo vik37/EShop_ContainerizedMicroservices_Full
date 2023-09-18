@@ -1,4 +1,6 @@
-﻿namespace EShop.Orders.API;
+﻿using System.Reflection;
+
+namespace EShop.Orders.API;
 
 public static class CustomExtensionMethods
 {
@@ -50,35 +52,37 @@ public static class CustomExtensionMethods
 
     public static IServiceCollection DatabaseConfiguration(this IServiceCollection services, string connectionString)
     {
+       
 
         static void ConfigureSqlOptions(SqlServerDbContextOptionsBuilder sqlOptions)
         {
             sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
 
-            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15,maxRetryDelay: TimeSpan.FromSeconds(30),errorNumbersToAdd:null);
+            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
         }
-        
-        if(!string.IsNullOrEmpty(connectionString)) 
+
+        if (!string.IsNullOrEmpty(connectionString))
         {
-            services.AddDbContext<OrderContext>(options =>
+            services.AddDbContext<OrderingContext>(options =>
             {
                 options.UseSqlServer(connectionString, ConfigureSqlOptions);
-            });
+            },ServiceLifetime.Scoped);
 
             services.AddDbContext<IntegrationEventLogDbContext>(options =>
             {
                 options.UseSqlServer(connectionString, ConfigureSqlOptions);
             });
         }
-
+        
         return services;
     }
 
     public static IServiceCollection ConfigurationEventBus(this IServiceCollection services, EventBusSettings eventBusSettings, int port = 0)
     {
-        services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
-             (DbConnection dc) => new IntegrationEventLogService(dc));
         services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
+
+        services.AddScoped<Func<DbConnection, IIntegrationEventLogService>>(sp =>
+             (DbConnection dc) => new IntegrationEventLogService(dc));        
 
         services.AddSingleton<IRabbitMQPersistentConnection>(rpc =>
         {
@@ -124,15 +128,15 @@ public static class CustomExtensionMethods
     {
         using(var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetService<OrderContext>();
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<OrderContext>>();
+            var context = scope.ServiceProvider.GetService<OrderingContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<OrderingContext>>();
 
             if(logger is not null)
             {
                 if (context is not null)
                     new OrderContextSeed().Seed(context,logger);
                 else
-                    logger.LogError("{ContextType} Migration Failed", nameof(OrderContext));
+                    logger.LogError("{ContextType} Migration Failed", nameof(OrderingContext));
             }
         }
 

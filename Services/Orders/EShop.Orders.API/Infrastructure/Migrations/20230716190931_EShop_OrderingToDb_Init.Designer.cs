@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EShop.Orders.API.Infrastructure.Migrations
 {
-    [DbContext(typeof(OrderContext))]
+    [DbContext(typeof(OrderingContext))]
     [Migration("20230716190931_EShop_OrderingToDb_Init")]
     partial class EShop_OrderingToDb_Init
     {

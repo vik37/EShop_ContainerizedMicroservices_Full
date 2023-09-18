@@ -5,18 +5,18 @@ public class OrderIntegrationEventService : IOrderIntegrationEventService
 
     private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
     private readonly IEventBus _eventBus;
-    private readonly OrderContext _orderContext;
+    private readonly OrderingContext _orderContext;
     private readonly IIntegrationEventLogService _integrationEventLogService;
     private readonly ILogger<OrderIntegrationEventService> _logger;
 
     public OrderIntegrationEventService(Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory, 
-        IEventBus eventBus, OrderContext orderContext,
+        IEventBus eventBus, OrderingContext orderContext,
         ILogger<OrderIntegrationEventService> logger)
     {
         _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
         _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         _orderContext = orderContext ?? throw new ArgumentNullException(nameof(orderContext));
-        _integrationEventLogService = integrationEventLogServiceFactory(_orderContext.Database.GetDbConnection());
+        _integrationEventLogService = _integrationEventLogServiceFactory(_orderContext.Database.GetDbConnection());
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -25,6 +25,12 @@ public class OrderIntegrationEventService : IOrderIntegrationEventService
         _logger.LogInformation("Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", @event.Id, @event);
 
         await _integrationEventLogService.SaveEventAsync(@event,_orderContext.GetCurrentTransaction());
+
+        //await ResilientTransaction.New(_orderContext).ExecuteAsync(async () =>
+        //{
+        //    await _orderContext.SaveChangesAsync();
+        //    await _integrationEventLogService.SaveEventAsync(@event, _orderContext.Database.CurrentTransaction);
+        //});
     }
 
     public async Task PublicEventsThroughtEventBusAsync(Guid transactionId)

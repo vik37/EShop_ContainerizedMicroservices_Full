@@ -4,19 +4,19 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("Orders",OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("Orders",OrderingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 
         builder.Ignore(x => x.DomainEvents);
 
         builder.Property(x => x.Id)
-            .UseHiLo("orderseq",OrderContext.DEFAULT_SCHEMA);
+            .UseHiLo("orderseq",OrderingContext.DEFAULT_SCHEMA);
 
         builder.OwnsOne(o => o.Address, a =>
         {
             a.Property<int>("OrderId")
-            .UseHiLo("orderseq", OrderContext.DEFAULT_SCHEMA);
+            .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
             a.WithOwner();
         });
 

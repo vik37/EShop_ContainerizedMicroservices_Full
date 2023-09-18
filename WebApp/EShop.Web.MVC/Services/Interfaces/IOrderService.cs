@@ -4,9 +4,9 @@ public interface IOrderService
 {
     Task<List<Order>> GetMyOrders();
     Task<Order> GetOrder(string orderId);
+    Task<bool> Create(OrderCheckoutDto order);
     Task CancelOrder(string orderId);
     Task ShipOrder(string orderId);
-    BasketDTO MapOrderToBasket(Order order);
-    void OverrideUserInfoIntoOrder(Order original, Order destination);
-    Order MapUserInfoIntoOrder(ApplicationUser applicationUser, Order order);
+
+    OrderCheckoutDto MapOrderToCheckout(Order order);
 }

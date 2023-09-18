@@ -31,13 +31,3 @@ public class SetStockRejectedOrderStatusCommandHandler : IRequestHandler<SetStoc
 
     }
 }
-
-public class SetStockRejectedOrderStatusIdentifiedCommandHandler : IdentifiedCommandHandler<SetStockRejectedOrderStatusCommand, bool>
-{
-    public SetStockRejectedOrderStatusIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<SetStockRejectedOrderStatusCommand,bool>> logger): base(mediator,requestManager,logger)
-    { }
-
-    protected override bool CreateResultForDuplicateRequest()
-        => true;
-}

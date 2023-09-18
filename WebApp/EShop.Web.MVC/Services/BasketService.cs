@@ -32,16 +32,6 @@ public class BasketService : BaseService, IBasketService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task Checkout(BasketDTO basket)
-    {
-        var basketContent = new StringContent(JsonConvert.SerializeObject(basket), Encoding.UTF8, "application/json");
-
-        var response = await _httpClient.PostAsync(BasketAPI.BasketCheckoutURIPath, basketContent);
-
-        response.EnsureSuccessStatusCode();
-        _httpClient.DefaultRequestHeaders.Clear();
-    }
-
     public async Task<Order> GetOrderDraft(string basketId)
     {
         string uriPath = PurchaseAPI.GetOrderDraft(basketId);

@@ -11,8 +11,11 @@ public record OrderStartedDomainEvents : INotification
     public DateTime CardExpiration { get; init; }
     public Order Order { get; init; }
 
+    public OrderStatus OrderStatus { get; set; }
+
     public OrderStartedDomainEvents(Order order, string userId, string userName, int cardTypeId, string cardNumber,
-                                        string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
+                                        string cardSecurityNumber, string cardHolderName, DateTime cardExpiration, 
+                                        OrderStatus orderStatus)
     {
         Order = order;
         UserId = userId;
@@ -22,5 +25,6 @@ public record OrderStartedDomainEvents : INotification
         CardSecurityNumber = cardSecurityNumber;
         CardHolderName = cardHolderName;
         CardExpiration = cardExpiration;
+        OrderStatus = orderStatus;
     }
 }

@@ -4,7 +4,7 @@ public class OrderItemEntityTypeConfiguration : IEntityTypeConfiguration<OrderIt
 {
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
-        builder.ToTable("OrderItems", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("OrderItems", OrderingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 

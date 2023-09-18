@@ -75,7 +75,7 @@ public class IntegrationEventLogService : IIntegrationEventLogService, IDisposab
         if (!_disposedValue)
         {
             if(disposing)
-                _dbContext.Dispose();
+                _dbContext?.Dispose();
 
             _disposedValue = true;
         }

@@ -1,25 +1,38 @@
-﻿namespace EShop.Orders.Infrastructure.Idempotency;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace EShop.Orders.Infrastructure.Idempotency;
 
 public class RequestManager : IRequestManager
 {
-    private readonly OrderContext _context;
-    public RequestManager(OrderContext context)
+    private readonly OrderingContext _context;
+    private readonly ILogger<RequestManager> _logger;
+    public RequestManager(OrderingContext context, ILogger<RequestManager> logger)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _context = context;
+        _logger = logger;
     }
 
     public async Task<bool> ExistAsync(Guid id)
     {
-        var request = await _context.FindAsync<ClientRequest>(id);
+        try
+        {
+            var request = await _context.FindAsync<ClientRequest>(id);
 
-        return request is not null;
+            return request != null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,"Request Manager Exist Async - {message}", ex.Message);
+            throw;
+        }
     }
 
     public async Task CreateRequestForCommandAsync<T>(Guid id)
     {
-        
-        var exist = await ExistAsync(id);
 
+        var exist = await ExistAsync(id);
         var request = exist ? throw new OrderDomainException($"Request with ID {id} allready exist")
             : new ClientRequest
             {

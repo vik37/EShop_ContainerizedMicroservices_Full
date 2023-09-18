@@ -1,4 +1,6 @@
-﻿namespace EShop.Web.MVC.Services;
+﻿using System.Net;
+
+namespace EShop.Web.MVC.Services;
 
 public class OrderService : BaseService, IOrderService
 {
@@ -15,7 +17,18 @@ public class OrderService : BaseService, IOrderService
         throw new NotImplementedException();
     }
 
-    
+    public async Task<bool> Create(OrderCheckoutDto order)
+    {
+        var basketContent = new StringContent(JsonConvert.SerializeObject(order), Encoding.UTF8, "application/json");
+
+        var response = await _policy.ExecuteAsync(() => _httpClient.PostAsync(OrderAPI.Create, basketContent));
+
+        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
+            return false;
+
+        _httpClient.DefaultRequestHeaders.Clear();
+        return true;
+    }
 
     public Task CancelOrder(string orderId)
     {
@@ -27,12 +40,14 @@ public class OrderService : BaseService, IOrderService
         throw new NotImplementedException();
     }
 
-    public BasketDTO MapOrderToBasket(Order order)
+    public OrderCheckoutDto MapOrderToCheckout(Order order)
     {
         order.CardExpirationAPIFormat();
 
-        return new BasketDTO
+        return new OrderCheckoutDto
         {
+            UserId = order.Buyer,
+            UserName = order.Username,
             City = order.City,
             Street = order.Street,
             State = order.State,
@@ -40,39 +55,10 @@ public class OrderService : BaseService, IOrderService
             ZipCode = order.ZipCode,
             CardNumber = order.CardNumber,
             CardHolderName = order.CardHolderName,
-            CardExpirationDate = order.CardExpirationDate,
+            CardExpiration = order.CardExpirationDate,
             CardSecurityNumber = order.CardSecurityNumber,
             CardTypeId = 1,
-            Buyer = order.Buyer,
-            RequestId = order.RequestId.ToString()
+            OrderItems = order.OrderItems 
         };
-    }
-
-    public void OverrideUserInfoIntoOrder(Order original, Order destination)
-    {
-        destination.City = original.City;
-        destination.Street = original.Street;
-        destination.State = original.State;
-        destination.Country = original.Country;
-        destination.ZipCode = original.ZipCode;
-
-        destination.CardNumber = original.CardNumber;
-        destination.CardHolderName = original.CardHolderName;
-        destination.CardExpirationDate = original.CardExpirationDate;
-        destination.CardSecurityNumber = original.CardSecurityNumber;
-    }
-
-    public Order MapUserInfoIntoOrder(ApplicationUser applicationUser, Order order)
-    {
-        order.City = applicationUser.City;
-        order.Street = applicationUser.Street;
-        order.State = applicationUser.State;
-        order.Country = applicationUser.Country;
-        order.ZipCode = applicationUser.ZipCode;
-        order.CardNumber = applicationUser.CardNumber;
-        order.CardHolderName = applicationUser.CardHolderName;
-        order.CardExpirationDate = new DateTime(int.Parse(string.Concat("20", applicationUser.Expiration.Split('/')[1])), int.Parse(applicationUser.Expiration.Split('/')[0]), 1);
-        order.CardSecurityNumber = applicationUser.SecurityNumber;
-        return order;
-    }
+    }   
 }
