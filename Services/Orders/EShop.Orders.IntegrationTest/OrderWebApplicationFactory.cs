@@ -35,7 +35,7 @@ public class OrderWebApplicationFactory : WebApplicationFactory<Program>, IAsync
         {
             _mssqlConnectionString = _mssqlContainer.ConnectionString;
 
-            services.RemoveAll(typeof(DbContextOptions<OrderContext>));
+            services.RemoveAll(typeof(DbContextOptions<OrderingContext>));
             services.RemoveAll(typeof(DbContextOptions<IntegrationEventLogDbContext>));
 
             services.DatabaseConfiguration(_mssqlConnectionString);

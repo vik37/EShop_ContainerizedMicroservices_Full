@@ -2,9 +2,9 @@
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly OrderContext _db;
+    private readonly OrderingContext _db;
 
-    public OrderRepository(OrderContext db)
+    public OrderRepository(OrderingContext db)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
     }

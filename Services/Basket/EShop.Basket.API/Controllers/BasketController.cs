@@ -6,21 +6,19 @@
 public class BasketController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
-    private readonly IEventBus _eventBus;
     private readonly ILogger<BasketController> _logger;
 
-    public BasketController(IBasketRepository basketRepository, ILogger<BasketController> logger,
-        IEventBus eventBus)
+    public BasketController(IBasketRepository basketRepository, ILogger<BasketController> logger)
     {
         _basketRepository = basketRepository;
         _logger = logger;
-        _eventBus = eventBus;
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<CustomerBasket>> GetProductFromBasketByUserId(string id)
     {
+        _logger.LogInformation("Get Product From Basket by Basket Id - {basketId} started", id);
        return Ok( await _basketRepository.GetProductFromBasketByUserId(id) ?? new CustomerBasket(id));
     }
 
@@ -28,6 +26,7 @@ public class BasketController : ControllerBase
     [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<CustomerBasket>> AddNewProductToBasket([FromBody] CustomerBasket customerBasket)
     {
+        _logger.LogWarning("Adding new product to the Basket started ({basket})",customerBasket);
         return Ok(await _basketRepository.UpdateBasket(customerBasket));
     }
 
@@ -35,43 +34,7 @@ public class BasketController : ControllerBase
     [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
     public async Task DeleteBasketById(string id)
     {
+        _logger.LogInformation("Remove Product From Basket by Basket Id - {basketId} started", id);
         await _basketRepository.DeleteBasket(id);
-    }
-
-    [Route("checkout")]
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CheckoutAsync([FromBody] BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
-    {
-        // Temporarely until an user security server will be created.
-        string userId = "9899b909-e395-47a5-914e-676d9602942a";
-
-        basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ? guid : basketCheckout.RequestId;
-
-        var basket = await _basketRepository.GetProductFromBasketByUserId(userId);
-
-        if (basket is null)
-            return BadRequest();
-
-        var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, "Marinko", basketCheckout.City, basketCheckout.Street,
-            basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
-            basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer,
-            basketCheckout.RequestId, basket);
-
-        // Once basket is checkout, sends an integration event to
-        // ordering.api to convert basket to order and proceeds with
-        // order creation process
-
-        try
-        {
-            _eventBus.Publish(eventMessage);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error publishing integration event: {IntegrationEventId}", eventMessage.Id);
-            throw;
-        }
-        return Accepted();
     }
 }

@@ -1,3 +1,4 @@
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -26,37 +27,46 @@ services.AddEndpointsApiExplorer();
 var eventBusSettings = new EventBusSettings(configuration["RabbitMQConnection"]!, configuration["SubscriptionClientName"]!,
                         configuration["EventBusRabbitMQUsername"]!, configuration["EventBusRabbitMQPassword"]!, orderApplication.RabbitMQRetry(configuration));
 
+services.AddMemoryCache(opt => opt.ExpirationScanFrequency = TimeSpan.FromHours(1));
+
+
 services.SwaggerConfigurations()
                 .ApiVersioning()
                 .CorsConfiguration()
-                .DatabaseConfiguration(orderApplication.DockerMSQLConnectionString(configuration))
+                .DatabaseConfiguration(configuration.GetValue<string>("OrderingDb"))
                 .ConfigurationEventBus(eventBusSettings)
                 .RegisterEventBusRabbitMQ(eventBusSettings);
 
 services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+    cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
     cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-    cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
     cfg.AddOpenBehavior(typeof(ValidateBehavior<,>));
 });
+
+services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+
+
+services.AddScoped<IBuyerRepository, BuyerRepository>();
+services.AddScoped<IOrderRepository, OrderRepository>();
+services.AddScoped<IRequestManager, RequestManager>();
+
 
 services.AddSingleton<IValidator<CancelOrderCommand>, CancelOrderCommandValidator>();
 services.AddSingleton<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
 services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, IdentifiedCommandValidator>();
 services.AddSingleton<IValidator<ShipOrderCommand>, ShipOrderCommandValidator>();
 
-services.AddScoped<IOrderQuery, OrderQuery>(o => new OrderQuery(orderApplication.DockerMSQLConnectionString(configuration)));
-services.AddScoped<IBuyerRepository, BuyerRepository>();
-services.AddScoped<IOrderRepository, OrderRepository>();
-services.AddScoped<IRequestManager, RequestManager>();
+services.AddTransient<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration.GetValue<string>("OrderingDb")));
+
+
 
 services.AddTransient<IIntegrationEventHandler<GracedPeriodConfirmedIntegrationEvent>, GracePeriodConfirmedIntegrationEventHandler>();
 services.AddTransient<IIntegrationEventHandler<OrderPaymentFailedIntegrationEvent>, OrderPaymentFailedIntegrationEventHandler>();
 services.AddTransient<IIntegrationEventHandler<OrderPaymentSucceededIntegrationEvent>, OrderPaymentSucceededIntegrationEventHandler>();
 services.AddTransient<IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>, OrderStockConfirmedIntegrationEventHandler>();
 services.AddTransient<IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>, OrderStockRejectedIntegrationEventHandler>();
-services.AddTransient<IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>, UserCheckoutAcceptedIntegrationEventHandler>();
+
 
 try
 {
@@ -83,7 +93,6 @@ try
 
     var eventBus = app.Services.GetRequiredService<IEventBus>();
 
-    eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>>();
     eventBus.Subscribe<GracedPeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracedPeriodConfirmedIntegrationEvent>>();
     eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();
     eventBus.Subscribe<OrderStockRejectedIntegrationEvent, IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>>();
@@ -92,7 +101,7 @@ try
 
     app.MigrateDbContext();
 
-    app.Run();
+    await app.RunAsync();
 }
 catch (Exception ex)
 {

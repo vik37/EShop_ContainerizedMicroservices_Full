@@ -2,7 +2,7 @@
 
 public class OrderContextSeed
 {
-    public void Seed(OrderContext context, ILogger<OrderContext> logger)
+    public void Seed(OrderingContext context, ILogger<OrderingContext> logger)
     {
         var policy = CreatePolicy(logger);
 
@@ -10,7 +10,7 @@ public class OrderContextSeed
         {
             if(context is not null)
             {
-                logger.LogInformation("{ContextType} Migration Seed Start", nameof(OrderContext));
+                logger.LogInformation("{ContextType} Migration Seed Start", nameof(OrderingContext));
                 context.Database.Migrate();
 
                 if (!context.CardTypes.Any())
@@ -24,7 +24,7 @@ public class OrderContextSeed
                     context.OrderStatus.AddRange(GetPreconfiguredOrderStatus);
                     context.SaveChanges();
                 }
-                logger.LogInformation("{ContextType} Migration Seed Ended Successfully", nameof(OrderContext));
+                logger.LogInformation("{ContextType} Migration Seed Ended Successfully", nameof(OrderingContext));
             }
         });
     }
@@ -35,7 +35,7 @@ public class OrderContextSeed
     private static IEnumerable<OrderStatus> GetPreconfiguredOrderStatus
         => Enumeration.GetAll<OrderStatus>();
 
-    private static RetryPolicy CreatePolicy(ILogger<OrderContext> logger, int retries = 3)
+    private static RetryPolicy CreatePolicy(ILogger<OrderingContext> logger, int retries = 3)
         => Policy.Handle<SqlException>()
         .WaitAndRetry(
                 retryCount: retries,

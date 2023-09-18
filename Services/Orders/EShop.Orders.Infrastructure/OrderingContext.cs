@@ -1,6 +1,6 @@
 ﻿namespace EShop.Orders.Infrastructure;
 
-public class OrderContext : DbContext, IUnitOfWork
+public class OrderingContext : DbContext, IUnitOfWork
 {
     public const string DEFAULT_SCHEMA = "ordering";
     public DbSet<Order> Orders { get; set; } = null!;
@@ -13,13 +13,13 @@ public class OrderContext : DbContext, IUnitOfWork
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
 
-    public OrderContext(DbContextOptions<OrderContext> options) : base(options) { }
+    public OrderingContext(DbContextOptions<OrderingContext> options) : base(options) { }
 
     public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
     public bool HasActiveTransaction => _currentTransaction is not null;
 
-    public OrderContext(DbContextOptions<OrderContext> options, IMediator mediator) : base(options)
+    public OrderingContext(DbContextOptions<OrderingContext> options, IMediator mediator) : base(options)
         => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,9 +35,9 @@ public class OrderContext : DbContext, IUnitOfWork
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
-        await _mediator.DispatchDomainEvents(this);
+        await _mediator.DispatchDomainEventAsync(this);
 
-        var result = await base.SaveChangesAsync(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
 
         return true;
     }
@@ -54,7 +54,7 @@ public class OrderContext : DbContext, IUnitOfWork
 
     public async Task CommitTransactionAsync(IDbContextTransaction transaction)
     {
-        if(transaction is null) throw new ArgumentNullException(nameof(transaction));
+        if(transaction == null) throw new ArgumentNullException(nameof(transaction));
 
         if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is  not current");
 
@@ -70,7 +70,7 @@ public class OrderContext : DbContext, IUnitOfWork
         }
         finally
         {
-            if(_currentTransaction is not null)
+            if(_currentTransaction != null)
             {
                 _currentTransaction.Dispose();
                 _currentTransaction = null;
@@ -81,11 +81,11 @@ public class OrderContext : DbContext, IUnitOfWork
     {
         try
         {
-            _currentTransaction.Rollback();
+            _currentTransaction?.Rollback();
         }
         finally
         {
-            if (_currentTransaction is not null)
+            if (_currentTransaction != null)
             {
                 _currentTransaction.Dispose();
                 _currentTransaction = null;

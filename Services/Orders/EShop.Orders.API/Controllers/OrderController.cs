@@ -65,6 +65,29 @@ public class OrderController : ControllerBase
         return Ok(cardTypes);
     }
 
+    [HttpPost("create")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand createOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
+    {
+        bool commandResult = false;
+
+        if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+        {
+            var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, guid);
+
+            _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
+                nameof(OrderController), requestCreateOrder.GetType().Name, nameof(requestCreateOrder.Id), requestCreateOrder.Id, requestCreateOrder);
+
+            commandResult = await _mediator.Send(requestCreateOrder);
+        }
+
+        if (!commandResult)
+            return BadRequest();
+        else
+            return Ok();
+    }
+
     [Route("cancel")]
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -119,7 +142,7 @@ public class OrderController : ControllerBase
     [Route("draft")]
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult<OrderDraftDto>> CreateOrder([FromBody] CreateOrderDraftCommand createOrderDraftCommand)
+    public async Task<ActionResult<OrderDraftDto>> CreateOrderDraft([FromBody] CreateOrderDraftCommand createOrderDraftCommand)
     {
         _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
                 nameof(OrderController), createOrderDraftCommand.GetType().Name, nameof(createOrderDraftCommand.BuyerId),
@@ -129,4 +152,6 @@ public class OrderController : ControllerBase
 
         return Ok(result);
     }
+
+    
 }

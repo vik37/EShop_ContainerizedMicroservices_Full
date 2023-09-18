@@ -22,12 +22,3 @@ public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetSto
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
-
-public class SetStockConfirmedOrderStatusIdentifiedCommandHandler : IdentifiedCommandHandler<SetStockConfirmedOrderStatusCommand, bool>
-{
-    public SetStockConfirmedOrderStatusIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<SetStockConfirmedOrderStatusCommand,bool>> logger) : base(mediator, requestManager, logger) { }
-
-    protected override bool CreateResultForDuplicateRequest()
-        => true;
-}

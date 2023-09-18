@@ -1,13 +1,13 @@
 ﻿namespace EShop.Orders.API.Application.Models;
 
-public class CustomBasket
+public class CustomerBasket
 {
     public string BuyerId { get; set; } = string.Empty;
     public List<BasketItem> Items { get; set; }
 
-    public CustomBasket(string buyerId, List<BasketItem> basketItems)
+    public CustomerBasket(string buyerId, List<BasketItem> items)
     {
         BuyerId = buyerId;
-        Items = basketItems;
+        Items = items;
     }
 }

@@ -4,14 +4,14 @@ public class BuyerEntityTypeConfiguration : IEntityTypeConfiguration<Buyer>
 {
     public void Configure(EntityTypeBuilder<Buyer> builder)
     {
-        builder.ToTable("Buyers", OrderContext.DEFAULT_SCHEMA);
+        builder.ToTable("Buyers", OrderingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
 
         builder.Ignore(x => x.DomainEvents);
 
         builder.Property(x => x.Id)
-            .UseHiLo("buyerseq", OrderContext.DEFAULT_SCHEMA);
+            .UseHiLo("buyerseq", OrderingContext.DEFAULT_SCHEMA);
 
         builder.Property(x => x.IdentityGuid)
             .HasMaxLength(200)

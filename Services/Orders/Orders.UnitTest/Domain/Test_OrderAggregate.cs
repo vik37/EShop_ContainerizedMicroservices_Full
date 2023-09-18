@@ -131,7 +131,8 @@ public class Test_OrderAggregate
         var address = new AddressBuilder().Build();
         var fakeOrder = new OrderFakeBuilder(address).AddOneItem(1, "cup", 12m, 2, "pic.png", 2)
                         .Build();
-        fakeOrder.AddDomainEvent(new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1)));
+        var orderStatusSubmit = OrderStatus.Submitted;
+        fakeOrder.AddDomainEvent(new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1),orderStatusSubmit));
 
         // Assert
         fakeOrder.DomainEvents.Count.Should().Be(expectedResult);
@@ -149,7 +150,8 @@ public class Test_OrderAggregate
         var fakeOrder = new OrderFakeBuilder(address).AddOneItem(1, "cup", 12m, 2, "pic.png", 2)
                         .Build();
 
-        var @fakeEvent = new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1));
+        var orderStatusSubmit = OrderStatus.Submitted;
+        var @fakeEvent = new OrderStartedDomainEvents(fakeOrder, "fakeName", "1", 5, "12", "123", "fakeHolderName", DateTime.Now.AddYears(1),orderStatusSubmit);
         fakeOrder.AddDomainEvent(@fakeEvent);
         fakeOrder.RemoveDomainEvent(@fakeEvent);
 

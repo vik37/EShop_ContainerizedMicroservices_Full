@@ -19,8 +19,26 @@ public class OrderController : Controller
     }
 
     [HttpPost]
-    public IActionResult Checkout(Order model)
+    public async Task<IActionResult> Checkout(Order model)
     {
-        return View("Create",model);
+        if(ModelState.IsValid)
+            return View("Create",model);
+
+        var checkout = _orderService.MapOrderToCheckout(model);
+        bool isSuccess = await _orderService.Create(checkout);
+
+        if (!isSuccess)
+        {
+            model.ErrorMessage = "Something Wrong Happend at the Server. Please Try Again Later!!!";
+            return View("Create", model);
+        }
+
+        return RedirectToAction("SuccessfullyOrderWasSend", "Order");
+    }
+
+    public ActionResult SuccessfullyOrderWasSend()
+    {
+        ViewBag.OrderSuccessMessage = "The checkout order has been successfully sent for further processing";
+        return View();
     }
 }

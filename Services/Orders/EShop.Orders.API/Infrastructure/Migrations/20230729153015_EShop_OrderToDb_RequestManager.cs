@@ -1,9 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
-namespace EShop.Orders.API.Infrastructure.Migrations
+﻿namespace EShop.Orders.API.Infrastructure.Migrations
 {
     public partial class EShop_OrderToDb_RequestManager : Migration
     {

@@ -26,7 +26,7 @@ public class Buyer: Entity, IAggregateRoot
     {
         var existPayment = _paymentMethods.SingleOrDefault(x => x.IsEqualTo(cardTypeId, cardNumber, expiration));
 
-        if(existPayment is  not null)
+        if(existPayment is not null)
         {
             AddDomainEvent(new BuyerAndPeymentMethodVerifiedDomainEvent(this,existPayment,orderId));
             return existPayment;

@@ -1,0 +1,71 @@
+﻿.order-sucess{
+    background: url("../image/delivery-min.jpg");
+    background-repeat:space;
+    background-size: 390px;
+    background-position: 530px;
+    height: 79vh;
+}
+.order-succes-heading-block{
+    padding-bottom: 20px;
+    margin-top: 10px;
+}
+.order-succes-heading-block > h2 {
+    text-align: center;
+    font-size: 2.1rem;
+    font-family: fantasy;
+    text-shadow: 0 1px rgb(74, 134, 233);
+    color: rgba(87, 22, 145,0.6);
+}
+.check-symbols {  
+    font-size: 2.4rem;
+    color: rgb(255, 106, 0);
+    background-color: rgba(0, 0, 0,0.3);
+    padding: 10px;
+    text-align: center;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 6px;
+    text-shadow:  2px 1px rgb(0, 0, 0);
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0,0.9)inset;
+    outline: 1px solid rgb(0, 0, 0);
+    outline-offset: 5px;
+}
+
+.checkout-links-block{
+    padding-left: 90px;
+}
+.checkout-links-block > a{
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 1000px) {
+    .order-sucess {
+        height: auto;
+        background-size: 90px;
+        background-position: center;
+        margin-bottom: 250px;
+    }
+
+    .check-symbols {
+        background-color: rgba(0, 0, 0,0);
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+@media screen and (max-width: 364px) {
+    .order-succes-heading-block > h2{
+        font-size: 1.4rem;
+    }
+    .check-symbols-block {
+        display: none;
+    }
+    .checkout-links-block {
+        padding-left: 0;
+    }
+    .checkout-links-block > a{
+        font-size: 0.9rem;
+        padding: 0 1px;
+        border: none !important;
+    }
+}

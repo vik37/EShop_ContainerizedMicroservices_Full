@@ -49,7 +49,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - OrderingDockerDbConnectionString=${ESHOP_ORDER_MSQL_CONNECTION_STRING}
+      - OrderingDb=${ESHOP_ORDER_MSQL_CONNECTION_STRING}
       - RabbitMQConnection=rabbitmq
       - EventBusRabbitMQUsername=${ESHOP_RABBITMQ_DEFAULT_USERNAME}
       - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}

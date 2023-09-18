@@ -27,7 +27,7 @@ public abstract class Enumeration : IComparable
         return typeMatches && valueMatches;
     }
 
-    public int CompareTo(object obj) => Id.CompareTo((obj as Enumeration).Id);
+    public int CompareTo(object obj) => Id.CompareTo(((Enumeration)obj).Id);
 
     public override int GetHashCode() => Id.GetHashCode();
 

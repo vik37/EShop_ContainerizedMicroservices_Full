@@ -23,20 +23,20 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler : INo
 
         var buyer = await _buyerRepository.FindAsync(orderStartedEvent.UserId);
 
-        bool buyerOriginallyExisted = (buyer is null) ?  false : true;
+        bool buyerOriginallyExisted = buyer is  not null;
 
-        if (buyerOriginallyExisted)
+        if (!buyerOriginallyExisted)
             buyer = new Buyer(orderStartedEvent.UserId,orderStartedEvent.UserName);
 
-        buyer!.VerifyOrAddPayment(cardTypeId, $"Payment Method on: {DateTime.UtcNow}",orderStartedEvent.CardNumber,orderStartedEvent.CardSecurityNumber,
+        buyer.VerifyOrAddPayment(cardTypeId, $"Payment Method on: {DateTime.UtcNow}",orderStartedEvent.CardNumber,orderStartedEvent.CardSecurityNumber,
                                     orderStartedEvent.CardHolderName,orderStartedEvent.CardExpiration,orderStartedEvent.Order.Id);
 
         var buyerUpdated = buyerOriginallyExisted ? _buyerRepository.Update(buyer) : _buyerRepository.AddBuyer(buyer);
 
-        await _buyerRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+        await _buyerRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
         var integrationEvent = new OrderStatusChangedToSubmitedIntegrationEvent(orderStartedEvent.Order.Id,
-            orderStartedEvent.Order.OrderStatus!.Name, buyer.Name!);
+            orderStartedEvent.OrderStatus.Name, buyer.Name);
         await _orderIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         _logger.LogTrace("Buyer {BuyerId} and related payment method were validated or updated for order Id: {OrderId}.",buyerUpdated.Id,orderStartedEvent.Order.Id);

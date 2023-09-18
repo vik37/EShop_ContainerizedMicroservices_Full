@@ -15,11 +15,4 @@ public sealed class OrderApplication
 
     public int RabbitMQRetry(IConfiguration configuration) => int.Parse(configuration["EventBusRetry"]??
         throw new Exception("Connection String for RabbitMQ Retry is empty or it's not a number"));
-
-    public string LocalMSQLConnectionString(IConfiguration configuration) => configuration["OrderingDbConnection"]
-        ?? throw new Exception("Wrong Database Connection! Please check the configuration file");
-
-    public string DockerMSQLConnectionString(IConfiguration configuration) => configuration["OrderingDockerDbConnectionString"]
-        ?? throw new Exception("Wrong Database Connection! Please check the configuration file");
-
 }

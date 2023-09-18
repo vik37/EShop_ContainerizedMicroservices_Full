@@ -1,9 +1,8 @@
 ﻿namespace EShop.Orders.API.Application.Commands;
 
-public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
+public abstract class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
     where T : IRequest<R>
 {
-
     private readonly IMediator _mediator;
     private readonly IRequestManager _requestManager;
     private readonly ILogger<IdentifiedCommandHandler<T, R>> _logger;
@@ -11,8 +10,8 @@ public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<
     public IdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager, 
         ILogger<IdentifiedCommandHandler<T, R>> logger)
     {
-        _mediator = mediator ?? throw  new ArgumentNullException(nameof(mediator));
-        _requestManager = requestManager ?? throw new ArgumentNullException(nameof(requestManager));
+        _mediator = mediator;
+        _requestManager = requestManager;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -20,7 +19,7 @@ public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<
     ///  Creates the result value to return if a previous request was found
     /// </summary>
     /// <returns></returns>
-    protected virtual R CreateResultForDuplicateRequest() => default(R);
+    protected abstract R CreateResultForDuplicateRequest();
 
     /// <summary>
     ///  This method handles the command. It just ensures that no other request exists with

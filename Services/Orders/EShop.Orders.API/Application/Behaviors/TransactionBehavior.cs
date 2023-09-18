@@ -3,22 +3,23 @@
 public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<TransactionBehavior<TRequest,TResponse>> _logger;
-    private readonly OrderContext _orderContext;
+    private readonly OrderingContext _orderContext;
     private readonly IOrderIntegrationEventService _orderIntegrationEventService;
 
-    public TransactionBehavior(ILogger<TransactionBehavior<TRequest, TResponse>> logger, 
-         IOrderIntegrationEventService orderIntegrationEventService, 
-         OrderContext orderContext)
+    public TransactionBehavior(ILogger<TransactionBehavior<TRequest, TResponse>> logger,
+         OrderingContext orderContext,
+         IOrderIntegrationEventService orderIntegrationEventService
+         )
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _orderContext = orderContext ?? throw new ArgumentNullException(nameof(orderContext));
+        _orderContext = orderContext;
         _orderIntegrationEventService = orderIntegrationEventService ?? throw new ArgumentNullException(nameof(orderIntegrationEventService));
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var response = default(TResponse);
-        var typeName = request.GetType().Name;
+        var typeName = request.GetType().FullName;
 
         try
         {
@@ -47,7 +48,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 
                 await _orderIntegrationEventService.PublicEventsThroughtEventBusAsync(transactionId);
             });
-            return response!;
+            return response;
         }
         catch (Exception ex)
         {

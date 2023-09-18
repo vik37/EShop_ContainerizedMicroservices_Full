@@ -3,16 +3,14 @@
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
-    private readonly IMediator _mediator;
     private readonly IOrderIntegrationEventService _integrationEventService;
     private readonly ILogger<CreateOrderCommandHandler> _logger;
 
-    public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator, 
+    public CreateOrderCommandHandler(IOrderRepository orderRepository,
          IOrderIntegrationEventService orderIntegrationEventService,
          ILogger<CreateOrderCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _integrationEventService = orderIntegrationEventService ?? throw new ArgumentNullException(nameof(orderIntegrationEventService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }

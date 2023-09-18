@@ -8,10 +8,12 @@
         <h3>Checkout</h3>
         <hr />
         <p>Please fill in the fields</p>
+        <span class="text-danger text-center text-decoration-underline">@Model.ErrorMessage</span>
     </header>
     <main>
         <form asp-action="Checkout" asp-controller="Order" method="post">
             <input type="hidden" asp-for="Buyer" />
+            <input type="hidden" asp-for="Username" value="George" />
             <div class="row">
                 <section class="col-md-7 checkout-form">
                     <h6>Shopping Address</h6>
@@ -96,7 +98,7 @@
                     <section class="offset-md-5 col-md-4">
                         <input type="submit" value="[Buy Now]" name="action" class="btn btn-warning btn-sm btn-submit-order" />
                     </section>
-                    <input asp-for="ZipCode" type="hidden" />
+                    <input asp-for="ZipCode" type="hidden" value="1000" />
                     <input asp-for="RequestId" type="hidden" value="@Guid.NewGuid().ToString()" />
                 </section>
                 <aside class="offset-md-1 col-md-4 order-summary">

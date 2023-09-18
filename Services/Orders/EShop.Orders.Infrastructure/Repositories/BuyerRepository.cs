@@ -2,9 +2,9 @@
 
 public class BuyerRepository : IBuyerRepository
 {
-    private readonly OrderContext _db;
+    private readonly OrderingContext _db;
 
-    public BuyerRepository(OrderContext db)
+    public BuyerRepository(OrderingContext db)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
     }

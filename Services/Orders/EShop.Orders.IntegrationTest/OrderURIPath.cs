@@ -12,4 +12,6 @@ public static class OrderURIPath
 
     public static string ShipOrder => string.Concat(DefaultURIPath, "/ship");
 
+    public static string CreateOrder => string.Concat(DefaultURIPath, "/create");
+
 }

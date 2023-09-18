@@ -3,13 +3,11 @@
 public class Test_NewOrderRequestHandlerTest : FakeOrderRequestWithBuyer
 {
     private readonly IOrderRepository _orderRepositorySub;
-    private readonly IMediator _mediatorSub;
     private readonly IOrderIntegrationEventService _orderIntegrationEventServiceSub;
 
     public Test_NewOrderRequestHandlerTest()
     {
         _orderRepositorySub = Substitute.For<IOrderRepository>();
-        _mediatorSub = Substitute.For<IMediator>();
         _orderIntegrationEventServiceSub = Substitute.For<IOrderIntegrationEventService>();
     }
 
@@ -28,7 +26,7 @@ public class Test_NewOrderRequestHandlerTest : FakeOrderRequestWithBuyer
         var loggerSub = Substitute.For<ILogger<CreateOrderCommandHandler>>();
      
         // Action
-        var handler = new CreateOrderCommandHandler(_orderRepositorySub, _mediatorSub, _orderIntegrationEventServiceSub, loggerSub);
+        var handler = new CreateOrderCommandHandler(_orderRepositorySub, _orderIntegrationEventServiceSub, loggerSub);
         var cancellationToken = new CancellationToken();
         var result = await handler.Handle(fakeOrderCommand, cancellationToken);
 

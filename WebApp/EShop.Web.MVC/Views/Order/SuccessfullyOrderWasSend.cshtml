@@ -1,0 +1,29 @@
+﻿<section class="container order-sucess">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 order-succes-heading-block">
+            <h2>@ViewBag.OrderSuccessMessage</h2>
+        </div>        
+    </div>
+    <div class="row check-symbols-block">
+        <div class="col-md-1 offset-md-5 ">
+            <p class="check-symbols">
+                <i class="fa-solid fa-calendar-check"></i>
+            </p>
+        </div>
+        <div class="col-md-1">
+            <p class="check-symbols">
+                <i class="fa-regular fa-thumbs-up"></i>
+            </p>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-md-6 offset-md-4 checkout-links-block">
+            <a class="btn btn-outline-dark" asp-controller="Catalog" asp-action="Index">Back Shopping</a>
+            <a class="btn btn-outline-dark">Your Orders</a>
+        </div>
+    </div>
+</section>
+<link href="~/css/order_successful.css" rel="stylesheet" />

@@ -155,6 +155,18 @@
       ],
       "UpstreamPathTemplate": "/gw/{version}/order/draft/{basketId}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{version}/order/create",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.orders.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/{version}/order/create",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ],
   "GlobalConfiguration": {

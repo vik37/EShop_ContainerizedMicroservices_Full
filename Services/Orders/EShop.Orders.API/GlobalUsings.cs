@@ -1,6 +1,5 @@
 ﻿global using System.Net;
 global using System.Data.SqlClient;
-global using System.Reflection;
 global using System.Data.Common;
 global using System.Runtime.Serialization;
 global using Microsoft.AspNetCore.Mvc;
@@ -26,10 +25,10 @@ global using EShop.Orders.API.Application.Behaviors;
 global using EShop.Orders.API.Application.Models;
 global using EShop.Orders.API.Application.Commands;
 global using EShop.Orders.API.Application.Queries.ViewModels;
-global using EShop.Orders.API.Extensions;
 global using EShop.Orders.API.Application.IntegrationEvents.EventHangling;
 global using EShop.Orders.API.Application.Validations;
 global using EShop.Orders.API.Application.Models.Dto;
+global using EShop.Orders.API.Extensions;
 global using EventBus;
 global using EventBus.Events;
 global using EventBus.Abstractions;
