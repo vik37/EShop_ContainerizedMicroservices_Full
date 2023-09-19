@@ -51,6 +51,9 @@ public class CreateOrderCommand : IRequest<bool>
     [DataMember]
     public IEnumerable<OrderItemDto> OrderItems => _orderItems;
 
+    public CreateOrderCommand()
+        => _orderItems = new List<OrderItemDto>();
+
     public CreateOrderCommand(string userId, string userName, string city, string street, string state, string country,
         string zipCode, string cardNumber, string cardHolderName, DateTime cardExpriration, string cardSecurityNumber,
         int cardTypeId, List<OrderItemDto> orderItemsDto)
