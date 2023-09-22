@@ -78,7 +78,7 @@ public class Test_OrdersWebApi
         _orderQuerySub.GetOrdersFromUserAsync(Guid.NewGuid()).Returns(Task.FromResult(fakeOrderSummary));
 
         // Action
-        var actionResult = await _orderController.GetAllOrdersByUser();
+        var actionResult = await _orderController.GetAllOrdersByUser("f6d09b13-caf0-4904-8783-ee0b23fb6c63");
 
         // Assert
         actionResult.Result.As<OkObjectResult>().StatusCode.Should().Be(StatusCodes.Status200OK);        
