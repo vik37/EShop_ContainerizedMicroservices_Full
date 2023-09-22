@@ -159,7 +159,7 @@
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
         "Period": "1s",
-        "PeriodTimespan": 6,
+        "PeriodTimespan": 2,
         "Limit": 1
       }
     },
@@ -177,10 +177,22 @@
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
-        "Period": "3s",
-        "PeriodTimespan": 5,
+        "Period": "2s",
+        "PeriodTimespan": 1,
         "Limit": 1
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{version}/order/user/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.orders.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/{version}/order/{userId}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

@@ -1,0 +1,32 @@
+﻿.order-navbar-block {
+    width: 200px;
+    height: 78vh;
+    background: linear-gradient(17deg, rgba(2,16,25,1) 6%, rgba(75,206,234,1) 55%, rgba(29,72,80,1) 79%);
+    color: rgb(255, 255, 255);
+    padding: 0;
+}
+.order-nav-button-toggle{
+    background-color: rgb(14, 70, 86);
+    padding: 2px 5px;
+    border: 2px solid rgb(0,0,0);
+    margin-bottom: 10px;
+    box-shadow: 0 0 6px 3px rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.order-nav-button-toggle > span{
+    font-size: 0.8rem;
+    background-color: rgb(0, 0, 0);
+    padding: 4px;
+    border-radius: 9px;
+    cursor: pointer;
+    height: 27px;
+}
+.order-nav-button-toggle > h6{
+    padding-right: 20px;
+    padding-top: 5px;
+    font-family: fantasy;
+    letter-spacing: 0.06rem;
+    color: rgb(42, 215, 184);
+}

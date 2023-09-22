@@ -7,6 +7,7 @@ global using System.Diagnostics;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel;
 global using System.Net.Http.Headers;
+global using System.Net;
 global using EShop.Web.MVC;
 global using EShop.Web.MVC.Services;
 global using EShop.Web.MVC.Services.Interfaces;

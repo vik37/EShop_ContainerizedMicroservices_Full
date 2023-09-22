@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace EShop.Web.MVC.Services;
+﻿namespace EShop.Web.MVC.Services;
 
 public class OrderService : BaseService, IOrderService
 {
@@ -12,9 +10,13 @@ public class OrderService : BaseService, IOrderService
         throw new NotImplementedException();
     }
 
-    public Task<List<Order>> GetMyOrders()
+    public async Task<List<OrderSummary>> GetMyOrderSummary(string userId)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrdersByUserId(userId)));
+        string content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var orderSummary = JsonConvert.DeserializeObject<IEnumerable<OrderSummary>>(content);
+        _httpClient.DefaultRequestHeaders.Clear();
+        return orderSummary.ToList();
     }
 
     public async Task<bool> Create(OrderCheckoutDto order)
