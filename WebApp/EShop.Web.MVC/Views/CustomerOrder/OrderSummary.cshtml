@@ -1,0 +1,18 @@
+﻿@model List<OrderSummary>;
+
+<main>
+    <div class="row">
+        <aside class="col-2 order-navbar-block">
+            <div class="order-nav-button-toggle">
+                <span><i class="fa-regular fa-map"></i></span>
+                <h6>Your Orders</h6>
+            </div>
+            <partial name="_OrderNavbarPartial" ></partial>
+        </aside>
+        <section class="col-10">
+            <h2>Order Summary</h2>
+        </section>
+    </div>
+</main>
+
+<link href="~/css/order_navbar.css" rel="stylesheet" />
