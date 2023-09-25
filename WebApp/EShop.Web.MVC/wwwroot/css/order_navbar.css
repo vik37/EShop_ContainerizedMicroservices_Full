@@ -1,21 +1,24 @@
-﻿.order-navbar-block {
+﻿.customer-order-navbar-block {
     width: 200px;
-    height: 78vh;
+    height: auto;
     background: linear-gradient(17deg, rgba(2,16,25,1) 6%, rgba(75,206,234,1) 55%, rgba(29,72,80,1) 79%);
     color: rgb(255, 255, 255);
     padding: 0;
+    display: block;
+
 }
-.order-nav-button-toggle{
+.customer-order-navbar {
     background-color: rgb(14, 70, 86);
     padding: 2px 5px;
-    border: 2px solid rgb(0,0,0);
+    border-top: 2px solid rgb(0,0,0);
+    border-bottom: 2px solid rgb(0,0,0);
     margin-bottom: 10px;
     box-shadow: 0 0 6px 3px rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
-    justify-content:space-between;
+    justify-content: space-between;
 }
-.order-nav-button-toggle > span{
+.customer-order-nav-button-toggle {
     font-size: 0.8rem;
     background-color: rgb(0, 0, 0);
     padding: 4px;
@@ -23,10 +26,63 @@
     cursor: pointer;
     height: 27px;
 }
-.order-nav-button-toggle > h6{
+.customer-order-navbar > h6 {
     padding-right: 20px;
     padding-top: 5px;
     font-family: fantasy;
     letter-spacing: 0.06rem;
     color: rgb(42, 215, 184);
+}
+.order-link-block > h6{
+    color: rgba(2,16,25,0.6);
+    background-color: rgb(0,0,0);
+    font-size: 0.9rem;
+    letter-spacing: 0.02rem;
+    padding: 5px 2px;
+    text-shadow: 2px -1px rgb(124, 245, 250);
+}
+
+.orders-link-title > span {
+    color: rgb(0,0,0);
+    border-radius: 50px;
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 3px;
+    cursor: pointer;
+}
+.orders-link-title-opened > span {
+    background-color: rgb(255, 255, 255);
+    text-align: end;
+}
+.orders-link-title-closed > span {
+    background-color: #bcc2be;
+    text-align: start;
+}
+.order-link-list-block > a {
+    display: block;
+    font-size: 0.72rem;
+    background-color: rgba(2,16,25,0.6);
+    margin: 3px 8px;
+    padding-left: 5px;
+    border: 1px solid rgb(128, 128, 128);
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.order-link-list-block > a:hover{
+    background-color: rgb(240, 245, 96);
+    color: rgb(14, 70, 86) !important;
+    font-weight: bolder;
+}
+.order-link-list-block-opened{
+    display: block;
+}
+.order-link-list-block-closed {
+    display: none;
+}
+@media screen and (max-width: 1300px) {
+    .customer-order-navbar-block {
+        display: none;
+    }
 }
