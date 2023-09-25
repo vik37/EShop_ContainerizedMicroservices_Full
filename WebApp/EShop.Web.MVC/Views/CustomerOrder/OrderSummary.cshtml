@@ -1,18 +1,63 @@
 ﻿@model List<OrderSummary>;
 
+    @{
+        int count = 0;
+    }
+
 <main>
     <div class="row">
-        <aside class="col-2 order-navbar-block">
-            <div class="order-nav-button-toggle">
-                <span><i class="fa-regular fa-map"></i></span>
-                <h6>Your Orders</h6>
+        <aside class="col-md-2 customer-order-navbar-block">
+            <div class="customer-order-navbar">
+                <span class="customer-order-nav-button-toggle"><i class="fa-regular fa-map"></i></span>
+                <h6>Informations</h6>
             </div>
             <partial name="_OrderNavbarPartial" ></partial>
         </aside>
-        <section class="col-10">
+        <section class="col-md-10 col-sm-12 customer-order-navbar-block-small-device">
+            <div class="customer-order-navbar-small-device">
+                <h6>Informations</h6>
+                <partial name="_OrderNavbarSmallerDevicePartial"></partial>
+            </div>
+        </section>
+        <section class="col-md-10 col-sm-12 customer-order-summary-block">
             <h2>Order Summary</h2>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="offset-md-1 col-md-4 custom-order-card">
+                        <div class="customer-order-number-block">
+                            <h4>@(++count)</h4>
+                        </div>
+                        <hr />
+                        <div class="customer-order-date-block">
+                            <h6 class="customer-order-date"><i>Ordered on Date: </i> <b>@item.Date</b></h6>
+                        </div>
+                        <br />
+                        <div class="progress customer-order-status">
+                            <p><b>@item.Status</b></p>
+                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        </div>
+                        <br />
+                        <div class="customer-order-total-block">
+                            <p><b>Total: </b>@(item.Total.ToString("N2"))$</p>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-4 offset-2 customer-order-btn-details-block">
+                                <a class="btn btn-sm btn-info">Details</a>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-4 customer-order-btn-cancel-block">
+                                <a class="btn btn-sm btn-outline-danger">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </section>
     </div>
 </main>
 
+<link href="~/css/order-summary.css" rel="stylesheet" />
 <link href="~/css/order_navbar.css" rel="stylesheet" />
+<link href="~/css/order_navbar_small_device.css" rel="stylesheet" />
+<script src="~/js/order_navbar.js"></script>

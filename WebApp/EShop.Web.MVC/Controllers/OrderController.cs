@@ -33,11 +33,13 @@ public class OrderController : Controller
             return View("Create", model);
         }
 
-        return RedirectToAction("SuccessfullyOrderWasSend", "Order");
+        return RedirectToAction("SuccessfullyOrderWasSend", "Order", new {userId = model.Buyer });
     }
 
-    public ActionResult SuccessfullyOrderWasSend()
+    public ActionResult SuccessfullyOrderWasSend(string userId)
     {
+        ViewBag.UserId = userId;
+        ViewBag.OrderUrlPath = $"/CustomerOrder/OrderSummary?{nameof(userId)}={userId}";
         ViewBag.OrderSuccessMessage = "The checkout order has been successfully sent for further processing";
         return View();
     }
