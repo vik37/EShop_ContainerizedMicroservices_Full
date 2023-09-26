@@ -13,17 +13,31 @@ public class CustomerOrderController : Controller
     {
         // JUST FOR TESTING BECAUSE THE USER IDENTITY SERVICE IS NOT DONE YET! 
         // var userId = "9899b909-e395-47a5-914e-676d9602942a";
-        var orderSummary = await _orderService.GetMyOrderSummary(userId);
-        ViewBag.UserId = userId;
-        return View(orderSummary);
+        if(!string.IsNullOrEmpty(userId))
+        {
+            var orderSummary = await _orderService.GetMyOrderSummary(userId);
+            if(orderSummary is null)
+                return RedirectToAction("Index", controllerName: "Catalog");
+
+            ViewBag.UserId = userId;
+            return View(orderSummary);
+        }
+        return RedirectToAction("Index", controllerName: "Catalog");
     }
 
-    public IActionResult OrderDetail(string userId, int orderId)
+    public async Task<IActionResult> OrderDetail(string userId, int orderId)
     {
-        
-        ViewBag.OrderId = orderId;
-        ViewBag.UserId = userId;
 
-        return View();
+        if(!string.IsNullOrEmpty(userId) && orderId != 0) 
+        {
+            var order = await _orderService.GetOrder(userId, orderId);
+            if(order is null)
+                return RedirectToAction("Index", controllerName: "Catalog");
+
+            ViewBag.UserId = userId;
+            return View(order);
+        }
+
+        return RedirectToAction("Index", controllerName: "Catalog");
     }
 }

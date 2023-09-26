@@ -5,7 +5,7 @@ public class Test_OrdersWebApi
     private readonly IOrderQuery _orderQuerySub;
     private readonly IMediator _mediatorSub;
     private readonly ILogger<OrderController> _loggerSub;
-
+    private string _userId = Guid.NewGuid().ToString();
     private readonly OrderController _orderController;
 
     public Test_OrdersWebApi()
@@ -91,10 +91,10 @@ public class Test_OrdersWebApi
         int fakeOrderId = 123;
         var fakeOrder = new OrderViewModel();
 
-        _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>()).Returns(Task.FromResult(fakeOrder));
+        _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>(),Arg.Any<Guid>()).Returns(Task.FromResult(fakeOrder));
 
         // Action
-        var actionResult = await _orderController.GetOrderByIdAsync(fakeOrderId);
+        var actionResult = await _orderController.GetOrderByIdAsync(_userId,fakeOrderId);
 
         // Assert
         actionResult.Value.Should().BeOfType<OrderViewModel>().And.BeSameAs(fakeOrder).And.BeEquivalentTo(fakeOrder);
@@ -106,10 +106,10 @@ public class Test_OrdersWebApi
         // Arrange
         int fakeOrderId = 123;
 
-        _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>()).Throws(new KeyNotFoundException());
+        _orderQuerySub.GetOrderByIdAsync(Arg.Any<int>(),Arg.Any<Guid>()).Throws(new KeyNotFoundException());
 
         // Action
-        var actionResult = await _orderController.GetOrderByIdAsync(fakeOrderId);
+        var actionResult = await _orderController.GetOrderByIdAsync(_userId,fakeOrderId);
 
         var notFoundResult = actionResult.Result as NotFoundResult;
         // Assert

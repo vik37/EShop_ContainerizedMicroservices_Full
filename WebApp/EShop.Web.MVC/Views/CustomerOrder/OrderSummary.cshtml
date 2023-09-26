@@ -15,7 +15,7 @@
             <div class="row">
                 @foreach (var item in Model)
                 {
-                    <div class="offset-md-1 col-md-4 custom-order-card">
+                    <div class="offset-md-1 col-md-3 custom-order-card">
                         <div class="customer-order-number-block">
                             <h4>@(++count)</h4>
                         </div>
@@ -23,16 +23,12 @@
                         <div class="customer-order-date-block">
                             <h6 class="customer-order-date"><i>Ordered on Date: </i> <b>@item.Date</b></h6>
                         </div>
-                        <br />
-                        <div class="progress customer-order-status">
-                            <p><b>@item.Status</b></p>
-                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        <div class="customer-order-status-block">
+                            <p class="customer-order-status">Status: <b>@item.Status</b></p>
                         </div>
-                        <br />
                         <div class="customer-order-total-block">
                             <p><b>Total: </b>@(item.Total.ToString("N2"))$</p>
                         </div>
-                        <br />
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-4 offset-2 customer-order-btn-details-block">
                                 <a asp-controller="CustomerOrder" asp-action="OrderDetail" asp-route-userId="@(ViewBag.UserId)" 

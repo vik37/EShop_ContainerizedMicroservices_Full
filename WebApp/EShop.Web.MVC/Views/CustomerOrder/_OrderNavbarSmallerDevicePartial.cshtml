@@ -17,7 +17,7 @@
                 <ul>
                     Your Orders
                     <li class="customer-order-navbar-list-sm">
-                        <a>Order Summary</a>
+                        <a asp-controller="CustomerOrder" asp-action="OrderSummary" asp-route-userId="@(ViewBag.UserId)">Order Summary</a>
                     </li>
                     <li class="customer-order-navbar-list-sm">
                         <a>All Order Products</a>

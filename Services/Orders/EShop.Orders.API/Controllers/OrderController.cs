@@ -23,15 +23,15 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
-    [Route("{orderId:int}")]
+    [Route("{userId}/user/{orderId:int}")]
     [HttpGet]
     [ProducesResponseType(typeof(OrderViewModel),(int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<OrderViewModel>> GetOrderByIdAsync(int orderId)
+    public async Task<ActionResult<OrderViewModel>> GetOrderByIdAsync([FromRoute]string userId,[FromRoute]int orderId)
     {
         try
-        {
-            var order = await _orderQuery.GetOrderByIdAsync(orderId);
+        {   Guid.TryParse(userId, out Guid userIdentity);
+            var order = await _orderQuery.GetOrderByIdAsync(orderId,userIdentity);
 
             return order;
         }

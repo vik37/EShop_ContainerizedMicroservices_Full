@@ -1,6 +1,4 @@
-﻿
-
-namespace Orders.UnitTest.Application;
+﻿namespace Orders.UnitTest.Application;
 
 public class FakeOrderRequestWithBuyer
 {
