@@ -1,3 +1,4 @@
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,8 +29,19 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "customerorder",
+    pattern: "customerorder/ordersummary/{userId}",
+    defaults: new { controller = "CustomerOrder", action = "OrderSummary" });
+app.MapControllerRoute(
+    name: "customerorder",
+    pattern: "customerorder/{action}/{userId}/user/{orderId?}",
+    defaults: new { controller = "CustomerOrder" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 
 app.Run();
