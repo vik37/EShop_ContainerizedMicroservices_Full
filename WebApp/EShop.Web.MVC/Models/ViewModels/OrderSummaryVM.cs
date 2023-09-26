@@ -1,6 +1,6 @@
-﻿namespace EShop.Web.MVC.Models;
+﻿namespace EShop.Web.MVC.Models.ViewModels;
 
-public class OrderSummary
+public class OrderSummaryVM
 {
     public int OrderNumber { get; init; }
     public DateTime Date { get; init; }

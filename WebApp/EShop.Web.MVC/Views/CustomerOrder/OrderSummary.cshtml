@@ -1,4 +1,4 @@
-﻿@model List<OrderSummary>;
+﻿@model List<OrderSummaryVM>;
 
     @{
         int count = 0;
@@ -35,7 +35,8 @@
                         <br />
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-4 offset-2 customer-order-btn-details-block">
-                                <a class="btn btn-sm btn-info">Details</a>
+                                <a asp-controller="CustomerOrder" asp-action="OrderDetail" asp-route-userId="@(ViewBag.UserId)" 
+                                asp-route-orderId="@item.OrderNumber" class="btn btn-sm btn-info">Details</a>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-4 customer-order-btn-cancel-block">
                                 <a class="btn btn-sm btn-outline-danger">Cancel</a>

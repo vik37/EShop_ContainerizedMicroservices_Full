@@ -5,16 +5,21 @@ public class OrderService : BaseService, IOrderService
     public OrderService(HttpClient httpClient, Retry retry) 
         : base(httpClient, retry) { }
 
-    public Task<Order> GetOrder(string orderId)
+    public async Task<OrderVM> GetOrder(int orderId)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrderById(orderId)));
+        var content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var order = JsonConvert.DeserializeObject<OrderVM>(content);
+
+        _httpClient.DefaultRequestHeaders.Clear();
+        return order;
     }
 
-    public async Task<List<OrderSummary>> GetMyOrderSummary(string userId)
+    public async Task<List<OrderSummaryVM>> GetMyOrderSummary(string userId)
     {
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrdersByUserId(userId)));
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
-        var orderSummary = JsonConvert.DeserializeObject<IEnumerable<OrderSummary>>(content);
+        var orderSummary = JsonConvert.DeserializeObject<IEnumerable<OrderSummaryVM>>(content);
         _httpClient.DefaultRequestHeaders.Clear();
         return orderSummary.ToList();
     }

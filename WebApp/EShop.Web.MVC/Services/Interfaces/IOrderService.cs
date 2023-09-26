@@ -2,8 +2,8 @@
 
 public interface IOrderService
 {
-    Task<List<OrderSummary>> GetMyOrderSummary(string userId);
-    Task<Order> GetOrder(string orderId);
+    Task<List<OrderSummaryVM>> GetMyOrderSummary(string userId);
+    Task<OrderVM> GetOrder(int orderId);
     Task<bool> Create(OrderCheckoutDto order);
     Task CancelOrder(string orderId);
     Task ShipOrder(string orderId);
