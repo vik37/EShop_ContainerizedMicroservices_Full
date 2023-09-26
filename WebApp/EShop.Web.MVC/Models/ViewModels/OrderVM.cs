@@ -4,7 +4,7 @@ public class OrderVM
 {
     public int OrderNumber { get; set; }
     public DateTime Date { get; set; }
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
     public string Description { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
@@ -13,5 +13,8 @@ public class OrderVM
 
     public List<OrderItemVM> OrderItems { get;  set; }
     public decimal Total { get; set; }
+
+    public OrderVM()
+        => new List<OrderItemVM>();
 
 }

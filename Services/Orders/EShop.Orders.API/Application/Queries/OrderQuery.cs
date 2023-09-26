@@ -26,7 +26,7 @@ public class OrderQuery : IOrderQuery
                 );
     }
 
-    public async Task<OrderViewModel> GetOrderByIdAsync(int id)
+    public async Task<OrderViewModel> GetOrderByIdAsync(int id, Guid userId)
     {
         using var connection = new SqlConnection( _connectionString);
         connection.Open();
@@ -39,7 +39,8 @@ public class OrderQuery : IOrderQuery
                         FROM ordering.Orders o
                         LEFT JOIN ordering.OrderItems oi ON o.Id = oi.OrderId
                         LEFT JOIN ordering.OrderStatus os ON o.OrderStatusId = os.Id
-                        WHERE o.Id = @id", new { id }
+                        LEFT JOIN ordering.Buyers b ON o.BuyerId = b.Id
+                        WHERE o.Id = @id and b.IdentityGuid = @userId", new { id,userId }
                     );
 
         if(result.AsList().Count == 0)

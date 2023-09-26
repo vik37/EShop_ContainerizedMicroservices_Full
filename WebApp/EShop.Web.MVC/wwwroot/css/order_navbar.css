@@ -63,6 +63,8 @@
     display: block;
     font-size: 0.72rem;
     background-color: rgba(2,16,25,0.6);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
     margin: 3px 8px;
     padding-left: 5px;
     border: 1px solid rgb(128, 128, 128);

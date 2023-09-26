@@ -29,24 +29,37 @@
     border-radius: 10px;
 }
 .customer-order-date {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
 .customer-order-date > b{
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     background-color: rgb(255, 255, 255);
     color: rgb(0,0,0);
     padding: 2px 3px;
     opacity: 0.7;
     border-radius: 3px;
 }
-.customer-order-status > p{
-    color: rgb(0,0,0);
-    padding: 0 5px;
+.customer-order-status-block{
+    color: rgb(255, 255, 255);
+    padding-left: 6px;   
 }
-
-.customer-order-btn-details-block > a, .customer-order-btn-cancel-block  > a{
-    padding: 0 5px;
+.customer-order-status {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 0.7rem;
+}
+.customer-order-status > b {
+    color: rgb(17, 130, 164);
+    padding: 3px 8px;
+    margin-left: 10px;
+    border-radius: 6px;
+}
+.customer-order-total-block > p{
+    font-size: 0.8rem;
+    text-align: center;
+}
+.customer-order-btn-details-block > a, .customer-order-btn-cancel-block > a {
+    padding: 0 5px;
+    font-size: 0.6rem;
     font-weight: bolder;
     outline-offset: 2px;
 }

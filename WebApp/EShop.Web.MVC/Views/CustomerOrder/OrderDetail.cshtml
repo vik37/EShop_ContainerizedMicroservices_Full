@@ -1,4 +1,108 @@
 ﻿@model OrderVM;
+@{
+    int count = 0;
+}
+<main class="customer-order-detail">
+    <div class="row">
+        <partial name="_OrderNavbarPartial"></partial>
 
-<h5>@ViewBag.OrderId</h5>
-<h5>@ViewBag.UserId = userId</h5>
+        <partial name="_OrderNavbarSmallerDevicePartial"></partial>
+        <section class="col-md-10 col-sm-12 customer-order-detail-block">
+            <section class="customer-order-detail-main-block-">
+                <div class="row">
+                    <div class="col-md-3 customer-order-detail customer-order-detail-order-number">
+                        <h6>#@(Model.OrderNumber)</h6>
+                    </div>
+                    <div class="col-md-4 offset-md-2 customer-order-detail customer-order-detail-date">
+                        <h6>@(Model.Date)</h6>
+                    </div>
+                    <div class="col-md-3 customer-order-detail customer-order-detail-pending">
+                        @if(Model.Status != "Cancelled")
+                        {
+                            <p>pending approval</p>
+                        }
+                        else
+                        {
+                            <p>pending denied</p>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 customer-order-detail customer-order-detail-description">
+                        <h6>Description:</h6>
+                        <hr />
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 customer-order-detail customer-order-detail-status">
+                        <h6>Status: </h6>
+                        <br />
+                        <p>Progress</p>
+                        <div class="progress customer-order-status-progress">
+                            <p><b>@Model.Status</b></p>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%</div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 customer-order-detail customer-order-detail-address-block">
+                        <h6>Delivery Address: </h6>
+                        <div class="row">
+                            <div class="col-md-3 customer-order-detail-address customer-order-detail-address-street">
+                                <p><b>Street:</b> <i>@Model.Street</i></p>
+                                <p><b>City:</b> <i>@Model.City</i></p>
+                            </div>
+                            <div class="col-md-3 customer-order-detail-address customer-order-detail-address-country">
+                                <p><b>Country:</b> <i>@Model.Country</i></p>
+                                <p><b>City:</b> <i>@Model.ZipCode</i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br />
+            <section class="customer-order-detail-items-block">
+                <h6>Ordered Products</h6>
+                <table class="table table-light table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price per Units</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderItems)
+                        {
+                        
+                            <tr>
+                                <th scope="row">@(++count)</th>
+                                <td>
+                                    <img class="customer-order-table-product-image" src="@item.PictureUrl" alt="image @(item.ProductName)" />
+                                </td>
+                                <td>@item.ProductName</td>
+                                <td>@(item.UnitPrice.ToString("N2")) $</td>
+                                <td>@item.Units</td>
+                                <td>@((item.UnitPrice * item.Units).ToString("N2"))</td>
+                            </tr>
+                        
+                        }
+                    </tbody>
+                </table>
+            </section>
+            <section class="customer-order-detail-total-block">
+                <h4>Total: @(Model.Total.ToString("N2")) USD</h4>
+            </section>
+        </section>
+    </div>
+</main>
+
+<link href="~/css/order_detail.css" rel="stylesheet" />
+<link href="~/css/order_navbar.css" rel="stylesheet" />
+<link href="~/css/order_navbar_small_device.css" rel="stylesheet" />
+<script src="~/js/order_navbar.js"></script>

@@ -1,0 +1,58 @@
+﻿.customer-order-detail{
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.customer-order-detail-block{
+    padding: 5px 25px;
+    border-left: 2px solid rgb(99, 226, 250);
+}
+.customer-order-detail{
+    margin-bottom: 10px;
+}
+.customer-order-detail-order-number {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    width: 46px;
+    height: 22px;
+    border-radius: 4px;
+    box-shadow: 0 0 7px 4px rgb(255, 255, 255);
+}
+.customer-order-detail-order-number > h6{
+    font-size: 1.2rem;
+    font-family: fantasy;
+    text-decoration: 1px solid rgb(0, 0, 0) underline;
+}
+.customer-order-detail-date > h6, .customer-order-detail-pending  > p{
+    text-align: end;
+    font-weight: bolder;
+}
+.customer-order-detail-description > h6, .customer-order-detail-status > h6, .customer-order-detail-address-block > h6, .customer-order-detail-total-block > h4, .customer-order-detail-items-block > h6 {
+    background-color: rgba(99, 226, 250,0.2);
+    padding: 1px 16px;
+    letter-spacing: 0.12rem;
+}
+.customer-order-detail-address-country > p {
+    text-align: end;
+}
+.customer-order-status-progress > p{
+    padding: 0 10px;
+    color: rgb(0, 0, 0);
+}
+.progress-bar {
+    width: 20% !important;
+    background: linear-gradient(351deg, rgba(150,53,2,0.9951330874146533) 0%, rgba(234,149,79,1) 34%, rgba(93,59,24,1) 68%, rgba(240,146,12,0.8606793059020483) 100%);
+    background-repeat: repeat;
+    font-weight: bolder;
+    color: rgb(111, 63, 7);
+    text-shadow: 0 0 1px rgb(250, 207, 103);
+}
+.customer-order-table-product-image{
+    width: 35px;
+    height: 30px;
+}
+td{
+    font-size: 0.8rem;
+}
+.customer-order-detail-total-block > h4 {
+    text-align: center;
+}

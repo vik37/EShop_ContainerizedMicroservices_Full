@@ -5,9 +5,9 @@ public class OrderService : BaseService, IOrderService
     public OrderService(HttpClient httpClient, Retry retry) 
         : base(httpClient, retry) { }
 
-    public async Task<OrderVM> GetOrder(int orderId)
+    public async Task<OrderVM> GetOrder(string userId, int orderId)
     {
-        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrderById(orderId)));
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrderById(userId,orderId)));
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var order = JsonConvert.DeserializeObject<OrderVM>(content);
 
