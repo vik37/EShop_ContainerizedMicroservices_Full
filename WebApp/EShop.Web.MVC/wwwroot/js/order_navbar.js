@@ -30,29 +30,80 @@
     }
 
     let orderLinkBloksIdsObj = [
-        { id: "account-settings-link", orderNabarListIsOpen: true },
-        { id: "order-link", orderNabarListIsOpen: false },
-        { id: "coupon-link", orderNabarListIsOpen: false },
-        { id: "order-history-link", orderNabarListIsOpen: false },
+        { id: "account-settings-link", orderNavbarListIsOpen: false },
+        { id: "order-link", orderNavbarListIsOpen: false },
+        { id: "coupon-link", orderNavbarListIsOpen: false },
+        { id: "order-history-link", orderNavbarListIsOpen: false },
     ];
 
+
+    function setInitialOrderListNavbarToggleHeadingModification(id, orderNavbarListIsOpen) {
+        if (!orderNavbarListIsOpen) {
+            $($(`#${id}-title`)).removeClass("orders-link-title-opened").addClass("orders-link-title-closed");
+            $($(`#${id}-block`)).removeClass("order-link-list-block-opened").addClass("order-link-list-block-closed");
+        }
+        else {
+            $($(`#${id}-title`)).removeClass("orders-link-title-closed").addClass("orders-link-title-opened");
+            $($(`#${id}-block`)).removeClass("order-link-list-block-closed").addClass("order-link-list-block-opened");
+        }
+    }
+
+    let orderSummaryHeading = $("h2").attr("id");
+
     $(".orders-link-title > span").each(function (index) {
+
+        switch (orderSummaryHeading) {
+            case "account-settings-personal-information":
+                orderLinkBloksIdsObj[0].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-address":
+                orderLinkBloksIdsObj[0].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-summary-heading":
+                orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-detail-heading":
+                orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "all-order-products":
+                orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-overall-analysis":
+                orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-coupon":
+                orderLinkBloksIdsObj[2].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+            case "order-history":
+                orderLinkBloksIdsObj[3].orderNavbarListIsOpen = true;
+                setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                break;
+        }
+
         $(this).on("click", function () {
 
-            orderLinkBloksIdsObj[index].orderNabarListIsOpen = !orderLinkBloksIdsObj[index].orderNabarListIsOpen;
+            orderLinkBloksIdsObj[index].orderNavbarListIsOpen = !orderLinkBloksIdsObj[index].orderNavbarListIsOpen;
 
             $($(`#${orderLinkBloksIdsObj[index].id}-block`)).slideToggle("slow");             
 
-            orderListNavbarToggleModification(index);
+            orderListNavbarToggleHeadingModification(index);
         })
-    });
+    });     
 
-    function orderListNavbarToggleModification(index) {
-        if (!orderLinkBloksIdsObj[index].orderNabarListIsOpen) {
+    function orderListNavbarToggleHeadingModification(index) {
+        if (!orderLinkBloksIdsObj[index].orderNavbarListIsOpen) {
             $($(`#${orderLinkBloksIdsObj[index].id}-title`)).removeClass("orders-link-title-opened").addClass("orders-link-title-closed");
         }
         else {
             $($(`#${orderLinkBloksIdsObj[index].id}-title`)).removeClass("orders-link-title-closed").addClass("orders-link-title-opened");
         }                
     }
+    
 })

@@ -5,7 +5,6 @@
     color: rgb(255, 255, 255);
     padding: 0;
     display: block;
-
 }
 .customer-order-navbar {
     background-color: rgb(14, 70, 86);
@@ -71,7 +70,6 @@
     cursor: pointer;
     border-radius: 15px;
 }
-
 .order-link-list-block > a:hover{
     background-color: rgb(240, 245, 96);
     color: rgb(14, 70, 86) !important;
@@ -83,6 +81,7 @@
 .order-link-list-block-closed {
     display: none;
 }
+
 @media screen and (max-width: 1300px) {
     .customer-order-navbar-block {
         display: none;
