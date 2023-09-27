@@ -15,6 +15,9 @@
     border-radius: 4px;
     box-shadow: 0 0 7px 4px rgb(255, 255, 255);
 }
+#order-detail-heading {
+    font-size: 1.222rem;
+}
 .customer-order-detail-order-number > h6{
     font-size: 1.2rem;
     font-family: fantasy;

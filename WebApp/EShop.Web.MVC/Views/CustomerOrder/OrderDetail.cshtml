@@ -8,12 +8,15 @@
 
         <partial name="_OrderNavbarSmallerDevicePartial"></partial>
         <section class="col-md-10 col-sm-12 customer-order-detail-block">
-            <section class="customer-order-detail-main-block-">
+            <section class="customer-order-detail-main-block-">                
                 <div class="row">
-                    <div class="col-md-3 customer-order-detail customer-order-detail-order-number">
+                    <div class="col-md-2 customer-order-detail customer-order-detail-order-number">
                         <h6>#@(Model.OrderNumber)</h6>
                     </div>
-                    <div class="col-md-4 offset-md-2 customer-order-detail customer-order-detail-date">
+                    <div class="col-md-2">
+                        <h2 id="order-detail-heading">Order Detail</h2>
+                    </div>
+                    <div class="col-md-4 customer-order-detail customer-order-detail-date">
                         <h6>@(Model.Date)</h6>
                     </div>
                     <div class="col-md-3 customer-order-detail customer-order-detail-pending">
