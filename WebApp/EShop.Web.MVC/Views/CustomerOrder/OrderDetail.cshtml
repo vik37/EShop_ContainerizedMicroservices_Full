@@ -2,7 +2,7 @@
 @{
     int count = 0;
 }
-<main class="customer-order-detail">
+<main>
     <div class="row">
         <partial name="_OrderNavbarPartial"></partial>
 
@@ -67,20 +67,21 @@
                 <h6>Ordered Products</h6>
                 <table class="table table-light table-striped table-hover">
                     <thead>
-                        <tr>
+                        <tr class="customer-order-table-products-headings">
                             <th scope="col">#</th>
                             <th scope="col">Image</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Total Price per Units</th>
+                            <th class="customer-order-table-heading-bigger-screen" scope="col">Total Price per Units</th>
+                            <th class="customer-order-table-heading-smaller-screen" scope="col">Total Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.OrderItems)
                         {
                         
-                            <tr>
+                            <tr class="customer-order-table-products-values">
                                 <th scope="row">@(++count)</th>
                                 <td>
                                     <img class="customer-order-table-product-image" src="@item.PictureUrl" alt="image @(item.ProductName)" />
