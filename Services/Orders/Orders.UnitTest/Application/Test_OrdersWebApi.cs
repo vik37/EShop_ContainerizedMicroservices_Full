@@ -75,7 +75,7 @@ public class Test_OrdersWebApi
     {
         // Arrange
         var fakeOrderSummary = Enumerable.Empty<OrderSummaryViewModel>();
-        _orderQuerySub.GetOrdersFromUserAsync(Guid.NewGuid()).Returns(Task.FromResult(fakeOrderSummary));
+        _orderQuerySub.GetOrdersByUserAsync(Guid.NewGuid()).Returns(Task.FromResult(fakeOrderSummary));
 
         // Action
         var actionResult = await _orderController.GetAllOrdersByUser("f6d09b13-caf0-4904-8783-ee0b23fb6c63");
