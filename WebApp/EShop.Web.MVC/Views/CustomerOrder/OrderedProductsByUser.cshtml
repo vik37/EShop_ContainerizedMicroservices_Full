@@ -10,10 +10,20 @@
                 <h2 id="all-ordered-products-heading">Active Ordered Products</h2>
                 <partial name="_CustomOrderItemsTable" model="@Model"></partial>
             </section>
+            <hr />
             <section class="customer-ordered-products-additional-information-block">
                 <div class="row">
-                    <div class="col-md-3">
-                        
+                    <div class="col-md-3 customer-ordered-products-additional-information">
+                        <p><b>Total Products: </b>@(ViewBag.TotalProducts)</p>
+                    </div>
+                    <div class="col-md-3 customer-ordered-products-additional-information">
+                        <p><b>Total  Price: </b>@(ViewBag.TotalPrice.ToString("N2")) USD</p>
+                    </div>
+                    <div class="col-md-3 customer-ordered-products-additional-information">
+                        <p><b>Largest Price: </b>@(ViewBag.LargestPrice.ToString("N2")) USD</p>
+                    </div>
+                    <div class="col-md-3 customer-ordered-products-additional-information">
+                        <p><b>Total Quantity: </b>@(ViewBag.TotalQuantity)-products</p>
                     </div>
                 </div>
             </section>
@@ -21,7 +31,7 @@
     </div>
 </main>
 
-
+<link href="~/css/all-ordered-products.css" rel="stylesheet" />
 <link href="~/css/order-items-table.css" rel="stylesheet" />
 <link href="~/css/order_navbar.css" rel="stylesheet" />
 <link href="~/css/order_navbar_small_device.css" rel="stylesheet" />

@@ -25,16 +25,16 @@
         </div>
         <hr />
         <div class="order-link-block">
-            <h6 id="coupon-link-title" class="orders-link-title "><span>&#10037;</span> Coupon</h6>
-            <div id="coupon-link-block" class="order-link-list-block">
-                <a>Coupon</a>
+            <h6 id="messages-link-title" class="orders-link-title "><span>&#10037;</span> Messages</h6>
+            <div id="messages-link-block" class="order-link-list-block">
+                <a asp-controller="CustomerOrder" asp-action="OrderMessages" asp-route-userId="@(ViewBag.UserId)">Messages</a>
             </div>
         </div>
         <hr />
         <div class="order-link-block">
             <h6 id="order-history-link-title" class="orders-link-title "><span>&#10037;</span> Order History</h6>
             <div id="order-history-link-block" class="order-link-list-block">
-                <a>Order History</a>
+                <a asp-controller="CustomerOrder" asp-action="OrderHistory" asp-route-userId="@(ViewBag.UserId)">Order History</a>
             </div>
         </div>
     </section>
