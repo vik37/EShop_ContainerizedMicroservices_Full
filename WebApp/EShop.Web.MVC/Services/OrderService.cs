@@ -15,11 +15,20 @@ public class OrderService : BaseService, IOrderService
         return order;
     }
 
-    public async Task<List<OrderSummaryVM>> GetMyOrderSummary(string userId)
+    public async Task<List<OrderSummaryVM>> GetOrderSummaryByUser(string userId)
     {
         HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrdersByUserId(userId)));
         string content = await httpResponseMessage.Content.ReadAsStringAsync();
         var orderSummary = JsonConvert.DeserializeObject<IEnumerable<OrderSummaryVM>>(content);
+        _httpClient.DefaultRequestHeaders.Clear();
+        return orderSummary.ToList();
+    }
+
+    public async Task<List<OrderItemVM>> GetAllOrderedProductsByUser(string userId)
+    {
+        HttpResponseMessage httpResponseMessage = await _policy.ExecuteAsync(() => _httpClient.GetAsync(OrderAPI.GetOrderProductsByUserId(userId)));
+        string content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var orderSummary = JsonConvert.DeserializeObject<IEnumerable<OrderItemVM>>(content);
         _httpClient.DefaultRequestHeaders.Clear();
         return orderSummary.ToList();
     }

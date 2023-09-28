@@ -49,7 +49,7 @@ public class OrderQuery : IOrderQuery
         return MapToOrderItem(result);
     }
 
-    public async Task<IEnumerable<OrderSummaryViewModel>> GetOrdersFromUserAsync(Guid userId)
+    public async Task<IEnumerable<OrderSummaryViewModel>> GetOrdersByUserAsync(Guid userId)
     {
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -64,6 +64,30 @@ public class OrderQuery : IOrderQuery
                     GROUP BY o.Id, o.OrderDate, os.[Name]
                     ORDER BY o.Id", new { userId }
             );
+    }
+
+    public async Task<IEnumerable<OrderItemViewModel>> GetAllProductsByUserAsync(Guid userId)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        var result = await connection.QueryAsync<dynamic>(@"
+            select oi.ProductName, oi.UnitPrice, oi.Units, oi.PictureUrl
+            from [ordering].[OrderItems] as oi
+            left join [ordering].[Orders] as o 
+            on o.Id = oi.OrderId
+            left join [ordering].[Buyers] as b
+            on b.Id = o.BuyerId
+            where b.IdentityGuid = @userId
+        ", new { userId});
+
+       return  result.Select(row => new OrderItemViewModel
+        {
+            ProductName = row.ProductName,
+            UnitPrice = (double)row.UnitPrice,
+            Units = row.Units,
+            PictureUrl = row.PictureUrl
+        });
     }
 
     public async Task<IEnumerable<CardTypeViewModel>> GetCardTypesAsync()
@@ -105,5 +129,5 @@ public class OrderQuery : IOrderQuery
         }
         
         return order;
-    }
+    }   
 }

@@ -1,7 +1,5 @@
 ﻿@model OrderVM;
-@{
-    int count = 0;
-}
+
 <main>
     <div class="row">
         <partial name="_OrderNavbarPartial"></partial>
@@ -68,36 +66,7 @@
             <br />
             <section class="customer-order-detail-items-block">
                 <h6>Ordered Products</h6>
-                <table class="table table-light table-striped table-hover">
-                    <thead>
-                        <tr class="customer-order-table-products-headings">
-                            <th scope="col">#</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th class="customer-order-table-heading-bigger-screen" scope="col">Total Price per Units</th>
-                            <th class="customer-order-table-heading-smaller-screen" scope="col">Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.OrderItems)
-                        {
-                        
-                            <tr class="customer-order-table-products-values">
-                                <th scope="row">@(++count)</th>
-                                <td>
-                                    <img class="customer-order-table-product-image" src="@item.PictureUrl" alt="image @(item.ProductName)" />
-                                </td>
-                                <td>@item.ProductName</td>
-                                <td>@(item.UnitPrice.ToString("N2")) $</td>
-                                <td>@item.Units</td>
-                                <td>@((item.UnitPrice * item.Units).ToString("N2"))</td>
-                            </tr>
-                        
-                        }
-                    </tbody>
-                </table>
+                <partial name="_CustomOrderItemsTable" model="@Model.OrderItems"></partial>
             </section>
             <section class="customer-order-detail-total-block">
                 <h4>Total: @(Model.Total.ToString("N2")) USD</h4>
@@ -107,6 +76,7 @@
 </main>
 
 <link href="~/css/order_detail.css" rel="stylesheet" />
+<link href="~/css/order-items-table.css" rel="stylesheet" />
 <link href="~/css/order_navbar.css" rel="stylesheet" />
 <link href="~/css/order_navbar_small_device.css" rel="stylesheet" />
 <script src="~/js/order_navbar.js"></script>

@@ -1,0 +1,30 @@
+﻿.customer-order-table-product-image {
+    width: 35px;
+    height: 30px;
+}
+
+.customer-order-table-products-values > td {
+    font-size: 0.8rem;
+}
+
+.customer-order-detail-total-block > h4 {
+    text-align: center;
+}
+
+.customer-order-table-heading-bigger-screen {
+    display: block;
+}
+
+.customer-order-table-heading-smaller-screen {
+    display: none;
+}
+
+@media screen and (max-width: 1300px) {
+    .customer-order-table-heading-bigger-screen {
+        display: none;
+    }
+
+    .customer-order-table-heading-smaller-screen {
+        display: block;
+    }
+}

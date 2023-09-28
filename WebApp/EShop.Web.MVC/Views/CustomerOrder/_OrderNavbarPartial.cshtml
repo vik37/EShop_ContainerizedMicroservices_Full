@@ -16,9 +16,9 @@
         <div class="order-link-block">
             <h6 id="order-link-title" class="orders-link-title "><span>&#10037;</span> Your Orders</h6>
             <div id="order-link-block" class="order-link-list-block">
-                <a asp-controller="CustomerOrder" asp-action="OrderSummary" asp-route-userId="@(ViewBag.UserId)">Order Summary</a>
+                <a asp-controller="CustomerOrder" asp-action="OrderSummaryByUser" asp-route-userId="@(ViewBag.UserId)">Order Summary</a>
 
-                <a>All Order Products</a>
+                <a asp-controller="CustomerOrder" asp-action="OrderedProductsByUser" asp-route-userId="@(ViewBag.UserId)">All Ordered Products</a>
 
                 <a>Overall Analysis</a>
             </div>
