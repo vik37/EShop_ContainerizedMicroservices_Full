@@ -47,13 +47,30 @@ public class CustomerOrderController : Controller
         if (!string.IsNullOrEmpty(userId))
         {
             var products = await _orderService.GetAllOrderedProductsByUser(userId);
-            if (products is null)
+            if (products is null)               
                 return RedirectToAction("Index", controllerName: "Catalog");
+
+            ViewBag.TotalProducts = products.Count;
+            ViewBag.TotalPrice = products.Sum(x => (x.UnitPrice * x.Units));
+            ViewBag.LargestPrice = products.Max(x => x.UnitPrice);
+            ViewBag.TotalQuantity = products.Sum(x => x.Units);
 
             ViewBag.UserId = userId;
             return View(products);
         }
 
         return RedirectToAction("Index", controllerName: "Catalog");
+    }
+
+    public IActionResult OrderMessages(string userId)
+    {
+        ViewBag.UserId = userId;
+        return View();
+    }
+
+    public IActionResult OrderHistory(string userId)
+    {
+        ViewBag.UserId = userId;
+        return View();
     }
 }

@@ -1,0 +1,14 @@
+﻿.customer-ordered-products-block{
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.customer-ordered-products-additional-information > p {
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 0.8rem;
+    padding: 4px 0;
+    border-bottom: 2px solid rgb(6, 110, 197);
+    border-left: 5px solid rgb(38, 199, 224);
+    border-radius: 3px;
+}

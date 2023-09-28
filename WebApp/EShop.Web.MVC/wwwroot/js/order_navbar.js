@@ -32,7 +32,7 @@
     let orderLinkBloksIdsObj = [
         { id: "account-settings-link", orderNavbarListIsOpen: false },
         { id: "order-link", orderNavbarListIsOpen: false },
-        { id: "coupon-link", orderNavbarListIsOpen: false },
+        { id: "messages-link", orderNavbarListIsOpen: false },
         { id: "order-history-link", orderNavbarListIsOpen: false },
     ];
 
@@ -79,7 +79,7 @@
                 orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
-            case "order-coupon-heading":
+            case "order-messages-heading":
                 orderLinkBloksIdsObj[2].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
