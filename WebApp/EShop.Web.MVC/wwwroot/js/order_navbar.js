@@ -53,35 +53,37 @@
     $(".orders-link-title > span").each(function (index) {
 
         switch (orderSummaryHeading) {
-            case "account-settings-personal-information":
+            case "account-settings-personal-information-heading":
                 orderLinkBloksIdsObj[0].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
-            case "order-address":
+            case "order-address-heading":
                 orderLinkBloksIdsObj[0].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
             case "order-summary-heading":
                 orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                console.log(index);
                 break;
             case "order-detail-heading":
                 orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
+                
                 break;
-            case "all-order-products":
+            case "all-ordered-products-heading":
                 orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
-            case "order-overall-analysis":
+            case "order-overall-analysis-heading":
                 orderLinkBloksIdsObj[1].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
-            case "order-coupon":
+            case "order-coupon-heading":
                 orderLinkBloksIdsObj[2].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;
-            case "order-history":
+            case "order-history-heading":
                 orderLinkBloksIdsObj[3].orderNavbarListIsOpen = true;
                 setInitialOrderListNavbarToggleHeadingModification(orderLinkBloksIdsObj[index].id, orderLinkBloksIdsObj[index].orderNavbarListIsOpen);
                 break;

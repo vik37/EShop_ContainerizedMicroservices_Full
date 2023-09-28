@@ -50,7 +50,21 @@ public class OrderController : ControllerBase
         // JUST FOR TESTING BECAUSE THE USER IDENTITY SERVICE IS NOT DONE YET! 
         //var userId = "0755503e-dac3-4980-a96a-41178d982380";
 
-        var orders = await _orderQuery.GetOrdersFromUserAsync(Guid.Parse(userId));
+        var orders = await _orderQuery.GetOrdersByUserAsync(Guid.Parse(userId));
+        return Ok(orders);
+
+    }
+
+    [Route("user/{userId}/products")]
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<OrderItemViewModel>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<OrderItemViewModel>>> GetAllProductsByUser([FromRoute] string userId)
+    {
+
+        // JUST FOR TESTING BECAUSE THE USER IDENTITY SERVICE IS NOT DONE YET! 
+        //var userId = "0755503e-dac3-4980-a96a-41178d982380";
+
+        var orders = await _orderQuery.GetAllProductsByUserAsync(Guid.Parse(userId));
         return Ok(orders);
 
     }

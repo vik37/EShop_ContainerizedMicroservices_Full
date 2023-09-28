@@ -205,6 +205,18 @@
       ],
       "UpstreamPathTemplate": "/gw/{version}/order/{userId}/user/{orderId}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{version}/order/{userId}/user/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.orders.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/{version}/order/{userId}/user/products",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

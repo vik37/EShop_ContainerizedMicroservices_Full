@@ -17,10 +17,10 @@
                 <ul>
                     Your Orders
                     <li class="customer-order-navbar-list-sm">
-                        <a asp-controller="CustomerOrder" asp-action="OrderSummary" asp-route-userId="@(ViewBag.UserId)">Order Summary</a>
+                        <a asp-controller="CustomerOrder" asp-action="OrderSummaryByUser" asp-route-userId="@(ViewBag.UserId)">Order Summary</a>
                     </li>
                     <li class="customer-order-navbar-list-sm">
-                        <a>All Order Products</a>
+                        <a asp-controller="CustomerOrder" asp-action="OrderedProductsByUser" asp-route-userId="@(ViewBag.UserId)">All Ordered Products</a>
                     </li>
                     <li class="customer-order-navbar-list-sm">
                         <a>Overall Analysis</a>

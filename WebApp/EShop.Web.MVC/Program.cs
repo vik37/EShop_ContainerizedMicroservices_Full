@@ -28,20 +28,20 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "customerorder",
-    pattern: "customerorder/ordersummary/{userId}",
-    defaults: new { controller = "CustomerOrder", action = "OrderSummary" });
+    pattern: "customerorder/{action}/{userId}/user/{orderId}",
+    defaults: new { controller = "CustomerOrder", action = "OrderDetail" });
+
 app.MapControllerRoute(
     name: "customerorder",
-    pattern: "customerorder/{action}/{userId}/user/{orderId?}",
-    defaults: new { controller = "CustomerOrder" });
+    pattern: "customerorder/{action}/{userId}",
+    defaults: new { controller = "CustomerOrder" }
+);
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-
 
 app.Run();

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<OrderItemVM>;
+
+<main>
+    <div class="row">
+        <partial name="_OrderNavbarPartial"></partial>
+
+        <partial name="_OrderNavbarSmallerDevicePartial"></partial>
+        <section class="col-md-10 col-sm-12 customer-ordered-products-block">
+            <section class="customer-ordered-products-table-block">
+                <h2 id="all-ordered-products-heading">Active Ordered Products</h2>
+                <partial name="_CustomOrderItemsTable" model="@Model"></partial>
+            </section>
+            <section class="customer-ordered-products-additional-information-block">
+                <div class="row">
+                    <div class="col-md-3">
+                        
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+
+<link href="~/css/order-items-table.css" rel="stylesheet" />
+<link href="~/css/order_navbar.css" rel="stylesheet" />
+<link href="~/css/order_navbar_small_device.css" rel="stylesheet" />
+<script src="~/js/order_navbar.js"></script>
