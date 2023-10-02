@@ -9,7 +9,13 @@ services:
       dockerfile: WebApp/EShop.Web.MVC/Dockerfile
     depends_on:
         - ocelotapigw
-
+  
+  eshop.web.spa.admin:
+     image: eshop-administrator
+     build:
+       context: .
+       dockerfile: WebApp/EShop.SPA/EShop_Administrator/Dockerfile     
+     
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw
     build:

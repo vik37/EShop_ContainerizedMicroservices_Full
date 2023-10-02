@@ -9,6 +9,13 @@ services:
     ports:
       - "2020:80"
 
+  eshop.web.spa.admin:
+    ports:
+       - 7077:80
+    volumes:
+       - '.:/app'
+       - '/app/node_modules'
+
   ocelotapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -54,7 +61,7 @@ services:
       - EventBusRabbitMQUsername=${ESHOP_RABBITMQ_DEFAULT_USERNAME}
       - EventBusRabbitMQPassword=${ESHOP_RABBITMQ_DEFAULT_PASSWORD}
     ports:
-      - "5050:80"
+      - "5015:80"
 
   rabbitmq:
     ports:
