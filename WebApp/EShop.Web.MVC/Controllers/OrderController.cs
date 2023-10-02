@@ -39,7 +39,6 @@ public class OrderController : Controller
     public ActionResult SuccessfullyOrderWasSend(string userId)
     {
         ViewBag.UserId = userId;
-        ViewBag.OrderUrlPath = $"/CustomerOrder/OrderSummary?{nameof(userId)}={userId}";
         ViewBag.OrderSuccessMessage = "The checkout order has been successfully sent for further processing";
         return View();
     }
