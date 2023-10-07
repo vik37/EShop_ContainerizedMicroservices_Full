@@ -8,9 +8,14 @@ public class CatalogContextSeed
         policy.Execute(() =>
         {
             if (dbContext != null)
-            {
-                logger.LogInformation("{ContextType} Migration Seed Start", nameof(CatalogDbContext));
-                dbContext.Database.Migrate();
+            {                
+                var pendingMigrations = dbContext.Database.GetPendingMigrations();
+                var panding = pendingMigrations.Any();
+                if (pendingMigrations.Any())
+                {
+                    logger.LogInformation("{ContextType} Migration Seed Start", nameof(CatalogDbContext));
+                    dbContext.Database.Migrate();
+                }
                 if (!dbContext.CatalogBrands.Any())
                 {
                     dbContext.CatalogBrands.AddRange(GetPreconfiguredCatalogBrands);
@@ -31,7 +36,7 @@ public class CatalogContextSeed
         });       
     }
 
-    private IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands
+    private static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands
         => new List<CatalogBrand>()
         {
                  new CatalogBrand() { Brand = "Azure"},
@@ -40,7 +45,7 @@ public class CatalogContextSeed
                  new CatalogBrand() { Brand = "SQL Server" },
                  new CatalogBrand() { Brand = "Other" }
         };
-    private IEnumerable<CatalogType> GetPreconfiguredCatalogTypes
+    private static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes
         => new List<CatalogType>()
         {
                  new CatalogType() { Type = "Mug"},
@@ -49,7 +54,7 @@ public class CatalogContextSeed
                  new CatalogType() { Type = "USB Memory Stick" }
         };
 
-    private IEnumerable<CatalogItem> GetPreconfiguredCatalogItems=>
+    private static IEnumerable<CatalogItem> GetPreconfiguredCatalogItems=>
         new List<CatalogItem>()
         {
             new() { CatalogTypeId = 2, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Bot Black Hoodie", Name = ".NET Bot Black Hoodie", Price = 19.5M, PictureFileName = "1.png" },

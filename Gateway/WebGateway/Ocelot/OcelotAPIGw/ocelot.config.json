@@ -145,6 +145,18 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/order/admin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshop.orders.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/{version}/order/admin",
+      "UpstreamHttpMethod": [ "GET" ]     
+    },
+    {
       "DownstreamPathTemplate": "/bff/{version}/order/draft/{basketId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

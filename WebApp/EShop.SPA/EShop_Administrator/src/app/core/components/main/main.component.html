@@ -1,0 +1,13 @@
+<main>
+  <div class="row">
+    <aside class="col-md-2">
+      <app-navbar></app-navbar>
+    </aside>
+    <section class="col-md-9 col-sm-12">
+      <div>
+        <h1 [ngStyle]="{'color':'black'}">Environment URL: {{envUrl}}</h1>
+      </div>
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</main>

@@ -12,9 +12,6 @@ services:
   eshop.web.spa.admin:
     ports:
        - 7077:80
-    volumes:
-       - '.:/app'
-       - '/app/node_modules'
 
   ocelotapigw:
     environment:

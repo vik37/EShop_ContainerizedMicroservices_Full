@@ -12,9 +12,9 @@ public class TestOrderHTTPResponse  : IClassFixture<OrderWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Test_GetOrders_EnshureStatusCodeOk()
+    public async Task Test_GetAllOrdersForAdministrator_EnshureStatusCodeOk()
     {
-        var response = await _httpClient.GetAsync(OrderURIPath.DefaultURIPath);
+        var response = await _httpClient.GetAsync(OrderURIPath.GetAllOrdersForAdministrator());
         
         response.EnsureSuccessStatusCode();
     }
@@ -40,7 +40,7 @@ public class TestOrderHTTPResponse  : IClassFixture<OrderWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Task_CancleOrder_Failed_ShouldReturnBadRequest()
+    public async Task Test_CancleOrder_Failed_ShouldReturnBadRequest()
     {
         var content = new StringContent(ShippedOrderBuilder(), UTF8Encoding.UTF8, "application/json")
         {
@@ -53,7 +53,7 @@ public class TestOrderHTTPResponse  : IClassFixture<OrderWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Task_GetOrderById_Failes_ShouldReturnNotFound()
+    public async Task Test_GetOrderById_Failes_ShouldReturnNotFound()
     {
 
         var response = await _httpClient.GetAsync(OrderURIPath.GetOrderById(1));
@@ -62,7 +62,7 @@ public class TestOrderHTTPResponse  : IClassFixture<OrderWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Task_ShipOrder_Failed_ShouldReturnBadRequest()
+    public async Task Test_ShipOrder_Failed_ShouldReturnBadRequest()
     {
         var content = new StringContent(ShippedOrderBuilder(), UTF8Encoding.UTF8, "application/json")
         {

@@ -1,0 +1,96 @@
+.navigation{
+  background-color: $black;
+  color: $white;
+  height: 100vh;
+  padding: 0 !important;
+  transition: width 2s;
+  &__block{
+    h3{
+      display: block;
+      background-color: rgb(17, 65, 129);
+      height: auto;
+      cursor: pointer;
+      padding-left: 15px;
+      span{
+        margin-left: 25px;
+        font-size: 1.1rem;
+        letter-spacing: 0.17rem;
+        color: rgba(255, 255, 255,0.7);
+        text-shadow: 3px 0  rgb(33, 31, 10);
+        text-decoration: 3px dashed rgba(24, 60, 111, 0.7) underline;
+      }
+    }
+  }
+}
+
+.navbar{
+  padding: 0 !important;
+  li{
+    width: 100%;
+  }
+  @for $i from 1 through 5{
+    li:nth-child(#{$i}){
+      padding-bottom: 10px;
+      h6{
+        padding: 2px 5px;
+        background-color: rgb(17, 95, 129);
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+.navlink > li{
+  padding-top: 5px;
+  a{
+    font-size: 0.677rem;
+    background-color: rgba(74, 13, 165, 0.3);
+    padding: 4px 7px;
+    border: 1px solid rgba(240, 240, 240, 0.3);
+    color: rgb(64, 205, 248);
+    border-radius: 7px;
+    &:hover{
+      background-color: rgba(145, 241, 89, 0.9);
+      color: rgb(82, 16, 24);
+    }
+  }
+}
+
+.narrow-nav{
+  div{
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(89, 153, 237);
+    &:hover{
+      background-color: rgb(16, 57, 127);
+    }
+    a{
+      margin-top: 30px;
+      font-size: 1.3rem;
+      padding: 32px 6px;
+      cursor: pointer;
+      color: $white;
+      &:hover{
+        font-size: 1.9rem;
+      }
+      &:active{
+        color: rgb(0, 0, 0);
+      }
+    }
+
+  }
+}
+
+.navigation-wide-to-narrow{
+  width: 	50px;
+  &__block{
+    nav{
+      .navbar{
+        background-color: aliceblue;
+      }
+    }
+  }
+}
+
+
