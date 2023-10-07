@@ -1,0 +1,10 @@
+<div [ngStyle]="{'margin-left':'550px'}">
+  <div *ngFor="let summary of orderSummary">
+    <p>Ordered Date: {{summary.date | date:'EEEE d MMMM y '}}</p>
+    <p>Ordered Time: {{summary.date | date:'mediumTime'}}</p>
+    <p>Current Status: {{summary.status}}</p>
+    <p>Total Price: {{summary.total | number:'1.1-2'}}</p>
+    <br />
+    <hr />
+  </div>
+</div>

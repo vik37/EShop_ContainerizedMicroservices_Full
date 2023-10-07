@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: ""
+  GATEWAY_URL: "http://host.docker.internal:9010/gw/v1/"
 };

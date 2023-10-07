@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  API_URL: ""
+  GATEWAY_URL: "http://localhost:9010/gw/v1/"
 };

@@ -14,7 +14,9 @@ services:
      image: eshop-administrator
      build:
        context: .
-       dockerfile: WebApp/EShop.SPA/EShop_Administrator/Dockerfile     
+       dockerfile: WebApp/EShop.SPA/EShop_Administrator/Dockerfile
+     depends_on:
+       - ocelotapigw
      
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw

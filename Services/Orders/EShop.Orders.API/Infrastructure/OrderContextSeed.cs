@@ -1,4 +1,6 @@
-﻿namespace EShop.Orders.API.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace EShop.Orders.API.Infrastructure;
 
 public class OrderContextSeed
 {
@@ -8,11 +10,15 @@ public class OrderContextSeed
 
         policy.Execute(() =>
         {
-            if(context is not null)
+            if(context != null)
             {
-                logger.LogInformation("{ContextType} Migration Seed Start", nameof(OrderingContext));
-                context.Database.Migrate();
-
+                var pendingMigrations = context.Database.GetPendingMigrations();
+                var panding = pendingMigrations.Any();
+                if (pendingMigrations.Any())
+                {
+                    logger.LogInformation("{ContextType} Migration Seed Start", nameof(OrderingContext));
+                    context.Database.Migrate();
+                }               
                 if (!context.CardTypes.Any())
                 {
                     context.CardTypes.AddRange(GetPreconfiguredCardType);
@@ -29,13 +35,13 @@ public class OrderContextSeed
         });
     }
 
-    private static IEnumerable<CardType> GetPreconfiguredCardType
+    private IEnumerable<CardType> GetPreconfiguredCardType
         => Enumeration.GetAll<CardType>();
 
-    private static IEnumerable<OrderStatus> GetPreconfiguredOrderStatus
+    private IEnumerable<OrderStatus> GetPreconfiguredOrderStatus
         => Enumeration.GetAll<OrderStatus>();
 
-    private static RetryPolicy CreatePolicy(ILogger<OrderingContext> logger, int retries = 3)
+    private RetryPolicy CreatePolicy(ILogger<OrderingContext> logger, int retries = 3)
         => Policy.Handle<SqlException>()
         .WaitAndRetry(
                 retryCount: retries,

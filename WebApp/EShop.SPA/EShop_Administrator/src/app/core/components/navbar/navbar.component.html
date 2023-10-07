@@ -1,0 +1,86 @@
+
+  <div  class="navigation navigation__block"
+  [ngStyle]="isNavbarWide? {'width':'250px','transitions':'width 3s'}
+                        :{'width':'50px','transitions':'width 3s'}
+  ">
+    <h3 (click)="barsIconsIsChanged()">
+      <fa-icon *ngIf="isNavbarWide; else chartsSimpleIcon"  [icon]="faBars" ></fa-icon>
+      <span [ngClass]="!isNavbarWide?'fade-out-animation':fadeInAnimation" [ngStyle]="isNavbarWide ? {'display':'inline-block'} : {'display':'none'}"> Administration</span>
+    </h3>
+    <nav *hideAfterSomeTime="isNavbarWide; else anotherTemplate">
+      <ul class="navbar" [ngClass]="!isNavbarWide?'fade-out-animation':fadeInAnimation">
+        <li>
+          <h6><span>&#9884;</span> Dashboard</h6>
+          <ul class="navlink">
+            <li>
+              <a [routerLink]="mainRoutes[0]">- Overview -</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h6><span>&#9884;</span> Orders</h6>
+          <ul class="navlink">
+            <li>
+              <a [routerLink]="mainRoutes[1]">- View Orders -</a>
+            </li>
+            <li>
+              <a [routerLink]="mainRoutes[1]+'/status'">- Orders Status -</a>
+            </li>
+            <li>
+              <a [routerLink]="mainRoutes[1]+'/history'">- Orders History -</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h6><span>&#9884;</span> Catalog</h6>
+          <ul class="navlink">
+            <li>
+              <a [routerLink]="mainRoutes[2]">- Manage Products -</a>
+            </li>
+            <li>
+              <a [routerLink]="mainRoutes[2]+'/add-product'">- Add New Products -</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h6><span>&#9884;</span> Customers</h6>
+          <ul class="navlink">
+            <li>
+              <a [routerLink]="mainRoutes[3]">- All Buyers -</a>
+            </li>
+            <li>
+              <a [routerLink]="mainRoutes[3]+'/messages'">- Messages -</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h6><span>&#9884;</span> Promotions</h6>
+          <ul class="navlink">
+            <li>
+              <a [routerLink]="mainRoutes[4]">- Coupons -</a>
+            </li>
+            <li>
+              <a [routerLink]="mainRoutes[4]+'/special-offers'">- Special Offers -</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+
+<!-- ---------- Ng Templates ------------  -->
+
+<ng-template #chartsSimpleIcon>
+  <fa-icon [icon]="faChartSimple"></fa-icon>
+</ng-template>
+
+<ng-template #anotherTemplate>
+  <nav  class="narrow-nav">
+    <div *ngFor="let icon of navbarIcons; index as i">
+      <a [routerLink]="mainRoutes[i]" [ngClass]="isNavbarWide?'fade-out-animation':'fade-in-animation'">
+        <fa-icon [icon]="icon"></fa-icon>
+      </a>
+    </div>
+  </nav>
+</ng-template>

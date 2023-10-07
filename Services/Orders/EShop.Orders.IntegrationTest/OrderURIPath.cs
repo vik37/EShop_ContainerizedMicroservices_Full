@@ -4,6 +4,8 @@ public static class OrderURIPath
 {
     public const string DefaultURIPath = "/api/v1/order";
 
+    public static string GetAllOrdersForAdministrator() => $"{DefaultURIPath}/admin";
+
     public static string GetOrderById(int id) => $"/{Guid.NewGuid().ToString()}/user/{id}";
 
     public static string GetAllCardTypes => string.Concat(DefaultURIPath, "/cardtypes");

@@ -15,6 +15,7 @@ public class OrderController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    [Route("admin")]
     [HttpGet]
     [ProducesResponseType(typeof(OrderSummaryViewModel),(int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetOrders()
