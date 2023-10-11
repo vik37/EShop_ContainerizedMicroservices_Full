@@ -13,7 +13,7 @@ public class OrderContextSeed
             if(context != null)
             {
                 var pendingMigrations = context.Database.GetPendingMigrations();
-                var panding = pendingMigrations.Any();
+
                 if (pendingMigrations.Any())
                 {
                     logger.LogInformation("{ContextType} Migration Seed Start", nameof(OrderingContext));

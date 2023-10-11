@@ -12,12 +12,17 @@ services:
   eshop.web.spa.admin:
     ports:
        - 7077:80
+    restart: always
+    volumes: 
+      - node-modules:/app/node_modules
+      - .:/app 
+      - nginxconf:/etc/nginx/conf.d/
 
   ocelotapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "9010:80"
+      - "9010:80"    
 
   web.bff.shoppingaggregator:
     environment:
@@ -80,3 +85,5 @@ services:
 volumes:
   eshop-data:
      external: false
+  node-modules:
+  nginxconf:

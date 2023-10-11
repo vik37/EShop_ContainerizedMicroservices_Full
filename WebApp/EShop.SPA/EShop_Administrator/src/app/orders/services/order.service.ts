@@ -9,7 +9,7 @@ import {OrderSummaryViewModel} from 'src/app/orders/models/order-summary';
 
 @Injectable()
 export class OrderService {
-  API_HTTP: string = environment.GATEWAY_URL+'order/admin';
+  API_HTTP: string = environment.ORDERAPI_URL+'order/admin';
   constructor(private http: HttpClient) { }
 
   getAllOrderSummary(): Observable<OrderSummaryViewModel[]>{
