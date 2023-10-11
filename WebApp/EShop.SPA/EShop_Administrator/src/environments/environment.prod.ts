@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  GATEWAY_URL: "http://host.docker.internal:9010/gw/v1/"
+  CATALOGAPI_URL: "http://host.docker.internal:4040/api/v1/",
+  ORDERAPI_URL: "http://host.docker.internal:5015/api/v1/"
 };

@@ -16,7 +16,8 @@ services:
        context: .
        dockerfile: WebApp/EShop.SPA/EShop_Administrator/Dockerfile
      depends_on:
-       - ocelotapigw
+       - eshop.catalog.api
+       - eshop.orders.api 
      
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw
