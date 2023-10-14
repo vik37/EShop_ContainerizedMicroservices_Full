@@ -58,6 +58,7 @@ services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, I
 services.AddSingleton<IValidator<ShipOrderCommand>, ShipOrderCommandValidator>();
 
 services.AddTransient<IOrderQuery, OrderQuery>(o => new OrderQuery(configuration.GetValue<string>("OrderingDb")));
+services.AddTransient<IAdminOrderQuery, AdminOrderQuery>(o => new AdminOrderQuery(configuration.GetValue<string>("OrderingDb")));
 
 
 

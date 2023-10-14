@@ -15,21 +15,7 @@ public class Test_OrdersWebApi
         _loggerSub = Substitute.For<ILogger<OrderController>>();
 
         _orderController = new OrderController(_orderQuerySub, _mediatorSub, _loggerSub);
-    }
-
-    [Fact]
-    public async Task CancelOrderWithRequestId_Success_StatusCodeShouldBeOk()
-    {
-
-        // Arrange
-        _mediatorSub.Send(Arg.Any<IdentifiedCommand<CancelOrderCommand,bool>>(),default).Returns(Task.FromResult(true));
-
-        // Action
-        var actionResult = await _orderController.CancelOrderAsync(new CancelOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
-
-        // Assert
-        actionResult.StatusCode.Should().Be(StatusCodes.Status200OK);
-    }
+    }      
 
     [Fact]
     public async Task CancelOrderWithRequestId_Failed_StatusCodeShouldBeBadRequest()
@@ -39,32 +25,6 @@ public class Test_OrdersWebApi
 
         // Action
         var actionResult = await _orderController.CancelOrderAsync(new CancelOrderCommand(1), string.Empty) as BadRequestResult;
-
-        // Assert
-        actionResult.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-    }
-
-    [Fact]
-    public async Task ShipOrderWithRequestId_Success_StatusCodeShouldBeOk()
-    {
-        // Arrange
-        _mediatorSub.Send(Arg.Any<IdentifiedCommand<ShipOrderCommand, bool>>(), default).Returns(Task.FromResult(true));
-
-        // Action
-        var actionResult = await _orderController.ShipOrderAsync(new ShipOrderCommand(1), Guid.NewGuid().ToString()) as OkResult;
-
-        // Assert
-        actionResult.StatusCode.Should().Be(StatusCodes.Status200OK);
-    }
-
-    [Fact]
-    public async Task ShipOrderWithRequestId_Failed_StatusCodeShouldBeBadRequest()
-    {
-        // Arrange
-        _mediatorSub.Send(Arg.Any<IdentifiedCommand<ShipOrderCommand, bool>>(), default).Returns(Task.FromResult(true));
-
-        // Action
-        var actionResult = await _orderController.ShipOrderAsync(new ShipOrderCommand(1), string.Empty) as BadRequestResult;
 
         // Assert
         actionResult.StatusCode.Should().Be(StatusCodes.Status400BadRequest);

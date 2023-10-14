@@ -1,4 +1,4 @@
-﻿namespace EShop.Orders.API.Application.Queries.ViewModels;
+﻿namespace EShop.Orders.API.Application.Queries.OrderQueries.ViewModels;
 
 public class CardTypeViewModel
 {
