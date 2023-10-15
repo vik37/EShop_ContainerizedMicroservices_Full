@@ -33,7 +33,7 @@ public class Test_IdentifiedCommandHandler : FakeOrderRequestWithBuyer
     }
 
     [Fact]
-    public async void HandlerSendsNoCommandWhenOrderAlreadyExist()
+    public async Task HandlerSendsNoCommandWhenOrderAlreadyExist()
     {
         // Arrange
         var fakeGuid = Guid.NewGuid();

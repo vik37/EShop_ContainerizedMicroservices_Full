@@ -1,4 +1,4 @@
-﻿namespace EShop.Orders.API.Application.Queries.ViewModels;
+﻿namespace EShop.Orders.API.Application.Queries.OrderQueries.ViewModels;
 
 public class OrderViewModel
 {
@@ -11,9 +11,9 @@ public class OrderViewModel
     public string ZipCode { get; init; }
     public string Country { get; init; }
 
-    public List<OrderItemViewModel> OrderItems { get; set; } 
+    public List<OrderItemsViewModel> OrderItems { get; set; }
     public decimal Total { get; set; }
 
     public OrderViewModel()
-       => OrderItems = new List<OrderItemViewModel>();
+       => OrderItems = new List<OrderItemsViewModel>();
 }

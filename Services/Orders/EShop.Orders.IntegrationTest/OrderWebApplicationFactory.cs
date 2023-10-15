@@ -1,4 +1,6 @@
-﻿namespace EShop.Orders.IntegrationTest;
+﻿using EShop.Orders.API.Application.Queries.OrderQueries;
+
+namespace EShop.Orders.IntegrationTest;
 
 public class OrderWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {

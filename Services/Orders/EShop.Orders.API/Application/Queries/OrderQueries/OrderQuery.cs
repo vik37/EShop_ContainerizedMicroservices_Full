@@ -1,34 +1,15 @@
-﻿namespace EShop.Orders.API.Application.Queries;
+﻿namespace EShop.Orders.API.Application.Queries.OrderQueries;
 
 public class OrderQuery : IOrderQuery
 {
     private readonly string _connectionString;
 
     public OrderQuery(string connectionString)
-    {
-         _connectionString = connectionString;
-    }    
-
-    public async Task<IEnumerable<OrderSummaryViewModel>> GetOrdersAsync()
-    {
-        using var connection = new SqlConnection(_connectionString);
-
-            connection.Open();
-            return await connection.QueryAsync<OrderSummaryViewModel>(
-                    @"SELECT o.[Id] as OrderNumber,
-                        o.[OrderDate] as [Date], os.[Name] as Status,
-                        SUM(oi.Units*oi.UnitPrice) as Total
-                        FROM [ordering].[Orders] o
-                        LEFT JOIN [ordering].[OrderItems] oi on o.Id = oi.OrderId
-                        LEFT JOIN [ordering].[OrderStatus] os on o.OrderStatusId = os.Id
-                        GROUP BY o.[Id], o.[OrderDate], os.[Name]
-                        ORDER BY o.[Id]"
-                );
-    }
+      =>   _connectionString = connectionString;
 
     public async Task<OrderViewModel> GetOrderByIdAsync(int id, Guid userId)
     {
-        using var connection = new SqlConnection( _connectionString);
+        using var connection = new SqlConnection(_connectionString);
         connection.Open();
 
         var result = await connection.QueryAsync<dynamic>(
@@ -40,10 +21,10 @@ public class OrderQuery : IOrderQuery
                         LEFT JOIN ordering.OrderItems oi ON o.Id = oi.OrderId
                         LEFT JOIN ordering.OrderStatus os ON o.OrderStatusId = os.Id
                         LEFT JOIN ordering.Buyers b ON o.BuyerId = b.Id
-                        WHERE o.Id = @id and b.IdentityGuid = @userId", new { id,userId }
+                        WHERE o.Id = @id and b.IdentityGuid = @userId", new { id, userId }
                     );
 
-        if(result.AsList().Count == 0)
+        if (result.AsList().Count == 0)
             throw new KeyNotFoundException();
 
         return MapToOrderItem(result);
@@ -66,7 +47,7 @@ public class OrderQuery : IOrderQuery
             );
     }
 
-    public async Task<IEnumerable<OrderItemViewModel>> GetAllProductsByUserAsync(Guid userId)
+    public async Task<IEnumerable<OrderItemsViewModel>> GetAllProductsByUserAsync(Guid userId)
     {
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -79,9 +60,9 @@ public class OrderQuery : IOrderQuery
             left join [ordering].[Buyers] as b
             on b.Id = o.BuyerId
             where b.IdentityGuid = @userId
-        ", new { userId});
+        ", new { userId });
 
-       return  result.Select(row => new OrderItemViewModel
+        return result.Select(row => new OrderItemsViewModel
         {
             ProductName = row.ProductName,
             UnitPrice = (double)row.UnitPrice,
@@ -115,7 +96,7 @@ public class OrderQuery : IOrderQuery
 
         foreach (dynamic item in result)
         {
-            var orderItem = new OrderItemViewModel
+            var orderItem = new OrderItemsViewModel
             {
                 ProductName = item.ProductName,
                 PictureUrl = item.PictureUrl,
@@ -127,7 +108,7 @@ public class OrderQuery : IOrderQuery
 
             order.OrderItems.Add(orderItem);
         }
-        
+
         return order;
-    }   
+    }
 }

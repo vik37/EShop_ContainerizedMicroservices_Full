@@ -12,14 +12,6 @@ public class TestOrderHTTPResponse  : IClassFixture<OrderWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Test_GetAllOrdersForAdministrator_EnshureStatusCodeOk()
-    {
-        var response = await _httpClient.GetAsync(OrderURIPath.GetAllOrdersForAdministrator());
-        
-        response.EnsureSuccessStatusCode();
-    }
-
-    [Fact]
     public async Task Test_GetCardTypes_EnshureStatusCodeOk()
     {
         var response = await _httpClient.GetAsync(OrderURIPath.GetAllCardTypes);

@@ -1,6 +1,6 @@
-﻿namespace EShop.Orders.API.Application.Queries.ViewModels;
+﻿namespace EShop.Orders.API.Application.Queries.OrderQueries.ViewModels;
 
-public class OrderItemViewModel
+public class OrderItemsViewModel
 {
     public string ProductName { get; init; }
     public int Units { get; init; }

@@ -15,15 +15,6 @@ public class OrderController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [Route("admin")]
-    [HttpGet]
-    [ProducesResponseType(typeof(OrderSummaryViewModel),(int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetOrders()
-    {
-        var orders = await _orderQuery.GetOrdersAsync();
-        return Ok(orders);
-    }
-
     [Route("{userId}/user/{orderId:int}")]
     [HttpGet]
     [ProducesResponseType(typeof(OrderViewModel),(int)HttpStatusCode.OK)]
@@ -58,8 +49,8 @@ public class OrderController : ControllerBase
 
     [Route("user/{userId}/products")]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<OrderItemViewModel>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<OrderItemViewModel>>> GetAllProductsByUser([FromRoute] string userId)
+    [ProducesResponseType(typeof(IEnumerable<OrderItemsViewModel>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<OrderItemsViewModel>>> GetAllProductsByUser([FromRoute] string userId)
     {
 
         // JUST FOR TESTING BECAUSE THE USER IDENTITY SERVICE IS NOT DONE YET! 
@@ -107,52 +98,27 @@ public class OrderController : ControllerBase
     [HttpPut]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CancelOrderAsync([FromBody] CancelOrderCommand cancelOrderCommand, 
+    public async Task<IActionResult> CancelOrderAsync([FromBody] CancelOrderCommand cancelOrderCommand,
         [FromHeader(Name = "x-requestId")] string requestId)
     {
         bool commandResult = false;
 
-        if(Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+        if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
         {
             var requestCanceledOrder = new IdentifiedCommand<CancelOrderCommand, bool>(cancelOrderCommand, guid);
 
             _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
-                nameof(OrderController),requestCanceledOrder.GetType().Name,nameof(requestCanceledOrder.Command.OrderNumber),
-                        requestCanceledOrder.Command.OrderNumber,requestCanceledOrder);
+                nameof(OrderController), requestCanceledOrder.GetType().Name, nameof(requestCanceledOrder.Command.OrderNumber),
+                        requestCanceledOrder.Command.OrderNumber, requestCanceledOrder);
 
-            commandResult = await _mediator.Send(requestCanceledOrder);            
+            commandResult = await _mediator.Send(requestCanceledOrder);
         }
 
         if (!commandResult)
             return BadRequest();
         else
             return Ok();
-    }
-
-    [Route("ship")]
-    [HttpPut]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> ShipOrderAsync([FromBody] ShipOrderCommand shipOrderCommand, [FromHeader(Name = "x-requestId")] string requestId)
-    {
-        bool commandResult = false;
-
-        if(Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-        {
-            var requestShipOrder = new IdentifiedCommand<ShipOrderCommand, bool>(shipOrderCommand, guid);
-
-            _logger.LogInformation("Sending Command from {Controller}: {CommandName} - {IdProperty} {CommandId} ({@command})",
-                nameof(OrderController), requestShipOrder.GetType().Name, nameof(requestShipOrder.Command.OrderNumber),
-                        requestShipOrder.Command.OrderNumber, requestShipOrder);
-
-            commandResult = await _mediator.Send(requestShipOrder);
-        }
-
-        if (!commandResult)
-            return BadRequest();
-        else
-            return Ok();
-    }
+    }    
 
     [Route("draft")]
     [HttpPost]
