@@ -4,9 +4,7 @@ public static class OrderURIPath
 {
     public const string DefaultOrderURIPath = "/api/v1/order";
 
-    public const string DefaultAdminOrderURIPath = "/api/v1/adminorder";
-
-    public static string GetAllOrdersForAdministrator() => $"{DefaultOrderURIPath}";
+    public const string DefaultAdminOrderURIPath = "/api/v1/adminorders";
 
     public static string GetOrderById(int id) => $"/{Guid.NewGuid().ToString()}/user/{id}";
 
