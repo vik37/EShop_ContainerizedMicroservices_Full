@@ -5,12 +5,13 @@ COPY WebApp/EShop.SPA/EShop_Administrator/package*.json ./
 RUN npm install
 RUN npm install -g @angular/cli@15.2.9
 
-COPY WebApp/EShop.SPA/EShop_Administrator/ ./
-
-RUN npm run build
-
+COPY WebApp/EShop.SPA/EShop_Administrator/dist/eshop-administrator ./
 
 FROM nginx:alpine3.18-slim
-COPY --from=build /app/dist/eshop-administrator/ /usr/share/nginx/html
-COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
-CMD ["nginx","-g","daemon off;"]
+
+RUN rm /etc/nginx/conf.d/default.*
+EXPOSE 80
+
+COPY WebApp/EShop.SPA/EShop_Administrator/nginx.conf /etc/nginx/conf.d/
+COPY --from=build /app/ /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

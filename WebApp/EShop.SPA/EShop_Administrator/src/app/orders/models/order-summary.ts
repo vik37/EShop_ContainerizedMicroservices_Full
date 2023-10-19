@@ -1,6 +1,6 @@
 export interface OrderSummaryViewModel{
   orderNumber: number,
-  date: string,
+  orderDate: Date,
   status: string,
   total: number
 }

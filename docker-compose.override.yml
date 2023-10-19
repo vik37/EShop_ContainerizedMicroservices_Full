@@ -13,10 +13,11 @@ services:
     ports:
        - 7077:80
     restart: always
-    volumes: 
+    volumes:
       - node-modules:/app/node_modules
-      - .:/app 
+      - .:/app
       - nginxconf:/etc/nginx/conf.d/
+      
 
   ocelotapigw:
     environment:

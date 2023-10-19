@@ -9,8 +9,7 @@ import { MainComponent } from 'src/app/core/components/main/main.component';
 import { NavbarComponent } from 'src/app/core/components/navbar/navbar.component';
 import { PageNotfoundComponent } from 'src/app/core/components/notfound/pageNotFound.component';
 
-import { HideAfterSomeTimeDirective } from 'src/app/shared/directives/hide-after-some-time.directive';
-
+import {SharedModule} from './shared/shared.module';
 import {OrdersModule} from 'src/app/orders/orders.module';
 import {CatalogModule} from 'src/app/catalog/catalog.module';
 import {CustomersModule} from 'src/app/customers/customers.module';
@@ -22,20 +21,20 @@ import {PromotionsModule} from 'src/app/promotions/promotions.module';
     AppComponent,
     MainComponent,
     NavbarComponent,
-    PageNotfoundComponent,
-    HideAfterSomeTimeDirective
+    PageNotfoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    SharedModule,
     OrdersModule,
     CatalogModule,
     CustomersModule,
     DashboardModule,
     PromotionsModule
   ],
-  exports:[HideAfterSomeTimeDirective],
+  exports:[],
   providers: [],
   bootstrap: [AppComponent]
 })

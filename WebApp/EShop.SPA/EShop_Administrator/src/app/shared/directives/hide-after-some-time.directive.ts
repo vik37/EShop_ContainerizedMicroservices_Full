@@ -20,7 +20,6 @@ export class HideAfterSomeTimeDirective implements OnChanges, OnInit{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.isHidden);
     setTimeout(()=>{
       if(!this.isHidden && this.anotherTemplate){
         this.view.clear();
@@ -30,7 +29,6 @@ export class HideAfterSomeTimeDirective implements OnChanges, OnInit{
       else{
         this.view.clear();
         this.view.createEmbeddedView(this.template);
-
       }
     },this.delay);
   }

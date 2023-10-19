@@ -1,0 +1,21 @@
+@mixin border($size, $style, $color, $side, $radious){
+  @if $side == left{
+    border-left: $size $style $color;
+  }
+  @else if $side == right{
+    border-right: $size $style $color;
+  }
+  @else if $side == top{
+    border-top: $size $style $color;
+  }
+  @else if $side == bottom{
+    border-bottom: $size $style $color;
+  }
+  @else if $side == all{
+    border: $size $style $color;
+  }
+  @else{
+    border: none;
+  }
+  border-radius: $radious;
+}

@@ -5,7 +5,10 @@
   ">
     <h3 (click)="barsIconsIsChanged()">
       <fa-icon *ngIf="isNavbarWide; else chartsSimpleIcon"  [icon]="faBars" ></fa-icon>
-      <span [ngClass]="!isNavbarWide?'fade-out-animation':fadeInAnimation" [ngStyle]="isNavbarWide ? {'display':'inline-block'} : {'display':'none'}"> Administration</span>
+      <span [ngClass]="!isNavbarWide?'fade-out-animation':fadeInAnimation"
+            [ngStyle]="isNavbarWide ? {'display':'inline-block'} : {'display':'none'}">
+        Administration
+      </span>
     </h3>
     <nav *hideAfterSomeTime="isNavbarWide; else anotherTemplate">
       <ul class="navbar" [ngClass]="!isNavbarWide?'fade-out-animation':fadeInAnimation">

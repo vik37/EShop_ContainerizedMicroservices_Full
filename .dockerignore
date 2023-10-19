@@ -20,9 +20,10 @@
 **/sass-cache*
 **/node_modules*
 **/npm-debug.log*
-**/dist*
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
 LICENSE
 README.md*
+
+**/SQL

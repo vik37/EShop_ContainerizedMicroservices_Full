@@ -1,0 +1,19 @@
+$white: rgb(255, 255, 255);
+$black: rgb(0,0,0);
+
+.card{
+  background-color: rgb(213, 214, 214);
+  border-bottom: 2px solid $black;
+}
+:host ::ng-deep{
+  .card-heading{
+    background-color: $black;
+    width: 50px;
+    &__tittle{
+      font-size: 1.27rem;
+      color: $white;
+      text-align: center;
+    }
+  }
+  
+}

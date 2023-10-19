@@ -12,8 +12,7 @@ public class AdminOrderQuery : IAdminOrderQuery
         using var connection = new SqlConnection(_connectionString);
 
         connection.Open();
-        return await connection.QueryAsync<AdminOrderSummaryViewModel>(
-                @"select o.Id as OrderNumber, o.OrderDate, o.[Description], os.[Name] as [Status], b.[Name] as BuyerName, 
+        var sql = @"select o.Id as OrderNumber, o.OrderDate, o.[Description], os.[Name] as [Status], b.[Name] as BuyerName, 
                     sum(oi.UnitPrice * oi.Units) as Total
                 from [ordering].[Orders] as o
                 left join [ordering].[Buyers] as b
@@ -22,9 +21,14 @@ public class AdminOrderQuery : IAdminOrderQuery
                 on o.OrderStatusId = os.Id
                 left join [ordering].[OrderItems] as oi
                 on oi.OrderId = o.Id
-                where OrderDate >= DATEADD(DAY, -2, GETDATE())
-                group by o.Id, o.OrderDate, o.[Description], os.Id, os.[Name], b.[Name]"
-            );
+                where OrderDate > DATEADD(DAY, -2, GETDATE())
+                group by o.Id, o.OrderDate, o.[Description], os.Id, os.[Name], b.[Name]";
+
+        var exists = await connection.ExecuteScalarAsync<bool>(sql);
+
+        if (!exists)
+            return null;
+        return await connection.QueryAsync<AdminOrderSummaryViewModel>(sql);
     }
 
     public async Task<List<AdminOrderSummaryViewModel>> GetAllOlderThenTwoDaysAgoOrderSummary()
