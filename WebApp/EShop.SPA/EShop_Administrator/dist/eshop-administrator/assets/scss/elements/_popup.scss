@@ -1,0 +1,10 @@
+.popup{
+  background-color: rgba(6, 3, 27, 0.7);
+  color: $white;
+  font-size: 0.7rem;
+  position: absolute;
+  top: 25px;
+  padding: 5px 10px;
+  @include border(2px, solid, $black, all, 10px);
+  box-shadow: 0 5px 9px 4px rgba(7, 7, 7,0.7);
+}
