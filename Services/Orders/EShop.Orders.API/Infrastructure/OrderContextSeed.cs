@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace EShop.Orders.API.Infrastructure;
+﻿namespace EShop.Orders.API.Infrastructure;
 
 public class OrderContextSeed
 {

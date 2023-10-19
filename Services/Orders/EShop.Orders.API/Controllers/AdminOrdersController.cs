@@ -18,9 +18,14 @@ public class AdminOrdersController : ControllerBase
 
     [HttpGet("latest-ordersummary")]
     [ProducesResponseType(typeof(OrderSummaryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetAllTheLatestNotOlderThenTwoDaysAgoOrderSummaryIntendedForAdmin()
     {
-        return Ok(await _adminQuery.GetAllTheLatestNotOlderThenTwoDaysAgoOrderSummary());
+        var orderSummary = await _adminQuery.GetAllTheLatestNotOlderThenTwoDaysAgoOrderSummary();
+        if(orderSummary is null)
+            return NotFound();
+
+        return Ok(orderSummary);
     }
 
     [HttpGet("older-ordersummary")]

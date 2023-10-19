@@ -1,6 +1,5 @@
 .navigation{
   background-color: $black;
-  color: $white;
   height: 100vh;
   padding: 0 !important;
   transition: width 2s;
@@ -11,6 +10,7 @@
       height: auto;
       cursor: pointer;
       padding-left: 15px;
+      color: $white;
       span{
         margin-left: 25px;
         font-size: 1.1rem;
@@ -27,6 +27,9 @@
   padding: 0 !important;
   li{
     width: 100%;
+    h6{
+      color: $white;
+    }
   }
   @for $i from 1 through 5{
     li:nth-child(#{$i}){
@@ -46,9 +49,8 @@
     font-size: 0.677rem;
     background-color: rgba(74, 13, 165, 0.3);
     padding: 4px 7px;
-    border: 1px solid rgba(240, 240, 240, 0.3);
+    @include border(1px, solid, rgba(240, 240, 240, 0.3), all, 7px);
     color: rgb(64, 205, 248);
-    border-radius: 7px;
     &:hover{
       background-color: rgba(145, 241, 89, 0.9);
       color: rgb(82, 16, 24);
@@ -61,7 +63,7 @@
     text-align: center;
     margin-top: 30px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgb(89, 153, 237);
+    @include border(1px, solid, rgb(89, 153, 237), bottom, 0);
     &:hover{
       background-color: rgb(16, 57, 127);
     }
@@ -75,10 +77,9 @@
         font-size: 1.9rem;
       }
       &:active{
-        color: rgb(0, 0, 0);
+        color: $black;
       }
     }
-
   }
 }
 
@@ -92,5 +93,3 @@
     }
   }
 }
-
-

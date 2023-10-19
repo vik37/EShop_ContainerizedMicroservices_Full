@@ -1,10 +1,18 @@
-<div [ngStyle]="{'margin-left':'550px'}">
-  <div *ngFor="let summary of orderSummary">
-    <p>Ordered Date: {{summary.date | date:'EEEE d MMMM y '}}</p>
-    <p>Ordered Time: {{summary.date | date:'mediumTime'}}</p>
-    <p>Current Status: {{summary.status}}</p>
-    <p>Total Price: {{summary.total | number:'1.1-2'}}</p>
-    <br />
-    <hr />
+<section class="order-summary">
+  <h2>Order Summary</h2>
+  <div class="row">
+    <section class="col-md-9">
+        <app-latest-order-summary></app-latest-order-summary>
+        <hr />
+        <app-older-order-summary></app-older-order-summary>
+    </section>
+    <aside class="col-md-3">
+      <div class="world-image">
+        <span><b>&#9992; </b><i>The World is Yours</i> <b>&#9813;</b></span>
+        <img src="../../../../assets/images/world/world-map-2-min.jpg" alt="world-image" />
+      </div>
+    </aside>
   </div>
-</div>
+</section>
+
+
