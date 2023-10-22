@@ -1,0 +1,15 @@
+.larger-screen{
+  display: block;
+}
+.smaller-screen{
+  display: none;
+}
+
+@media screen and (max-width: 1300px) {
+  .larger-screen{
+    display: none;
+  }
+  .smaller-screen{
+    display: block;
+  }
+}

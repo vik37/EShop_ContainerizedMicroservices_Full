@@ -1,0 +1,34 @@
+<nav>
+  <ul class="row navbar-smaller-screen">
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[0]"> Overview</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[1]">View Orders</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[1]+'/status'">Orders Status</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[1]+'/history'">Orders History</a>
+    </li>
+    <li class="col-md-3">
+        <a [routerLink]="mainRoutes[2]">Manage Products</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[2]+'/add-product'">Add New Products</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[3]">All Buyers</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[3]+'/messages'">Messages</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[4]">Coupons</a>
+    </li>
+    <li class="col-md-3">
+      <a [routerLink]="mainRoutes[4]+'/special-offers'">Special Offers</a>
+    </li>
+  </ul>
+</nav>

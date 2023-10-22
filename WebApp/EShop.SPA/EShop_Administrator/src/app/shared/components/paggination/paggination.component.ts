@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 import {PagginationService} from 'src/app/shared/services/paggination.service';
 import {Paggination} from 'src/app/shared/models/paggination';
 
@@ -6,7 +6,7 @@ import {Paggination} from 'src/app/shared/models/paggination';
   selector: 'app-paggination',
   templateUrl: './paggination.component.html'
 })
-export class PagginationComponent implements OnInit, OnDestroy{
+export class PagginationComponent implements OnDestroy{
 
   @Output()
   currentPageEmmiter: EventEmitter<number> = new EventEmitter<number>();
@@ -26,12 +26,7 @@ export class PagginationComponent implements OnInit, OnDestroy{
     this._paggination = data;
   });
 
-
   constructor(private pagginationService: PagginationService){}
-
-  ngOnInit(): void {
-
-  }
 
   getCurrentPagginationPage(pageNumbaer: number){
     this.currentPageEmmiter.emit(pageNumbaer);

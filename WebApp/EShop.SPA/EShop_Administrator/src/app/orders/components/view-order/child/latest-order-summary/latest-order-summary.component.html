@@ -7,12 +7,12 @@
           <div class="col-md-6">
             <p class="order-summary-data"><b>Ordered Date:</b> {{order.orderDate | date: 'medium'}}</p>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <p class="order-summary-data" [appEditBackgroundByStatus]="order.status">
               <b>Status:</b> <i>{{order.status}}</i>
             </p>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <h6 class="order-summary-data">
               <b>Total:</b> {{order.total | number : '1.2-2' | currency: 'USD'}} - USD
             </h6>
@@ -21,7 +21,6 @@
         <div class="col-md-6 ">
           <div class="row">
             <div class="col-md-3">
-
               <a class="btn btn-sm btn-dark order-summary-btn" [appPopup]="popupText"># {{order.orderNumber}}</a>
             </div>
             <div class="col-md-8">

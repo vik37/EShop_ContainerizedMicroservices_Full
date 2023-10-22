@@ -1,10 +1,24 @@
 <section class="order-summary">
   <h2>Order Summary</h2>
   <div class="row">
-    <section class="col-md-9">
-        <app-latest-order-summary></app-latest-order-summary>
-        <hr />
-        <app-older-order-summary></app-older-order-summary>
+    <section  class="col-md-9">
+        <div  class="row">
+            <div class="col-md-2"
+                *ngFor="let order of orderSummaryByTimeSelection; index as i">
+              <div  class="select-order-summary">
+                <p (click)="orderSummaryToggle(i)" [ngStyle]="buttonStyles[i]"  ><span>&#8506;</span> {{order}}</p>
+              </div>
+            </div>
+        </div>
+        <div [ngSwitch]="orderSummaryByTimeSelected">
+          <div *ngSwitchCase="'latest'">
+            <app-latest-order-summary [ngClass]="latestOrderAnimation"></app-latest-order-summary>
+          </div>
+          <div *ngSwitchCase="'older'">
+            <app-older-order-summary [ngClass]="olderOrderAnimation"></app-older-order-summary>
+          </div>
+          <div *ngSwitchDefault>This is Default</div>
+        </div>
     </section>
     <aside class="col-md-3">
       <div class="world-image">

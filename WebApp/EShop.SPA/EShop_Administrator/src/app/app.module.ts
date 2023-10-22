@@ -15,13 +15,15 @@ import {CatalogModule} from 'src/app/catalog/catalog.module';
 import {CustomersModule} from 'src/app/customers/customers.module';
 import {DashboardModule} from 'src/app/dashboard/dashboard.module';
 import {PromotionsModule} from 'src/app/promotions/promotions.module';
+import { NavbarSmallerScreenComponent } from './core/components/navbar-smaller-screen/navbar-smaller-screen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     NavbarComponent,
-    PageNotfoundComponent
+    PageNotfoundComponent,
+    NavbarSmallerScreenComponent
   ],
   imports: [
     BrowserModule,

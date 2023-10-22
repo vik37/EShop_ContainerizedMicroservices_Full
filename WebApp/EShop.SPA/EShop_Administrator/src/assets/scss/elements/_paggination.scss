@@ -1,3 +1,26 @@
+.paggination-heading{
+  text-align: center;
+  p{
+    background-color: rgba(18, 17, 17,1);
+    border: 2px solid $black;
+    border-radius: 8px;
+    color: $white;
+    font-family: fantasy;
+    text-shadow: 1px 1px $black;
+    font-size: 0.9rem;
+    .arrow{
+      margin: 0 20px;
+      box-shadow: 0 0 6px 4px rgba(249, 247, 247, 0.4);
+      padding: 0 10px;
+      font-size: 1.1rem;
+      &__left{
+        display: inline-block;
+        transform:rotateY(180deg) !important;
+      }
+    }
+
+  }
+}
 .page-item > .page-link{
   background-color: rgba(7, 46, 70, 0.7);
   color: $white !important;
@@ -8,7 +31,6 @@
   background-color: rgba(7, 46, 70, 0.2) !important;
   color: $red !important;
 }
-.btn, .btn:focus, .btn:active:focus{
-  outline: none !important;
+.btn:focus{
   box-shadow: none !important;
 }

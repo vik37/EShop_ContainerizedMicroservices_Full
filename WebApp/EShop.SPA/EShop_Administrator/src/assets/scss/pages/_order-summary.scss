@@ -74,3 +74,15 @@
     filter: invert(160%);
   }
 }
+.select-order-summary > p{
+  display: inline-block;
+  color: rgb(237, 187, 72);
+  padding: 3px 7px;
+  font-size: 0.7rem;
+  font-weight: bolder;
+  letter-spacing: 0.02rem;
+  border-radius: 30px;
+  span{
+    color: $white;
+  }
+}

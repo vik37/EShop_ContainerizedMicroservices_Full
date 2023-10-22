@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import {OrderService} from 'src/app/orders/services/order.service';
 import {OrderSummaryViewModel} from 'src/app/orders/models/order-summary';
 
-
 @Component({
   selector: 'app-latest-order-summary',
   templateUrl: './latest-order-summary.component.html'
@@ -25,12 +24,10 @@ export class LatestOrderSummaryComponent implements OnInit, OnDestroy{
     .subscribe({
       next: data => this.orderSummary = data as OrderSummaryViewModel[],
       error: err => {
-        console.log(err);
         this.httpErrorMessage = err.error.message;
         this.httpStatusIsNotNotFound = err.status !== 404;
       }
     });
-
   }
 
   ngOnDestroy(): void {

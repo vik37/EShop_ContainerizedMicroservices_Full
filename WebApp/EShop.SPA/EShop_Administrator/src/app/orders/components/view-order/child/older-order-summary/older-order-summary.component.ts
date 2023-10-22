@@ -10,9 +10,19 @@ import {OrderSummaryViewModel} from 'src/app/orders/models/order-summary';
 export class OlderOrderSummaryComponent implements OnDestroy {
   orderSummary: OrderSummaryViewModel[] = [];
 
-  $orderSummary = this.orderService.olderOrderSummary$.subscribe(data => {
-    this.orderSummary = data;
+  $orderSummary = this.orderService.olderOrderSummary$.subscribe({
+    next: data => this.orderSummary = data as OrderSummaryViewModel[],
+      error: err => {
+        this.httpErrorMessage = err.error.message;
+        this.httpStatusIsNotNotFound = err.status !== 404;
+      }
   });
+
+  httpStatusIsNotNotFound: boolean = false;
+
+  httpErrorMessage: string | null = null;
+
+  popupText: string = 'Click and see more details for this order';
 
   constructor(private orderService: OrderService){ }
 
