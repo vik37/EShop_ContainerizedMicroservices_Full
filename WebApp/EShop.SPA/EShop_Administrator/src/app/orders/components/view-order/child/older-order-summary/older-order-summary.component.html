@@ -3,3 +3,48 @@
     (currentPageEmmiter)="editOlderOrderSummaryCurrentPage($event)"
   ></app-paggination>
 </section>
+<hr />
+<section class="order-summary-cards-block" *ngIf="!httpErrorMessage; else noNewOrders">
+  <h4>Older Orders</h4>
+  <div *ngFor="let order of orderSummary">
+    <app-cards>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="order-summary-data"><b>Ordered Date:</b> {{order.orderDate | date: 'medium'}}</p>
+          </div>
+          <div class="col-md-4">
+            <p class="order-summary-data" [appEditBackgroundByStatus]="order.status">
+              <b>Status:</b> <i>{{order.status}}</i>
+            </p>
+          </div>
+          <div class="col-md-2">
+            <h6 class="order-summary-data">
+              <b>Total:</b> {{order.total | number : '1.2-2' | currency: 'USD'}} USD
+            </h6>
+          </div>
+        </div>
+        <div class="col-md-6 ">
+          <div class="row">
+            <div class="col-md-3">
+              <a class="btn btn-sm btn-dark order-summary-btn" [appPopup]="popupText"># {{order.orderNumber}}</a>
+            </div>
+            <div class="col-md-8">
+              <p class="order-summary-number">Order Number</p>
+            </div>
+          </div>
+        </div>
+        <p class="order-summary-number-description">(-Click the <b>Order Number</b> button and see more details-)</p>
+      </div>
+    </app-cards>
+  </div>
+</section>
+
+<ng-template #noNewOrders>
+  <div *ngIf="!httpStatusIsNotNotFound"  class="http-error-block">
+    <h3 class="info-http-error-message">{{httpErrorMessage}}</h3>
+  </div>
+  <div *ngIf="httpStatusIsNotNotFound"  class="http-error-block">
+    <h3 class="http-error-message">{{httpErrorMessage}}</h3>
+  </div>
+</ng-template>

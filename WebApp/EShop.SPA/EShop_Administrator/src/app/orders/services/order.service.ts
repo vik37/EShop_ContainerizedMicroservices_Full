@@ -46,11 +46,7 @@ latestOrder$ = this.http.get(this.API_HTTP+"latest-ordersummary",{'headers':this
       .pipe(
           tap(data => console.log(data)),
           map(data => data as PagginationOrderSummaryViewModel),
-          map(data => {
-            //this.orderSummaryViewModelSub.next(data.data);
-            console.log(data)
-            return data as Paggination
-          }),
+          map(data => data as Paggination),
           map(data => this.pagginationService.pagginationSub.next(data)),
           retry(5),
           catchError(this.httpError)
@@ -60,9 +56,9 @@ latestOrder$ = this.http.get(this.API_HTTP+"latest-ordersummary",{'headers':this
   }
 
   olderOrderSummary$ = this.$currentPage.pipe(
-    switchMap(current =>  this.http.get(this.API_HTTP+`older-ordersummary?pageSize=5&currentPage=${current}`
+    switchMap(current =>  this.http
+        .get(this.API_HTTP+`older-ordersummary?pageSize=5&currentPage=${current}`
     ,{'headers':this.headers}).pipe(
-      tap(data => console.log('load next page: ',data)),
       map(data => data as PagginationOrderSummaryViewModel),
       tap(data => this.pagginationService.pagginationSub.next({
           currentPage: data.currentPage,

@@ -1,20 +1,31 @@
-<div *ngIf="paggination" aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li [ngClass]="paggination.hasPrevious?'':'disabled'"  class="page-item">
-      <button class="page-link" (click)="getCurrentPagginationPage(paggination.currentPage- 1)">
-        Previous</button>
-    </li>
-    <div *ngFor="let number of pages">
-      <li (click)="getCurrentPagginationPage(number+1)" class="page-item">
-        <button class="page-link" >{{number+1}}</button>
+<section *ngIf="paggination">
+  <div class="paggination-heading">
+    <p>&#9790;&#9867;
+      {{paggination.startItem+1}}
+        <b  class="arrow">
+          <span class="arrow__left">&#10154;</span>
+          {{paggination.currentPage}}
+          <span>&#10154;</span>
+        </b> {{paggination.endItem+1}}
+      &#9867;&#9789;</p>
+  </div>
+  <div  aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li [ngClass]="paggination.hasPrevious?'':'disabled'"  class="page-item">
+        <button class="btn page-link" (click)="getCurrentPagginationPage(paggination.currentPage- 1)">
+          Previous</button>
       </li>
-    </div>
-    <li [ngClass]="paggination.hasNext?'':'disabled'"  class="page-item">
-      <button (click)="getCurrentPagginationPage(paggination.currentPage + 1)"
-          class="page-link" >
-            Next
-        </button>
-    </li>
-  </ul>
-  {{paggination.hasNext}}
-</div>
+      <div *ngFor="let number of pages">
+        <li (click)="getCurrentPagginationPage(number+1)" class="page-item">
+          <button class="btn page-link" >{{number+1}}</button>
+        </li>
+      </div>
+      <li [ngClass]="paggination.hasNext?'':'disabled'"  class="page-item">
+        <button (click)="getCurrentPagginationPage(paggination.currentPage + 1)"
+            class="btn page-link" >
+              Next
+          </button>
+      </li>
+    </ul>
+  </div>
+</section>

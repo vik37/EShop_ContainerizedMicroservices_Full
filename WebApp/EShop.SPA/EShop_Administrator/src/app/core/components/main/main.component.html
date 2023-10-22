@@ -1,8 +1,11 @@
 <main>
   <div class="row">
-    <aside class="col-md-2">
+    <aside class="col-md-2 larger-screen">
       <app-navbar></app-navbar>
     </aside>
+    <section class="col-md-12 smaller-screen">
+      <app-navbar-smaller-screen></app-navbar-smaller-screen>
+    </section>
     <section class="col-md-9 col-sm-12 order-body">
       <router-outlet></router-outlet>
     </section>

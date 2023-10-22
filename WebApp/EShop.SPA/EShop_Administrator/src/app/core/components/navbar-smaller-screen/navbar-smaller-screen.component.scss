@@ -1,0 +1,16 @@
+.navbar-smaller-screen{
+  background-color: rgb(0,0,0);
+  font-size: 0.56rem;
+  li{
+    margin-top: 20px;
+    margin-bottom: 5px;
+    a{
+      padding: 1px 33px;
+      color: rgb(253, 246, 246);
+      background-color: rgb(4, 24, 84);
+      display: inline-block;
+      border: 1px solid rgb(253, 246, 246);
+      border-radius: 20px;
+    }
+  }
+}
