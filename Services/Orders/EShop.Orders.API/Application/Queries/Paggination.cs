@@ -18,7 +18,7 @@ public class Paggination<T>
     {
         CurrentPage = currentPage;
         TotalItems = data.Count;
-        TotalPages = (int)Math.Ceiling((decimal)TotalItems / (decimal)pageSize); ;
+        TotalPages = (int)Math.Ceiling((decimal)TotalItems / (decimal)pageSize);
         StartItem = (currentPage - 1) * pageSize;
         EndItem = Math.Min(currentPage * pageSize, this.TotalItems);
         Data = data.Skip(this.StartItem).Take(pageSize).ToList();
@@ -26,6 +26,5 @@ public class Paggination<T>
 
     public bool HasPrevious => CurrentPage > 1;
 
-    public bool HasNext => CurrentPage < TotalPages;
-    
+    public bool HasNext => CurrentPage < TotalPages;   
 }
