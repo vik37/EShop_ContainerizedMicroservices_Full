@@ -49,7 +49,7 @@
   font-size: 0.6rem;
   text-align: end;
   color: rgb(103, 101, 6);
-  background-color: rgba(137, 136, 136,0.4)
+  background-color: rgba(137, 136, 136,0.4);
 }
 .world-image{
   @include border(2px, solid, $black, left, 7px);
