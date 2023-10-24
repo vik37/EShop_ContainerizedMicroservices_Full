@@ -20,9 +20,7 @@ export class PagginationComponent implements OnDestroy{
   pages: number[] = [];
 
   $paggination = this.pagginationService.$paggination.subscribe(data => {
-    console.log('paggination data: ',data);
     this.pages = Array(data.totalPages).fill(0).map((x,i)=>i);
-    console.log('number of pages', this.pages);
     this._paggination = data;
   });
 
@@ -30,8 +28,8 @@ export class PagginationComponent implements OnDestroy{
 
   getCurrentPagginationPage(pageNumbaer: number){
     this.currentPageEmmiter.emit(pageNumbaer);
-    console.log(pageNumbaer)
   }
+
   ngOnDestroy(): void {
     this.$paggination.unsubscribe();
   }
