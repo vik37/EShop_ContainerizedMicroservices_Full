@@ -25,9 +25,9 @@ Building angular (ng-build --configuration production) because the NGINX docker 
   CATALOGAPI_URL: "http://localhost:4040/api/v1/",
   ORDERAPI_URL: "http://localhost:5015/api/v1/adminorders/"
 };
-
 `
 In the production environment Angular works inside NGINX Web Server as a reverse proxy and use a load balancer using the docker host IP internal address.
+
 `
 export const environment = {
   production: true,
