@@ -9,13 +9,15 @@
 @import './elements/texts';
 @import './elements/lists';
 @import './elements/anchors';
-@import './elements/navigation';
 @import './elements/popup';
 @import './elements/paggination';
+@import './elements/order-item.scss';
+@import './elements/navigation';
 
 
 /* Pages */
 @import './pages/dashboard';
 @import './pages/order-summary';
+@import './pages/order-by-order-number';
 @import './pages/main';
 
