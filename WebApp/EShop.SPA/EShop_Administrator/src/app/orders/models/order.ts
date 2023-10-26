@@ -1,4 +1,4 @@
-import {OrderItems} from 'src/app/orders/models/order-items';
+import {OrderItem} from 'src/app/orders/models/order-item';
 
 export interface Order{
   orderNumber: number,
@@ -16,5 +16,5 @@ export interface Order{
   maximumPrice: number,
   minimumPrice: number,
   averagePrice: number,
-  orderItems: OrderItems[]
+  orderItems: OrderItem[]
 }

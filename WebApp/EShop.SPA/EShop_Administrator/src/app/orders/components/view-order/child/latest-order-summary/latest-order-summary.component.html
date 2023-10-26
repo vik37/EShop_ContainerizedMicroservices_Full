@@ -21,7 +21,10 @@
         <div class="col-md-6 ">
           <div class="row">
             <div class="col-md-3">
-              <a class="btn btn-sm btn-dark order-summary-btn" [appPopup]="popupText"># {{order.orderNumber}}</a>
+              <a class="btn btn-sm btn-dark order-summary-btn"
+                  [routerLink]="['/orders',order.orderNumber]" [appPopup]="popupText">
+                # {{order.orderNumber}}
+              </a>
             </div>
             <div class="col-md-8">
               <p class="order-summary-number">Order Number</p>

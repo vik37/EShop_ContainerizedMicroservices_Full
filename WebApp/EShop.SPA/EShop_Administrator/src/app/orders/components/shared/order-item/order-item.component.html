@@ -1,0 +1,28 @@
+<div *ngIf="orderItems&&orderItems.length >= 0">
+  <app-tables>
+    <h5>Ordered Products</h5>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of orderItems; index as i">
+      <tr>
+        <th class="tbody-heading" scope="row">{{i+1}}</th>
+        <td>
+          <img [src]="item.pictureUrl"
+            width="40px" height="30px"
+            [alt]="item.productName+' photo'"
+          />
+        </td>
+        <td>{{item.productName}}</td>
+        <td>{{item.units}}</td>
+        <td>{{item.unitPrice | number : '1.2-2' | currency: 'USD'}}</td>
+        </tr>
+    </tbody>
+  </app-tables>
+</div>

@@ -19,12 +19,12 @@ export class PagginationComponent implements OnDestroy{
 
   pages: number[] = [];
 
-  $paggination = this.pagginationService.$paggination.subscribe(data => {
+  constructor(private _pagginationService: PagginationService){}
+
+  $paggination = this._pagginationService.$paggination.subscribe(data => {
     this.pages = Array(data.totalPages).fill(0).map((x,i)=>i);
     this._paggination = data;
   });
-
-  constructor(private pagginationService: PagginationService){}
 
   getCurrentPagginationPage(pageNumbaer: number){
     this.currentPageEmmiter.emit(pageNumbaer);

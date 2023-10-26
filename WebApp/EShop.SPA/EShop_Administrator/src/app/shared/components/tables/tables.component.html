@@ -1,1 +1,11 @@
-<p>tables works!</p>
+<div>
+  <div class="table-head">
+    <ng-content select="h5"></ng-content>
+  </div>
+  <div class="table-body">
+    <table class="table table-dark table-hover">
+      <ng-content select="thead"></ng-content>
+      <ng-content select="tbody"></ng-content>
+    </table>
+  </div>
+</div>

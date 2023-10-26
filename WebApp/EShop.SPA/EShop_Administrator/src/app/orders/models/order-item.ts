@@ -1,6 +1,6 @@
-export interface OrderItems{
+export interface OrderItem{
   productName: string,
-  Units: number,
+  units: number,
   unitPrice: number,
   pictureUrl: string
 }
