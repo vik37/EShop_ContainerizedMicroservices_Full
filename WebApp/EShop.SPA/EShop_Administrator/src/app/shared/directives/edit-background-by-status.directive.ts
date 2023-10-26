@@ -5,7 +5,7 @@ import { Directive, Input, ElementRef, OnChanges, SimpleChanges } from '@angular
 })
 export class EditBackgroundByStatusDirective implements OnChanges {
 
-  private statusColors: {[key: string]: string} = {
+  private _statusColors: {[key: string]: string} = {
     submitted:"#8f8106",
     awaitingvalidation:"#a832a8",
     stockconfirmed:"#2f8508",
@@ -22,7 +22,7 @@ export class EditBackgroundByStatusDirective implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
       const currentChange = changes["status"];
       if(currentChange){
-        this.editStatusBackground(this.statusColors[currentChange.currentValue.toLowerCase()]);
+        this.editStatusBackground(this._statusColors[currentChange.currentValue.toLowerCase()]);
       }
     }
 

@@ -9,7 +9,7 @@ export class PopupDirective {
   @Input('appPopup')
   text: string = '';
 
-  private pTag: any;
+  private _pTag: any;
 
   constructor(private element: ElementRef, private render: Renderer2) { }
 
@@ -20,17 +20,17 @@ export class PopupDirective {
     }
   }
   @HostListener('mouseout') onMouseLeave(){
-    if(this.pTag){
-      this.cleanElement(this.pTag);
+    if(this._pTag){
+      this.cleanElement(this._pTag);
     }
   }
 
   createElement(text: string): void{
-    this.pTag = this.render.createElement('p');
+    this._pTag = this.render.createElement('p');
     const insertText = this.render.createText(text);
-    this.render.addClass(this.pTag,'popup');
-     this.render.appendChild(this.pTag,insertText);
-     this.render.appendChild(this.element.nativeElement,this.pTag);
+    this.render.addClass(this._pTag,'popup');
+     this.render.appendChild(this._pTag,insertText);
+     this.render.appendChild(this.element.nativeElement,this._pTag);
   }
 
   cleanElement(pTag: any): void{

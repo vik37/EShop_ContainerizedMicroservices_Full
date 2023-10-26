@@ -6,7 +6,7 @@
     <section class="col-md-12 smaller-screen">
       <app-navbar-smaller-screen></app-navbar-smaller-screen>
     </section>
-    <section class="col-md-9 col-sm-12 order-body">
+    <section [ngClass]="'col-md-'+bootstrapMDSize" class="col-sm-12 order-body">
       <router-outlet></router-outlet>
     </section>
   </div>

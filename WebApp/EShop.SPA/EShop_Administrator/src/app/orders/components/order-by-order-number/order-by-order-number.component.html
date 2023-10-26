@@ -1,1 +1,141 @@
-<p>order-by-order-number works!</p>
+<section class="order-by-order-number" *ngIf="order">
+  <div class="row">
+    <div class="col-md-6">
+      <p><b>#{{order.orderNumber}} </b> <i> Order Number</i></p>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-8 order-by-order-number-date">
+          <h5>Ordered at:</h5>
+        </div>
+        <div class="col-md-4 order-by-order-number-date">
+          <p><b>Date: </b><b>{{order.orderDate | date}}</b><br />
+          <b>Time: </b><b>{{order.orderDate | date:'hh:mm:ss'}}</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 offset-md-3 order-by-order-number-status-body">
+      <h5>Order Status Progress: </h5>
+      <p><b>Status: </b> {{order.status}}</p>
+      <div *ngIf="order.status !== 'cancelled';else statusCancelled" class="progress"
+                    role="progressbar" aria-label="Animated striped example"
+                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                    [ngStyle]="{'width':orderStatusProgress+'%'}">
+          {{orderStatusProgress}}%
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 offset-md-1 order-by-order-number-description">
+      <p><b>Description: </b>
+        <br />
+        <span *ngIf="order.description; else lorem"> {{order.description}}</span>
+      </p>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <section class="col-md-7">
+      <section>
+        <div class="row">
+          <div class="col-md-3 order-by-order-number-price">
+            <p>&#10057;<b>Total Products: </b>{{order.totalProducts}}</p>
+          </div>
+          <div class="col-md-3 order-by-order-number-price">
+            <p>&#10057;<b>Total Price: </b>{{order.totalPrice | number : '1.2-2' | currency: 'USD'}}</p>
+          </div>
+          <div class="col-md-6 order-by-order-number-min-max-avg">
+            <h5><i>Product Prices:</i></h5>
+            <div class="row">
+              <div class="col-md-4 order-by-order-number-price">
+                <p><b>&ast;max:</b></p>
+                <p>- {{order.minimumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+              </div>
+              <div class="col-md-4 order-by-order-number-price">
+                <p><b>&ast;average:</b></p>
+                <p>- {{order.averagePrice | number : '1.2-2' | currency: 'USD'}}</p>
+              </div>
+              <div class="col-md-4 order-by-order-number-price">
+                <p><b>&ast;min:</b></p>
+                <p>- {{order.maximumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr />
+      <section class="order-by-order-number-address">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Delivery Address:</h5>
+          </div>
+          <div class="col-md-6">
+            <h5>Name: {{order.buyerName}}</h5>
+          </div>
+        </div>
+        <app-cards>
+          <h6 class="card-heading__tittle">
+            <fa-icon [icon]="icons.faHouseUser"></fa-icon>
+          </h6>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 order-by-order-number-address-card">
+                <p>
+                  <fa-icon [icon]="icons.faEarth"></fa-icon>
+                  <b> Country: </b> {{order.country}}</p>
+              </div>
+              <div class="col-md-4 order-by-order-number-address-card">
+                <p>
+                  <fa-icon [icon]="icons.faGlobe"></fa-icon>
+                  <b> State: </b> {{order.state}}</p>
+              </div>
+              <div class="col-md-4 order-by-order-number-address-card">
+                <p>
+                  <fa-icon [icon]="icons.faCity"></fa-icon>
+                  <b> City: </b> {{order.city}}
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5 offest-md-2 order-by-order-number-address-card">
+                <p>
+                  <fa-icon [icon]="icons.faRoad"></fa-icon>
+                  <b> Street: </b> {{order.street}}
+                </p>
+              </div>
+              <div class="col-md-5 order-by-order-number-address-card">
+                <p>
+                  <fa-icon [icon]="icons.faLocation"></fa-icon>
+                  <b> Zip Code: </b> {{order.zipCode}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </app-cards>
+      </section>
+      <button type="button" (click)="onBack()"
+              class="btn btn-sm btn-outline-dark order-by-order-number-back">
+        <span>&#10149;</span>
+      </button>
+      <b>Go Back</b>
+    </section>
+    <aside class="col-md-5">
+      <app-order-item [orderItems]="order.orderItems"></app-order-item>
+    </aside>
+  </div>
+</section>
+
+<ng-template #lorem>
+  <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, consequatur natus nihil eveniet atque dicta voluptatibus hic ipsa accusamus ea omnis porro nostrum, ex cumque, minima velit quas aut nisi.</span>
+</ng-template>
+
+<ng-template #statusCancelled>
+  <div class="progress" role="progressbar" aria-label="Danger striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar progress-bar-striped bg-danger" style="width: 100%">
+    cancelled</div>
+  </div>
+</ng-template>

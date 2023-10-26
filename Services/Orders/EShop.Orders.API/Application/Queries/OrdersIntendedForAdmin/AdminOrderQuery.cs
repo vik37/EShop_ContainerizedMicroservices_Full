@@ -65,7 +65,7 @@ public class AdminOrderQuery : IAdminOrderQuery
                     @"select * from [ordering].[VW_OrderIntendedForAdminByOrderNumber] where OrderNumber = @orderNumber",
                     new { orderNumber }
                 );
-            var orderItems = await connection.QueryAsync<OrderItemsViewModels>(
+            var orderItems = await connection.QueryAsync<OrderItemViewModels>(
                     @"select ProductName, Units, UnitPrice, PictureUrl
                 from [ordering].[OrderItems] where OrderId = @orderNumber",
                     new { orderNumber }

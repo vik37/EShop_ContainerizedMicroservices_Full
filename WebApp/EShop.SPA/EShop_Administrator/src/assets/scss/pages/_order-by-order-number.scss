@@ -1,0 +1,90 @@
+.order-by-order-number{
+  margin-top: 10px;
+}
+.order-by-order-number-date{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 0.9rem;
+}
+.order-by-order-number-date > h5{
+  text-align: end;
+  padding-top: 10px;
+}
+.order-by-order-number-date > p{
+  text-align: start;
+}
+.order-by-order-number-description > p{
+  text-align: center;
+  padding: 10px 5px;
+  border: 1px solid rgb(163, 160, 160);
+  border-radius: 7px;
+}
+.order-by-order-number-status-body{
+  background-color: $black;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  border-radius: 3px;
+  h5{
+    color: $white;
+    text-align:center;
+    font-size: 0.9rem;
+    letter-spacing: 0.12rem;
+  }
+  p{
+    color: rgb(163, 160, 160);
+  }
+}
+.order-by-order-number-price > p{
+  font-size: 0.8rem;
+}
+.order-by-order-number-min-max-avg{
+  background-color: $black;
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 5px;
+  outline: 1px solid $black;
+  outline-offset: 3px;
+  h5,p{
+    color: $white;
+  }
+  h5{
+    font-size: 0.8666rem;
+    background-color: rgba(7, 10, 97, 0.7);
+  }
+  div{
+    div > p{
+      padding: 2px;
+      background-color: rgb(43, 43, 43);
+      border: 1px dotted rgba(244, 244, 248, 0.4);
+      box-shadow: 0 0 4px 2px rgb(163, 160, 160);
+    }
+  }
+}
+.order-by-order-number-address{
+  background-color: $black;
+  padding: 2px 5px;
+  div{
+    div > h5{
+      color: $white;
+      font-size: 0.7rem;
+      margin-top: 2px;
+      letter-spacing: 0.1rem;
+      text-align: center;
+    }
+  }
+}
+.order-by-order-number-address-card{
+  p{
+    font-size: 0.8rem;
+  }
+}
+.order-by-order-number-back{
+  margin-top: 10px;
+  transform: rotate(140deg);
+  padding: 1px !important;
+  border-radius: 10px !important;
+  span{
+    display: inline-block;
+    transform: rotate(40deg);
+    font-size: 1.4rem;
+  }
+}

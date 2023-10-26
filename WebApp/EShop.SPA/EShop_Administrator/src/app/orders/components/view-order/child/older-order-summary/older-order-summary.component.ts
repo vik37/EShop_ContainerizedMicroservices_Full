@@ -8,14 +8,15 @@ import {OrderSummaryViewModel} from 'src/app/orders/models/order-summary';
   templateUrl: './older-order-summary.component.html'
 })
 export class OlderOrderSummaryComponent implements OnDestroy {
+
   orderSummary: OrderSummaryViewModel[] = [];
 
-  $orderSummary = this.orderService.olderOrderSummary$.subscribe({
+  $orderSummary = this._orderService.olderOrderSummary$.subscribe({
     next: data => this.orderSummary = data as OrderSummaryViewModel[],
-      error: err => {
-        this.httpErrorMessage = err.error.message;
-        this.httpStatusIsNotNotFound = err.status !== 404;
-      }
+    error: err => {
+      this.httpErrorMessage = err.error.message;
+      this.httpStatusIsNotNotFound = err.status !== 404;
+    }
   });
 
   httpStatusIsNotNotFound: boolean = false;
@@ -24,11 +25,10 @@ export class OlderOrderSummaryComponent implements OnDestroy {
 
   popupText: string = 'Click and see more details for this order';
 
-  constructor(private orderService: OrderService){ }
+  constructor(private _orderService: OrderService){ }
 
   editOlderOrderSummaryCurrentPage(event: number): void{
-    console.log('current page from parent: ',event)
-    this.orderService.$currentPage.next(event);
+    this._orderService.currentPageSub.next(event);
   }
   ngOnDestroy(): void {
     this.$orderSummary.unsubscribe();

@@ -18,6 +18,6 @@ public class AdminOrderViewModel
     public double MinimumPrice { get; set; }
     public double AveragePrice { get; set; }
 
-    public List<OrderItemsViewModels> OrderItems { get; set; }
-        = new List<OrderItemsViewModels>();
+    public List<OrderItemViewModels> OrderItems { get; set; }
+        = new List<OrderItemViewModels>();
 }
