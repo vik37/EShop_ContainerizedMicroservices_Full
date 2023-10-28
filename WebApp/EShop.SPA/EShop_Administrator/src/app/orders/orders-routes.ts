@@ -6,7 +6,7 @@ import {OrderByOrderNumberComponent} from 'src/app/orders/components/order-by-or
 
 export const ordersRoutes: Routes = [
   {path: '', component: ViewOrderComponent},
-  {path: ':orderNumber',component: OrderByOrderNumberComponent},
+  {path: 'detail/:orderNumber',component: OrderByOrderNumberComponent},
   {path: 'status', component: OrderStatusComponent},
   {path: 'history', component: OrderHistoryComponent}
 ]

@@ -3,5 +3,11 @@
 public class OrderStatusViewModel
 {
     public int Id { get; init; }
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; init; }
+
+    public OrderStatusViewModel(int id, string name)
+    {
+        Id = id;
+        Name = name.EditOrderStatusName();
+    }
 }

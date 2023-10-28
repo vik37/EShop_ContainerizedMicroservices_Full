@@ -6,12 +6,12 @@ import { Directive, Input, ElementRef, OnChanges, SimpleChanges } from '@angular
 export class EditBackgroundByStatusDirective implements OnChanges {
 
   private _statusColors: {[key: string]: string} = {
-    submitted:"#8f8106",
-    awaitingvalidation:"#a832a8",
-    stockconfirmed:"#2f8508",
-    paid:"#088085",
-    shipped:"#a65407",
-    cancelled:"#a60707"
+    "submitted":"#8f8106",
+    "awaiting validation":"#a832a8",
+    "stock confirmed":"#2f8508",
+    "paid":"#088085",
+    "shipped":"#a65407",
+    "cancelled":"#a60707"
   }
 
   constructor(private element: ElementRef) { }
