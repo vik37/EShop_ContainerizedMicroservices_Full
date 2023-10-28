@@ -1,40 +1,42 @@
 <section class="order-by-order-number" *ngIf="order">
-  <div class="row">
-    <div class="col-md-6">
-      <p><b>#{{order.orderNumber}} </b> <i> Order Number</i></p>
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-8 order-by-order-number-date">
-          <h5>Ordered at:</h5>
-        </div>
-        <div class="col-md-4 order-by-order-number-date">
-          <p><b>Date: </b><b>{{order.orderDate | date}}</b><br />
-          <b>Time: </b><b>{{order.orderDate | date:'hh:mm:ss'}}</b></p>
+  <div class="order-by-order-number-main">
+    <div class="row">
+      <div class="col-md-6">
+        <p><b>#{{order.orderNumber}} </b> <i> Order Number</i></p>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-8 order-by-order-number-date">
+            <h5>Ordered at:</h5>
+          </div>
+          <div class="col-md-4 order-by-order-number-date order-by-order-number-date-body">
+            <p><b>Date: </b><b>{{order.orderDate | date}} </b> &#10086;<br />
+            <b>Time: </b><b>{{order.orderDate | date:'hh:mm:ss'}} </b> &trade;</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 offset-md-3 order-by-order-number-status-body">
-      <h5>Order Status Progress: </h5>
-      <p><b>Status: </b> {{order.status}}</p>
-      <div *ngIf="order.status !== 'cancelled';else statusCancelled" class="progress"
-                    role="progressbar" aria-label="Animated striped example"
-                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                    [ngStyle]="{'width':orderStatusProgress+'%'}">
-          {{orderStatusProgress}}%
+    <div class="row">
+      <div class="col-md-6 offset-md-3 order-by-order-number-status-body">
+        <h5>Order Status Progress: </h5>
+        <p><b>Status: </b> <i>{{ order.status | titlecase }}</i></p>
+        <div *ngIf="order.status !== 'cancelled';else statusCancelled" class="progress"
+                      role="progressbar" aria-label="Animated striped example"
+                      aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar progress-bar-striped progress-bar-animated"
+                      [ngStyle]="{'width':orderStatusProgress+'%'}">
+            {{orderStatusProgress}}%
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-10 offset-md-1 order-by-order-number-description">
-      <p><b>Description: </b>
-        <br />
-        <span *ngIf="order.description; else lorem"> {{order.description}}</span>
-      </p>
+    <div class="row">
+      <div class="col-md-10 col-sm-12 offset-md-1 order-by-order-number-description">
+        <p><b>Description: </b>
+          <br />
+          <span *ngIf="order.description; else lorem"> {{order.description}}</span>
+        </p>
+      </div>
     </div>
   </div>
   <hr />
@@ -53,15 +55,15 @@
             <div class="row">
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;max:</b></p>
-                <p>- {{order.minimumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+                <p> {{order.minimumPrice | number : '1.2-2' | currency: 'USD'}}</p>
               </div>
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;average:</b></p>
-                <p>- {{order.averagePrice | number : '1.2-2' | currency: 'USD'}}</p>
+                <p> {{order.averagePrice | number : '1.2-2' | currency: 'USD'}}</p>
               </div>
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;min:</b></p>
-                <p>- {{order.maximumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+                <p> {{order.maximumPrice | number : '1.2-2' | currency: 'USD'}}</p>
               </div>
             </div>
           </div>
