@@ -10,6 +10,7 @@ import {PagginationOrderSummaryViewModel} from 'src/app/orders/models/pagginatio
 import {Paggination} from 'src/app/shared/models/paggination';
 import {Order} from 'src/app/orders/models/order';
 import {OrderStatus} from 'src/app/orders/models/order-status';
+import {OrdersByOrderStatus} from 'src/app/orders/models/orders-by-order-status';
 
 import {PagginationService} from 'src/app/shared/services/paggination.service';
 
@@ -71,6 +72,15 @@ export class OrderService {
                 retry(5),
                 catchError(this.httpError)
               );
+  }
+
+  getOrdersByOrderStatus(orderStatusId:string): Observable<OrdersByOrderStatus[]>{
+    return this._http.get(this.API_HTTP+`status/${orderStatusId}`,{'headers':this._headers})
+                        .pipe(
+                          map(data => data as OrdersByOrderStatus[]),
+                          retry(5),
+                          catchError(this.httpError)
+                        );
   }
 
   private httpError(error: HttpErrorResponse){

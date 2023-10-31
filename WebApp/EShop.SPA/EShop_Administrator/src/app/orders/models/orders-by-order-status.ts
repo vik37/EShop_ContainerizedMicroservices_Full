@@ -3,5 +3,9 @@ export interface OrdersByOrderStatus{
   statusName: string,
   orderNumber: number,
   orderDate: Date,
-  buyerName: string
+  buyerName: string,
+  paidBy: string,
+  quantityByDifferentProduct: number,
+  totalProducts: number,
+  totalPrice: number
 }

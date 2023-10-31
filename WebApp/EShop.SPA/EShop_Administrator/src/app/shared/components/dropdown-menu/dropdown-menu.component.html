@@ -1,0 +1,22 @@
+<div class="dropdown-block">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="dropdown">
+        <button class="btn btn-sm btn-dark dropdown-toggle" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+            Status
+        </button>
+        <ul class="dropdown-menu">
+          <li *ngFor="let item of data">
+            <a class="dropdown-item" routerLink="/orders/status/{{item.id}}">
+              {{item.name}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4 dropdown-heading">
+      <ng-content select="h6"></ng-content>
+    </div>
+  </div>
+</div>

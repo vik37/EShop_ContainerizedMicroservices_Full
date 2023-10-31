@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { HideAfterSomeTimeDirective } from 'src/app/shared/directives/hide-after-some-time.directive';
 import { PagginationComponent } from 'src/app/shared/components/paggination/paggination.component';
@@ -9,6 +11,8 @@ import { EditBackgroundByStatusDirective } from './directives/edit-background-by
 import { PopupDirective } from './directives/popup.directive';
 
 import {PagginationService} from 'src/app/shared/services/paggination.service';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { OrderEventButtonsComponent } from './components/order-event-buttons/order-event-buttons.component';
 
 
 @NgModule({
@@ -18,10 +22,14 @@ import {PagginationService} from 'src/app/shared/services/paggination.service';
       TablesComponent,
       CardsComponent,
       EditBackgroundByStatusDirective,
-      PopupDirective
+      PopupDirective,
+      DropdownMenuComponent,
+      OrderEventButtonsComponent
     ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule
   ],
   exports: [
       HideAfterSomeTimeDirective,
@@ -29,7 +37,9 @@ import {PagginationService} from 'src/app/shared/services/paggination.service';
       PopupDirective,
       PagginationComponent,
       TablesComponent,
-      CardsComponent
+      CardsComponent,
+      DropdownMenuComponent,
+      OrderEventButtonsComponent
   ],
   providers:[PagginationService]
 })

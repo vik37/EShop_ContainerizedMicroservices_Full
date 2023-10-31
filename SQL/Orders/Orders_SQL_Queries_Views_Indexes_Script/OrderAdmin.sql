@@ -34,12 +34,18 @@ go
 
 CREATE VIEW [ordering].[VW_AdminOrdersByOrderStatus]
 WITH SCHEMABINDING AS
-  SELECT os.Id as StatusId, os.[Name] as StatusName, O.Id as OrderNumber, O.OrderDate, B.[Name] as BuyerName
+  SELECT os.Id as StatusId, os.[Name] as StatusName, O.Id as OrderNumber, O.OrderDate, B.[Name] as BuyerName, p.CardHolderName as PaidBy,
+	COUNT_BIG(*) as QuantityByDifferentProduct, sum(oi.Units) TotalProducts, SUM(oi.UnitPrice * oi.Units) as TotalPrice
   FROM [ordering].[Orders] as o
   inner join [ordering].[OrderStatus] as os
   on o.OrderStatusId = os.Id
   inner join [ordering].[Buyers] as b
   on o.BuyerId = b.Id
+  inner join [ordering].[OrderItems] as oi
+  on oi.OrderId = o.Id
+  inner join [ordering].[PaymentMethods] as p
+  on o.PaymentMethodId = p.Id
+  group by os.Id, os.[Name], O.Id, O.OrderDate, B.[Name], p.CardHolderName
 go
 
 select * from [ordering].[VW_AdminOrdersByOrderStatus] where StatusId =1 order by OrderDate asc

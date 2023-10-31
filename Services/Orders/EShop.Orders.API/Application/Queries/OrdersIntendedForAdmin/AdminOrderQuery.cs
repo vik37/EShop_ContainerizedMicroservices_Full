@@ -116,17 +116,19 @@ public class AdminOrderQuery : IAdminOrderQuery
     private static IEnumerable<AdminOrdersByOrderStatus> MapToAdminOrdersByOrderStatus(dynamic result)
     {
         foreach (var orderByStatus in result)
-        {
+        {           
             yield return new AdminOrdersByOrderStatus
             {
                 StatusId = orderByStatus.StatusId,
                 StatusName = orderByStatus.StatusName,
                 OrderNumber = orderByStatus.OrderNumber,
                 OrderDate = orderByStatus.OrderDate,
-                BuyerName = orderByStatus.BuyerName
+                BuyerName = orderByStatus.BuyerName,
+                PaidBy = orderByStatus.PaidBy,
+                QuantityByDifferentProduct = orderByStatus.QuantityByDifferentProduct,
+                TotalProducts = orderByStatus.TotalProducts,
+                TotalPrice = orderByStatus.TotalPrice
             };
         }
     }
-
-    
 }

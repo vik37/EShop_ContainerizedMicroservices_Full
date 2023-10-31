@@ -1,0 +1,39 @@
+.orders-by-status-heading{
+  @include border(1px, solid, $black, bottom, 10px);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-shadow: 1px 1px 1px rgb(9, 5, 71);
+  text-decoration: 1px double rgba(18, 18, 18,0.2) underline;
+  text-underline-offset: 10px;
+}
+.orders-by-status-tables{
+  tbody{
+    tr{
+      td{
+        font-size: 0.8rem;
+        .orders-by-status-order-number-btn-link{
+          font-size: 0.6rem;
+          outline: 0 !important;
+          width: 40px;
+          font-weight: bolder;
+          letter-spacing: 0;
+        }
+      }
+    }
+  }
+}
+
+.orders-by-status-description{
+  background-color: $black;
+  outline: 1px solid $black;
+  outline-offset: 3px;
+  padding: 4px 2px;
+  @include border(1px, dotted, $white, bottom, 2px);
+  h6, p{
+    color: aliceblue;
+  }
+  p{
+    font-size: 0.64rem;
+    text-align: center;
+    margin-top: 17px;
+  }
+}
