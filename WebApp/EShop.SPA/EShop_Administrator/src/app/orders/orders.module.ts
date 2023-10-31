@@ -8,7 +8,6 @@ import {OrderStatusComponent} from 'src/app/orders/components/order-status/order
 import {OrderHistoryComponent} from 'src/app/orders/components/order-history/order-history.component';
 import {OrdersRoutingModule} from 'src/app/orders/orders-routing.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {PagginationService} from 'src/app/shared/services/paggination.service';
 
 import {OrderService} from 'src/app/orders/services/order.service';
 import {OrderByOrderNumberComponent} from 'src/app/orders/components/order-by-order-number/order-by-order-number.component';

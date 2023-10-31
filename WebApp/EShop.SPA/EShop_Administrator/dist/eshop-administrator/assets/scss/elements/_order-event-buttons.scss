@@ -1,0 +1,10 @@
+.order-event-button{
+  font-size: 0.6rem !important;
+  padding: 2px 4px !important;
+}
+@media screen and (max-width: 580px) {
+  .order-event-button{
+    width: 40px !important;
+    margin-bottom: 10px;
+  }
+}

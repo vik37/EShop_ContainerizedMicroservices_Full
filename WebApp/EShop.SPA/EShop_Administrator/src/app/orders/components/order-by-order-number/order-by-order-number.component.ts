@@ -6,7 +6,6 @@ import { faEarth, faGlobe, faCity, faRoad, faHouseUser, faLocation }
         from '@fortawesome/free-solid-svg-icons';
 import {OrderService} from 'src/app/orders/services/order.service';
 import {Order} from 'src/app/orders/models/order';
-import {OrderItem} from 'src/app/orders/models/order-item';
 
 
 @Component({
@@ -31,7 +30,6 @@ export class OrderByOrderNumberComponent implements OnInit, OnDestroy {
     this.loadData();
     this.getOrderStatusProgress();
   }
-
 
   loadData(): void{
     this._orderSubscrition = this._activatedRouter.paramMap.pipe(

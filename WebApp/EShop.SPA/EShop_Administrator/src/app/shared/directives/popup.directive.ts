@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, OnChanges, Renderer2, SimpleChanges, Input }
+import { Directive, ElementRef, HostListener, Renderer2, Input }
 from '@angular/core';
 
 @Directive({
@@ -12,7 +12,6 @@ export class PopupDirective {
   private _pTag: any;
 
   constructor(private element: ElementRef, private render: Renderer2) { }
-
 
   @HostListener('mouseover') onMouseOver(){
     if(this.text){
@@ -29,8 +28,8 @@ export class PopupDirective {
     this._pTag = this.render.createElement('p');
     const insertText = this.render.createText(text);
     this.render.addClass(this._pTag,'popup');
-     this.render.appendChild(this._pTag,insertText);
-     this.render.appendChild(this.element.nativeElement,this._pTag);
+    this.render.appendChild(this._pTag,insertText);
+    this.render.appendChild(this.element.nativeElement,this._pTag);
   }
 
   cleanElement(pTag: any): void{

@@ -1,9 +1,8 @@
 .paggination-heading{
   text-align: center;
   p{
+    @include border(2px, solid, $black, all, 8px);
     background-color: rgba(18, 17, 17,1);
-    border: 2px solid $black;
-    border-radius: 8px;
     color: $white;
     font-family: fantasy;
     text-shadow: 1px 1px $black;

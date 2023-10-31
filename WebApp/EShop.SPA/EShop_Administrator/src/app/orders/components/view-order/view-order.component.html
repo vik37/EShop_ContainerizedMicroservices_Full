@@ -5,8 +5,8 @@
         <div  class="row">
             <div class="col-md-2"
                 *ngFor="let order of orderSummaryByTimeSelection; index as i">
-              <div  class="select-order-summary">
-                <p (click)="orderSummaryToggle(i)" [ngStyle]="buttonStyles[i]"  ><span>&#8506;</span> {{order}}</p>
+              <div class="select-order-summary">
+                <p (click)="orderSummaryToggle(i)" [ngStyle]="buttonStyles[i]"><span>&#8506;</span> {{order}}</p>
               </div>
             </div>
         </div>

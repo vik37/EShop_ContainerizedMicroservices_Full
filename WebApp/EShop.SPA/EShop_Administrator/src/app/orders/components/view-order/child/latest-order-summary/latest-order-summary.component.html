@@ -20,14 +20,19 @@
         </div>
         <div class="col-md-6 ">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-sm-12 col-md-3">
               <a class="btn btn-sm btn-dark order-summary-btn"
                   [routerLink]="['/orders/detail',order.orderNumber]" [appPopup]="popupText">
                 # {{order.orderNumber}}
               </a>
             </div>
-            <div class="col-md-8">
+            <div class="col-sm-12 col-md-5">
               <p class="order-summary-number">Order Number</p>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <app-order-event-buttons
+                [isOrderFinished]="(order.status === 'shipeed') || (order.status === 'cancelled')"
+              ></app-order-event-buttons>
             </div>
           </div>
         </div>

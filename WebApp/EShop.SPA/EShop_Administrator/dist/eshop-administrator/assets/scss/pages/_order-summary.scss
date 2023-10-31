@@ -86,3 +86,9 @@
     color: $white;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .order-summary-cards-block{
+    padding: 0;
+  }
+}

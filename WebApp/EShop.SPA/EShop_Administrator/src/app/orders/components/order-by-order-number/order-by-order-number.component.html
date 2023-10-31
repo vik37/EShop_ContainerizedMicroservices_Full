@@ -55,7 +55,7 @@
             <div class="row">
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;max:</b></p>
-                <p> {{order.minimumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+                <p> {{order.maximumPrice | number : '1.2-2' | currency: 'USD'}}</p>
               </div>
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;average:</b></p>
@@ -63,7 +63,7 @@
               </div>
               <div class="col-md-4 order-by-order-number-price">
                 <p><b>&ast;min:</b></p>
-                <p> {{order.maximumPrice | number : '1.2-2' | currency: 'USD'}}</p>
+                <p> {{order.minimumPrice | number : '1.2-2' | currency: 'USD'}}</p>
               </div>
             </div>
           </div>
@@ -127,6 +127,7 @@
     </section>
     <aside class="col-md-5">
       <app-order-item [orderItems]="order.orderItems"></app-order-item>
+      <hr />
     </aside>
   </div>
 </section>
@@ -136,8 +137,10 @@
 </ng-template>
 
 <ng-template #statusCancelled>
-  <div class="progress" role="progressbar" aria-label="Danger striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress" role="progressbar" aria-label="Danger striped example" aria-valuenow="100"
+          aria-valuemin="0" aria-valuemax="100">
     <div class="progress-bar progress-bar-striped bg-danger" style="width: 100%">
-    cancelled</div>
+      cancelled
+    </div>
   </div>
 </ng-template>

@@ -32,8 +32,13 @@
                 # {{order.orderNumber}}
               </a>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-5">
               <p class="order-summary-number">Order Number</p>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <app-order-event-buttons
+                [isOrderFinished]="(order.status === 'shipped') || (order.status === 'cancelled')"
+              ></app-order-event-buttons>
             </div>
           </div>
         </div>

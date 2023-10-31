@@ -1,1 +1,81 @@
-<h2 class="text-info">order-status - UNDER CONSTRUCTION!!!</h2>
+<section *ngIf="ordersByOrderStatus">
+  <section>
+    <div class="row">
+      <div class="col-md-10">
+        <app-dropdown-menu
+          [buttonText]="buttonText"
+          [data]="orderStatus"
+        >
+          <h6 [appEditBackgroundByStatus]="statusName">{{statusName}}</h6>
+        </app-dropdown-menu>
+      </div>
+      <div class="col-md-2 orders-by-status-heading">
+        <h5>Orders by Status</h5>
+      </div>
+    </div>
+    <div class="row orders-by-status-tables" >
+      <app-tables>
+        <thead>
+          <tr>
+            <th scope="col">&#9853;</th>
+            <th scope="col">O.N</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Buyer</th>
+            <th scope="col">Paid By</th>
+            <th scope="col">Q.D.P</th>
+            <th scope="col">T.P</th>
+            <th scope="col">Total Price</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let order of ordersByOrderStatus; index as i">
+          <tr>
+            <th class="tbody-heading" scope="row">{{i+1}}</th>
+            <td>
+              <a class="btn btn-sm btn-light orders-by-status-order-number-btn-link"
+                    [routerLink]="['/orders/detail',order.orderNumber]"
+                    [appPopup]="'Visit Order Detail'">
+                  # {{order.orderNumber}}
+                </a>
+            </td>
+            <td>{{order.orderDate | date: 'mediumDate'}}</td>
+            <td>{{order.orderDate | date: 'mediumTime'}}</td>
+            <td>{{order.buyerName}}</td>
+            <td>{{order.paidBy}}</td>
+            <td>&#8231; {{order.quantityByDifferentProduct}} &#8231;</td>
+            <td>&#8231; {{order.totalProducts}} &#8231;</td>
+            <td>{{order.totalPrice | number : '1.2-2' | currency: 'USD'}}</td>
+            <td>
+              <app-order-event-buttons
+                [isOrderFinished]="(order.statusName === 'shipped')
+                || (order.statusName === 'cancelled')"
+              ></app-order-event-buttons>
+            </td>
+          </tr>
+        </tbody>
+      </app-tables>
+    </div>
+  </section>
+  <section class="orders-by-status-description">
+    <div class="row orders-by-status-description">
+      <div class="col-md-1 offset-md-1">
+        <h6>Description:</h6>
+      </div>
+      <div class="col-md-1">
+        <h5>&#10002;</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p><b>O.N</b> - Order Number</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>Q.D.P</b> - Quantity by Different Product</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>T.P</b> - Total Products</p>
+      </div>
+    </div>
+  </section>
+</section>

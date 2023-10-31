@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm-1 col-md-2">
+    <button class="btn btn-success order-event-button" [appPopup]="popupText+'Delivery'">
+      <fa-icon [icon]="faRectangleXmark"></fa-icon>
+    </button>
+  </div>
+  <div class=" col-sm-1 col-md-2">
+    <button class="btn btn-danger order-event-button" [appPopup]="'Cancle the Order'">
+      <fa-icon [icon]="faTruckFast"></fa-icon>
+    </button>
+  </div>
+  <div *ngIf="isOrderFinished" class=" col-sm-1 col-md-2 ">
+    <button class="btn btn-light order-event-button" [appPopup]="popupText+'History'">
+      <fa-icon [icon]="faSquareH"></fa-icon>
+    </button>
+  </div>
+</div>
